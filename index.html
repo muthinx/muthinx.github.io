@@ -1,15 +1,226 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test GitHub Pages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muthinx • RPA & Browser Extension Developer</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Berhasil 🎉</h1>
-    <p>GitHub Pages saya sudah aktif.</p>
+    <!-- HEADER / NAVBAR -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <a href="#home">Muthinx</a>
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="#home" class="nav-link">Home</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    <button onclick="alert('Halo dari GitHub Pages!')">
-        Klik saya
-    </button>
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="section hero">
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <p class="hero-subtitle">Hello, I'm</p>
+                    <h1 class="hero-title">Muthinx</h1>
+                    <p class="hero-description">
+                        RPA & Browser Extension Developer — I help businesses automate tasks using <strong>UI Vision RPA</strong> and build custom extensions for <strong>Chrome & Firefox</strong>.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="https:www.fiverr.com/mahyaarina" class="btn btn-primary">Hire Me on Fiverr</a>
+                        <a href="#portfolio" class="btn btn-outline">View My Work</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <!-- ilustrasi / icon (bisa diganti nanti) -->
+                    <i class="fas fa-robot fa-6x"></i>
+                    <i class="fas fa-puzzle-piece fa-5x" style="margin-left: -1rem;"></i>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION (2 GIGS) -->
+        <section id="services" class="section services">
+            <div class="container">
+                <div class="section-header">
+                    <h2>My Fiverr Services</h2>
+                    <p>Two main focuses to support your projects</p>
+                </div>
+                <div class="services-grid">
+                    <!-- Card Gig 1: UI Vision RPA -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <h3>UI Vision RPA Automation</h3>
+                        <p>Automation scripts for many needs: web data extraction, auto form filling, scraping, marketplace posting, and other repetitive tasks. Fast, accurate, and customizable.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Web scraping & data extraction</li>
+                            <li><i class="fas fa-check-circle"></i> Auto posting & form automation</li>
+                            <li><i class="fas fa-check-circle"></i> Keyword and product scraping</li>
+                        </ul>
+                    </div>
+                    <!-- Card Gig 2: Browser Extensions -->
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <h3>Chrome & Firefox Extensions</h3>
+                        <p>Custom browser extensions tailored to your needs: productivity tools, clipboard tools, multi-account helpers, API integration, and workflow enhancers. Support for Chrome and Firefox.</p>
+                        <ul class="service-features">
+                            <li><i class="fas fa-check-circle"></i> Custom functionality</li>
+                            <li><i class="fas fa-check-circle"></i> Cross-browser support</li>
+                            <li><i class="fas fa-check-circle"></i> API integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO SECTION (contoh karya) -->
+        <section id="portfolio" class="section portfolio">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Recent Portfolio</h2>
+                    <p>Some projects I have built</p>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-item">
+                        <div class="portfolio-icon"><i class="fas fa-upload"></i></div>
+                        <h4>Facebook Marketplace Auto Upload</h4>
+                        <p>UI Vision RPA bot to automatically upload product listings to Facebook Marketplace.</p>
+                        <span class="portfolio-tag">RPA</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-icon"><i class="fas fa-chart-line"></i></div>
+                        <h4>MEXC Trading Bot</h4>
+                        <p>Automation bot for trading activities on MEXC with rule-based execution.</p>
+                        <span class="portfolio-tag">RPA</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-icon"><i class="fas fa-search"></i></div>
+                        <h4>Google Keyword Scraper</h4>
+                        <p>Scraper that collects keyword data from Google for research and marketing.</p>
+                        <span class="portfolio-tag">RPA</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <h4>Amazon Product Scraper</h4>
+                        <p>Automation script to extract product data from Amazon listings.</p>
+                        <span class="portfolio-tag">RPA</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-icon"><i class="fas fa-clipboard"></i></div>
+                        <h4>KLIBOD Clipboard Saver</h4>
+                        <p>Clipboard manager extension for Chrome and Firefox to save copied text.</p>
+                        <span class="portfolio-tag">Extension</span>
+                    </div>
+                    <div class="portfolio-item">
+                        <div class="portfolio-icon"><i class="fas fa-user-shield"></i></div>
+                        <h4>FOXIELD Multi-Account Manager</h4>
+                        <p>Firefox extension to manage and separate multiple accounts easily.</p>
+                        <span class="portfolio-tag">Extension</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS SECTION -->
+        <section id="skills" class="section skills">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Technical Skills</h2>
+                    <p>Tools & technologies I use</p>
+                </div>
+                <div class="skills-content">
+                    <div class="skill-tags">
+                        <span class="skill-tag">UI Vision RPA</span>
+                        <span class="skill-tag">JavaScript (ES6+)</span>
+                        <span class="skill-tag">Chrome Extensions API</span>
+                        <span class="skill-tag">Firefox WebExtensions</span>
+                        <span class="skill-tag">HTML5 & CSS3</span>
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">XPath & CSS Selectors</span>
+                        <span class="skill-tag">Web Scraping</span>
+                        <span class="skill-tag">Git & GitHub</span>
+                        <span class="skill-tag">Manifest V3</span>
+                    </div>
+                    <div class="skill-stats">
+                        <p><i class="fas fa-check-circle" style="color: var(--primary);"></i> Multiple RPA projects completed</p>
+                        <p><i class="fas fa-check-circle" style="color: var(--primary);"></i> Published browser extensions</p>
+                        <p><i class="fas fa-check-circle" style="color: var(--primary);"></i> Active Fiverr seller</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Contact Me</h2>
+                    <p>Discuss your project via Fiverr or email</p>
+                </div>
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h3>Let's Work Together</h3>
+                        <p>I’m ready to help automate your workflows or build the browser extension you need. Fast response and professional results.</p>
+                        <div class="contact-details">
+                            <p><i class="fas fa-envelope"></i> salimmuthinx@gmail.com</p>
+                            <p><i class="fas fa-globe"></i> fiverr.com/mahyaarina</p>
+                            <p><i class="fas fa-clock"></i> Flexible availability</p>
+                        </div>
+                        <div class="social-links">
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-fiverr"></i></a>
+                        </div>
+                    </div>
+                    <div class="contact-form">
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="message" name="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">Send Message (Demo)</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Kang Muthi. All rights reserved. | Fiverr Gigs: UI Vision RPA & Browser Extensions</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
