@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Minimalist Counter | Silver, Maroon, Green</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f4f6fa;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Main container */
+    .app-container {
+      max-width: 1200px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.02);
+      padding: 2rem 1.8rem;
+      transition: all 0.2s ease;
+    }
+
+    /* heading */
+    .app-header {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+
+    .app-header h1 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #2c3e4e, #1a2a36);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .app-header p {
+      color: #5b6e7c;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 450;
+    }
+
+    /* 3 cards container (modern grid) */
+    .cards-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    /* individual card (kontainer: tombol + div jumlah) */
+    .color-card {
+      flex: 1;
+      min-width: 200px;
+      background: #ffffff;
+      border-radius: 1.5rem;
+      padding: 1.6rem 1.2rem 1.8rem 1.2rem;
+      text-align: center;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, 0.03), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #edf2f7;
+    }
+
+    .color-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 28px -12px rgba(0, 0, 0, 0.12), 0 0 0 1px #e9edf2;
+    }
+
+    /* div jumlah (modern minimalist) */
+    .count-area {
+      background: #f8fafc;
+      border-radius: 1.2rem;
+      padding: 1rem 0.8rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid #eef2f6;
+      transition: all 0.1s;
+    }
+
+    .count-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #5a6e7c;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    .count-number {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1;
+      color: #1e2a32;
+      font-feature-settings: "tnum";
+      letter-spacing: -0.02em;
+    }
+
+    /* tombol masing-masing warna */
+    .action-btn {
+      width: 100%;
+      border: none;
+      padding: 0.85rem 0;
+      font-size: 1.1rem;
+      font-weight: 590;
+      border-radius: 2.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.05);
+    }
+
+    .action-btn:active {
+      transform: scale(0.97);
+    }
+
+    /* spesifik warna tombol */
+    .btn-silver {
+      background: #e9ecef;
+      color: #2c3e4f;
+      border: 1px solid #d4dce4;
+    }
+    .btn-silver:hover {
+      background: #dee2e8;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .btn-maroon {
+      background: #7a2e3b;
+      color: white;
+      border: none;
+    }
+    .btn-maroon:hover {
+      background: #8e3b49;
+      box-shadow: 0 6px 12px rgba(122, 46, 59, 0.2);
+    }
+
+    .btn-green {
+      background: #2c6e49;
+      color: white;
+      border: none;
+    }
+    .btn-green:hover {
+      background: #3c815a;
+      box-shadow: 0 6px 12px rgba(44, 110, 73, 0.2);
+    }
+
+    /* history section */
+    .history-section {
+      background: #ffffff;
+      border-radius: 1.5rem;
+      border: 1px solid #edf2f9;
+      overflow: hidden;
+      margin-top: 0.5rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+    }
+
+    .history-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 1.2rem 1.5rem 0.5rem 1.5rem;
+      border-bottom: 1px solid #ecf3f9;
+    }
+
+    .history-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1f2d38;
+      letter-spacing: -0.2px;
+    }
+
+    .history-badge {
+      background: #eef2f8;
+      border-radius: 40px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #3c5a6f;
+    }
+
+    .history-list-container {
+      max-height: 280px;
+      overflow-y: auto;
+      padding: 0.25rem 0;
+    }
+
+    .history-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .history-list li {
+      padding: 0.75rem 1.5rem;
+      font-size: 0.95rem;
+      border-bottom: 1px solid #f0f4fa;
+      display: flex;
+      align-items: center;
+      transition: background 0.1s;
+      font-weight: 470;
+      color: #1f2e3c;
+    }
+
+    .history-list li::before {
+      content: "•";
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-right: 12px;
+      color: #9aaebf;
+    }
+
+    /* warna dot untuk tiap entri (opsional modern) */
+    .history-list li[data-color="silver"]::before { color: #9aaebf; }
+    .history-list li[data-color="maroon"]::before { color: #b05c6b; }
+    .history-list li[data-color="green"]::before { color: #4c9f70; }
+
+    .empty-history {
+      text-align: center;
+      color: #8da0ae;
+      padding: 2rem !important;
+      justify-content: center;
+      font-style: italic;
+      letter-spacing: 0.2px;
+    }
+    .empty-history::before {
+      content: "📋";
+      margin-right: 8px;
+      font-size: 1rem;
+    }
+
+    /* scrollbar minimalist */
+    .history-list-container::-webkit-scrollbar {
+      width: 5px;
+    }
+    .history-list-container::-webkit-scrollbar-track {
+      background: #f0f4fa;
+      border-radius: 8px;
+    }
+    .history-list-container::-webkit-scrollbar-thumb {
+      background: #cbdbe0;
+      border-radius: 8px;
+    }
+
+    /* responsive */
+    @media (max-width: 720px) {
+      .app-container {
+        padding: 1.5rem;
+      }
+      .cards-panel {
+        gap: 1rem;
+      }
+      .color-card {
+        min-width: 160px;
+      }
+      .count-number {
+        font-size: 2.4rem;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .cards-panel {
+        flex-direction: column;
+      }
+      .action-btn {
+        padding: 0.7rem;
+      }
+    }
+
+    /* subtle animation for count update */
+    .count-number {
+      transition: all 0.1s ease;
+    }
+  </style>
+</head>
+<body>
+<div class="app-container">
+  <div class="app-header">
+    <h1>✨ tap counter</h1>
+    <p>setiap klik terekam — jumlah tampil berdasarkan 30 history terakhir</p>
+  </div>
+
+  <!-- 3 tombol masing-masing dalam kontainer + div jumlah -->
+  <div class="cards-panel">
+    <!-- PERAK (Silver) -->
+    <div class="color-card" data-color-group="silver">
+      <div class="count-area">
+        <span class="count-label">jumlah dalam history</span>
+        <div class="count-number" id="countSilverDisplay">0</div>
+      </div>
+      <button class="action-btn btn-silver" id="btnSilver">
+        <span>⚪</span> Tombol Perak
+      </button>
+    </div>
+
+    <!-- MAROON -->
+    <div class="color-card" data-color-group="maroon">
+      <div class="count-area">
+        <span class="count-label">jumlah dalam history</span>
+        <div class="count-number" id="countMaroonDisplay">0</div>
+      </div>
+      <button class="action-btn btn-maroon" id="btnMaroon">
+        <span>🔴</span> Tombol Maroon
+      </button>
+    </div>
+
+    <!-- HIJAU (Green) -->
+    <div class="color-card" data-color-group="green">
+      <div class="count-area">
+        <span class="count-label">jumlah dalam history</span>
+        <div class="count-number" id="countGreenDisplay">0</div>
+      </div>
+      <button class="action-btn btn-green" id="btnGreen">
+        <span>🟢</span> Tombol Hijau
+      </button>
+    </div>
+  </div>
+
+  <!-- HISTORY (hanya menampilkan 30 input terakhir) -->
+  <div class="history-section">
+    <div class="history-header">
+      <h3>📜 riwayat klik</h3>
+      <span class="history-badge">max 30 terbaru</span>
+    </div>
+    <div class="history-list-container">
+      <ul class="history-list" id="historyList">
+        <li class="empty-history">Belum ada aktivitas, klik tombol di atas</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- DATA & STATE ----------
+  // historyArray menyimpan maksimal 30 entri (posisi index 0 = paling baru)
+  let historyArray = [];   // akan berisi string: 'silver', 'maroon', 'green'
+
+  // mapping untuk tampilan teks indo dan warna yang ramah
+  const colorNameMap = {
+    silver: 'Perak',
+    maroon: 'Maroon',
+    green: 'Hijau'
+  };
+
+  // referensi DOM elemen untuk jumlah (count) di setiap kontainer
+  const countSilverEl = document.getElementById('countSilverDisplay');
+  const countMaroonEl = document.getElementById('countMaroonDisplay');
+  const countGreenEl = document.getElementById('countGreenDisplay');
+  
+  // referensi list history
+  const historyListEl = document.getElementById('historyList');
+
+  // tombol-tombol
+  const silverBtn = document.getElementById('btnSilver');
+  const maroonBtn = document.getElementById('btnMaroon');
+  const greenBtn = document.getElementById('btnGreen');
+
+  // ---------- FUNGSI UTAMA ----------
+  // menghitung frekuensi masing-masing warna dalam historyArray (30 terakhir)
+  function computeCountsFromHistory() {
+    let counts = {
+      silver: 0,
+      maroon: 0,
+      green: 0
+    };
+    for (let color of historyArray) {
+      if (color === 'silver') counts.silver++;
+      else if (color === 'maroon') counts.maroon++;
+      else if (color === 'green') counts.green++;
+    }
+    return counts;
+  }
+
+  // memperbarui tampilan DIV jumlah (berdasarkan history)
+  function updateCountDisplays() {
+    const currentCounts = computeCountsFromHistory();
+    countSilverEl.innerText = currentCounts.silver;
+    countMaroonEl.innerText = currentCounts.maroon;
+    countGreenEl.innerText = currentCounts.green;
+    
+    // animasi halus: efek kecil pada angka (opsional)
+    [countSilverEl, countMaroonEl, countGreenEl].forEach(el => {
+      el.style.transform = 'scale(1.02)';
+      setTimeout(() => { if(el) el.style.transform = 'scale(1)'; }, 100);
+    });
+  }
+
+  // render daftar history (hanya menampilkan 30 terakhir, sesuai array state)
+  function renderHistoryList() {
+    // bersihkan list, kecuali kita buat ulang
+    historyListEl.innerHTML = '';
+    
+    if (historyArray.length === 0) {
+      // tampilkan pesan kosong
+      const emptyItem = document.createElement('li');
+      emptyItem.className = 'empty-history';
+      emptyItem.innerText = 'Belum ada klik, tekan tombol di atas ✨';
+      historyListEl.appendChild(emptyItem);
+      return;
+    }
+    
+    // loop historyArray (sudah maks 30, index 0 = paling baru)
+    for (let i = 0; i < historyArray.length; i++) {
+      const colorKey = historyArray[i];
+      const displayName = colorNameMap[colorKey] || colorKey;
+      const listItem = document.createElement('li');
+      listItem.textContent = displayName;
+      // tambahkan atribut data-color untuk styling titik (opsional)
+      listItem.setAttribute('data-color', colorKey);
+      historyListEl.appendChild(listItem);
+    }
+  }
+
+  // fungsi inti: menambahkan klik ke history, menjaga max 30, lalu refresh UI
+  function addClickToHistory(color) {
+    // validasi warna yang diizinkan
+    if (!['silver', 'maroon', 'green'].includes(color)) return;
+    
+    // tambahkan di awal (paling baru) sesuai dengan "30 input terakhir" -> terbaru di atas
+    historyArray.unshift(color);
+    
+    // jika melebihi 30, hapus yang paling lama (indeks terakhir)
+    if (historyArray.length > 30) {
+      historyArray.pop();
+    }
+    
+    // perbaharui tampilan: jumlah di setiap kontainer + history list
+    updateCountDisplays();
+    renderHistoryList();
+  }
+
+  // ---------- EVENT HANDLER UNTUK TOMBOL ----------
+  silverBtn.addEventListener('click', () => {
+    addClickToHistory('silver');
+  });
+  
+  maroonBtn.addEventListener('click', () => {
+    addClickToHistory('maroon');
+  });
+  
+  greenBtn.addEventListener('click', () => {
+    addClickToHistory('green');
+  });
+  
+  // ---------- INISIALISASI (state awal: history kosong, semua count 0) ----------
+  function initApp() {
+    // historyArray sudah []
+    updateCountDisplays();     // menampilkan 0,0,0
+    renderHistoryList();       // menampilkan pesan kosong
+  }
+  
+  initApp();
+</script>
+</body>
+</html>
