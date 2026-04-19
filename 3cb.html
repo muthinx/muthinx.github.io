@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🎨 Tebak Warna | Gold, Red, Green + History</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #1a2a2f 0%, #0f1a1f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, 'Inter', sans-serif;
+            padding: 1.5rem;
+        }
+
+        /* GAME CONTAINER */
+        .game-container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(22, 28, 32, 0.85);
+            backdrop-filter: blur(4px);
+            border-radius: 3rem;
+            padding: 1.8rem 1.8rem 2rem;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 150, 0.2);
+            transition: all 0.2s;
+        }
+
+        /* HEADER STATS */
+        .stats-panel {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            background: #0c1417;
+            border-radius: 2rem;
+            padding: 1rem 1.5rem;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.4), 0 5px 10px rgba(0,0,0,0.2);
+        }
+
+        .stat-card {
+            flex: 1;
+            background: #101c21;
+            border-radius: 1.6rem;
+            padding: 0.6rem 0.8rem;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            border-bottom: 2px solid #ffd966;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+            color: #b9cddc;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 2.1rem;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #f9e7c2;
+            text-shadow: 0 2px 3px black;
+        }
+
+        .wallet-value {
+            color: #c3e88d;
+        }
+
+        .lp-value {
+            color: #ffb347;
+        }
+
+        /* BETTING AREA (3 warna) */
+        .bet-section {
+            margin-bottom: 1.8rem;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #dddddd;
+            margin-bottom: 1rem;
+            text-align: center;
+            letter-spacing: 1px;
+            background: rgba(0,0,0,0.4);
+            display: inline-block;
+            width: auto;
+            padding: 0.3rem 1.2rem;
+            border-radius: 40px;
+        }
+
+        .color-bets {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .bet-card {
+            flex: 1;
+            min-width: 110px;
+            background: #1e2a2f;
+            border-radius: 1.8rem;
+            padding: 1rem 0.5rem 0.9rem;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s;
+            border: 2px solid #3a4a4f;
+            box-shadow: 0 8px 0 #0b1012;
+        }
+
+        .bet-card.selected {
+            border: 3px solid #f5c542;
+            background: #2c3e3f;
+            box-shadow: 0 0 0 2px #ffdf8c, 0 6px 0 #0b1012;
+            transform: scale(0.98);
+        }
+
+        .color-swatch {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            margin: 0 auto 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            transition: 0.1s;
+        }
+
+        .color-name {
+            font-weight: bold;
+            margin-top: 6px;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+        }
+
+        .bet-amount {
+            font-size: 0.75rem;
+            background: #00000066;
+            display: inline-block;
+            padding: 2px 12px;
+            border-radius: 20px;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        /* gold swatch */
+        .swatch-gold { background: #B09E5F; box-shadow: 0 0 5px #ffd966; }
+        .swatch-red { background: #591616; box-shadow: 0 0 5px #a13a3a; }
+        .swatch-green { background: #144710; box-shadow: 0 0 5px #2f7a2a; }
+
+        /* RESULT CARD AREA */
+        .result-area {
+            background: #071115;
+            border-radius: 2rem;
+            padding: 1rem;
+            margin: 1.2rem 0 0.8rem;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 0.8rem;
+            color: #90a4ae;
+        }
+
+        .card-result {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .result-swatch {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            background: #2c3e2f;
+            transition: 0.2s;
+            box-shadow: 0 5px 12px black;
+        }
+
+        .result-text {
+            font-weight: bold;
+            font-size: 1.3rem;
+            background: #00000070;
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+        }
+
+        .message-box {
+            background: #0b1519;
+            padding: 10px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #ffe1a0;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* HISTORY SECTION (BARU) */
+        .history-section {
+            background: #071115dd;
+            border-radius: 1.5rem;
+            padding: 0.8rem 1rem;
+            margin: 0.5rem 0 1rem;
+            backdrop-filter: blur(2px);
+        }
+
+        .history-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #b9c9d4;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .history-icons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-bottom: 4px;
+			justify-content: center;
+        }
+
+        .history-chip {
+            width: 35px;
+            height: 35px;
+            border-radius: 14px;
+            flex-shrink: 0;
+            background: #1e2e32;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.7rem;
+            color: white;
+            text-shadow: 0 1px 1px black;
+            transition: 0.1s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        .history-chip.gold-bg { background: #B09E5F; color: #2d2b1f; text-shadow: none; }
+        .history-chip.red-bg { background: #591616; color: #ffbcbc; }
+        .history-chip.green-bg { background: #144710; color: #bcf0a8; }
+
+        /* ACTION BUTTONS */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 20px 0 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 0;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.1s linear;
+            font-family: inherit;
+            background: #2c3e2c;
+            color: white;
+            box-shadow: 0 4px 0 #0a1a1a;
+        }
+
+        .btn-spin {
+            background: #b37b2e;
+            color: #ffefcf;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .btn-spin:active { transform: translateY(2px); box-shadow: 0 2px 0 #0a1a1a; }
+        .btn-reset {
+            background: #2c4f5c;
+        }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #0a1a1a; }
+        .btn:disabled {
+            opacity: 0.5;
+            transform: none;
+            cursor: not-allowed;
+        }
+
+        .total-bet-info {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 0.85rem;
+            background: #00000055;
+            padding: 6px;
+            border-radius: 60px;
+            color: #ffdba5;
+        }
+
+        .gameover-tag {
+            background: #9e2a2a;
+            color: white;
+            padding: 6px;
+            border-radius: 30px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 12px;
+        }
+
+        footer {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 18px;
+            color: #6a7c7f;
+        }
+
+		/* CUSTOM MODAL */
+		.custom-modal {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.85);
+			backdrop-filter: blur(6px);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			z-index: 1000;
+		}
+
+		.modal-content {
+			background: #1e2a2f;
+			border-radius: 2rem;
+			width: 300px;
+			max-width: 85%;
+			text-align: center;
+			border: 2px solid #ffd966;
+			box-shadow: 0 20px 30px black;
+			overflow: hidden;
+			animation: fadeInUp 0.2s ease;
+		}
+
+		.modal-header {
+			background: #b37b2e;
+			padding: 12px;
+			font-weight: bold;
+			font-size: 1.3rem;
+			color: #1e1a0c;
+		}
+
+		.modal-body {
+			padding: 24px 16px;
+			font-size: 1rem;
+			color: #f9e7c2;
+			background: #0f1a1f;
+		}
+
+		.modal-buttons {
+			display: flex;
+			gap: 0;
+			border-top: 1px solid #3a4a4f;
+		}
+
+		.modal-btn {
+			flex: 1;
+			padding: 12px;
+			border: none;
+			font-weight: bold;
+			cursor: pointer;
+			transition: 0.1s;
+			font-family: inherit;
+			font-size: 0.9rem;
+		}
+
+		.modal-yes {
+			background: #2f6b2f;
+			color: white;
+		}
+		.modal-yes:hover { background: #3e8e3e; }
+
+		.modal-no {
+			background: #6b2f2f;
+			color: white;
+		}
+		.modal-no:hover { background: #9e3e3e; }
+
+		@keyframes fadeInUp {
+			from {
+				opacity: 0;
+				transform: translateY(20px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+    </style>
+</head>
+<body>
+
+<div class="game-container" id="gameRoot">
+    <!-- STAT PANEL -->
+    <div class="stats-panel">
+        <div class="stat-card">
+            <div class="stat-label">❤️ LIFE POINT</div>
+            <div class="stat-value lp-value" id="lpValue">1200</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-label">👛 WALLET</div>
+            <div class="stat-value wallet-value" id="walletValue">0</div>
+        </div>
+    </div>
+
+    <!-- AREA TARUHAN (BET) -->
+    <div class="bet-section">
+        <div style="text-align:center;"><span class="section-title">🎲 PASANG TARUHAN (200 LP per warna)</span></div>
+        <div class="color-bets" id="betColorsContainer">
+            <!-- GOLD -->
+            <div class="bet-card" data-color="gold" id="betGold">
+                <div class="color-swatch swatch-gold"></div>
+                <div class="color-name">✨ GOLD</div>
+                <div class="bet-amount">BET 200 LP</div>
+            </div>
+            <!-- RED -->
+            <div class="bet-card" data-color="red" id="betRed">
+                <div class="color-swatch swatch-red"></div>
+                <div class="color-name">🔥 RED</div>
+                <div class="bet-amount">BET 200 LP</div>
+            </div>
+            <!-- GREEN -->
+            <div class="bet-card" data-color="green" id="betGreen">
+                <div class="color-swatch swatch-green"></div>
+                <div class="color-name">🌿 GREEN</div>
+                <div class="bet-amount">BET 200 LP</div>
+            </div>
+        </div>
+        <div class="total-bet-info" id="totalBetInfo">💰 Total taruhan: 0 LP (pilih minimal 1 warna)</div>
+    </div>
+
+    <!-- RESULT CARD AREA -->
+    <div class="result-area">
+        <div class="result-label">🎴 KARTU YANG KELUAR</div>
+        <div class="card-result">
+            <div class="result-swatch" id="resultSwatch"></div>
+            <div class="result-text" id="resultColorName">-</div>
+        </div>
+        <div class="message-box" id="gameMessage">✨ Pilih warna & tekan SPIN!</div>
+    </div>
+
+    <!-- ⭐ HISTORI KARTU MENANG (8 terakhir) -->
+    <div class="history-section">
+        <div class="history-title">
+            📜 HISTORI KARTU (8 terakhir)
+        </div>
+        <div class="history-icons" id="historyContainer">
+            <!-- akan diisi javascript dengan maksimal 8 chip -->
+            <div class="history-chip" style="opacity:0.5;">-</div>
+        </div>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="action-buttons">
+        <button class="btn btn-spin" id="spinBtn">🎲 SPIN & TEBAK</button>
+        <button class="btn btn-reset" id="resetBtn">🔄 RESET GAME</button>
+    </div>
+    <div id="gameOverMsg" style="min-height: 48px;"></div>
+	<!-- MODAL CUSTOM UNTUK REFILL LP -->
+	<div id="refillModal" class="custom-modal" style="display: none;">
+		<div class="modal-content">
+			<div class="modal-header">⚠️ PERINGATAN</div>
+			<div class="modal-body" id="modalMessageText">Life Point habis! Ambil LP dari Wallet?</div>
+			<div class="modal-buttons">
+				<button id="modalYesBtn" class="modal-btn modal-yes">✅ Ya, ambil 1200 LP</button>
+				<button id="modalNoBtn" class="modal-btn modal-no">❌ Tidak, Game Over</button>
+			</div>
+		</div>
+	</div>
+    <footer>⚡ Tebak 1 atau lebih warna • Benar +594 LP • Salah -200 LP per warna • Kelebihan LP >1200 ➜ Wallet • History otomatis</footer>
+</div>
+
+<script>
+    // ---------- KONFIGURASI WARNA ----------
+    const COLORS = {
+        gold: { name: "GOLD", hex: "#B09E5F", short: "✨", bgClass: "gold-bg" },
+        red: { name: "RED", hex: "#591616", short: "🔥", bgClass: "red-bg" },
+        green: { name: "GREEN", hex: "#144710", short: "🌿", bgClass: "green-bg" }
+    };
+    const COLOR_LIST = ["gold", "red", "green"];
+    
+    // ---------- STATE GAME ----------
+    let lp = 1200;              // Life Point
+    let wallet = 0;            // Wallet
+    let gameActive = true;      // false = game over (belum refill)
+    let selectedBets = {
+        gold: false,
+        red: false,
+        green: false
+    };
+    
+    // HISTORY: array untuk menyimpan maksimal 8 hasil warna (string: 'gold', 'red', 'green')
+    let historyWinners = [];    // index 0 = paling lama, index terakhir = terbaru
+    
+    // DOM elements
+    const lpElement = document.getElementById("lpValue");
+    const walletElement = document.getElementById("walletValue");
+    const spinBtn = document.getElementById("spinBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const gameMessageDiv = document.getElementById("gameMessage");
+    const gameOverMsgDiv = document.getElementById("gameOverMsg");
+    const totalBetInfo = document.getElementById("totalBetInfo");
+    const resultSwatch = document.getElementById("resultSwatch");
+    const resultColorNameSpan = document.getElementById("resultColorName");
+    const historyContainer = document.getElementById("historyContainer");
+    
+    // Card DOM
+    const betGoldCard = document.getElementById("betGold");
+    const betRedCard = document.getElementById("betRed");
+    const betGreenCard = document.getElementById("betGreen");
+    
+    // Helper: update UI stat & total bet info & history
+    function updateUI() {
+        lpElement.innerText = Math.floor(lp);
+        walletElement.innerText = Math.floor(wallet);
+        
+        // update total bet cost info
+        let totalBetCount = getSelectedCount();
+        let totalCost = totalBetCount * 200;
+        totalBetInfo.innerText = `🎯 Taruhan aktif: ${totalBetCount} warna (${totalCost} LP jika kalah semua) | Tekan SPIN`;
+        
+        // update visual class selected pada kartu bet
+        if (selectedBets.gold) betGoldCard.classList.add("selected");
+        else betGoldCard.classList.remove("selected");
+        
+        if (selectedBets.red) betRedCard.classList.add("selected");
+        else betRedCard.classList.remove("selected");
+        
+        if (selectedBets.green) betGreenCard.classList.add("selected");
+        else betGreenCard.classList.remove("selected");
+        
+        // disable spin jika game tidak aktif
+        spinBtn.disabled = !gameActive;
+        
+        // render history setiap UI update
+        renderHistory();
+    }
+    
+    // render history component
+	function renderHistory() {
+		historyContainer.innerHTML = "";
+		if (!historyWinners.length) {
+			let emptyChip = document.createElement("div");
+			emptyChip.className = "history-chip";
+			emptyChip.style.opacity = "0.6";
+			emptyChip.innerText = "⚡";
+			historyContainer.appendChild(emptyChip);
+			return;
+		}
+		// TAMPILKAN DARI TERBARU KE LAMA (reverse)
+		for (let i = historyWinners.length - 1; i >= 0; i--) {
+			const colorKey = historyWinners[i];
+			const colorData = COLORS[colorKey];
+			const chip = document.createElement("div");
+			chip.className = `history-chip ${colorData.bgClass}`;
+			chip.innerText = colorData.short;
+			chip.title = `${colorData.name} - ${historyWinners.length - i} putaran lalu`; // optional
+			historyContainer.appendChild(chip);
+		}
+	}
+    
+    // menambah history warna baru, maintain max 8
+    function addHistory(colorKey) {
+        historyWinners.push(colorKey);
+        if (historyWinners.length > 8) {
+            historyWinners.shift();
+        }
+        renderHistory();
+    }
+    
+    // reset history saat game reset
+    function resetHistory() {
+        historyWinners = [];
+        renderHistory();
+    }
+    
+    function getSelectedCount() {
+        let count = 0;
+        if (selectedBets.gold) count++;
+        if (selectedBets.red) count++;
+        if (selectedBets.green) count++;
+        return count;
+    }
+    
+    // Cek & proses kelebihan LP ke wallet (aturan #6)
+    function transferExcessToWallet() {
+        if (lp > 1200) {
+            let excess = lp - 1200;
+            wallet += excess;
+            lp = 1200;
+            gameMessageDiv.innerHTML = `💎 Kelebihan LP ${Math.floor(excess)} masuk ke Wallet! 💰`;
+            updateUI();
+        }
+    }
+    
+    // Fungsi untuk menawarkan ambil LP dari wallet (jika LP <= 0 dan wallet >= 1200)
+    // return true jika berhasil refill, false jika game over permanen
+	function tryRefillFromWallet() {
+		if (lp <= 0 && wallet >= 1200) {
+			// Tampilkan modal custom, bukan confirm bawaan
+			showRefillModal();
+			return false; // belum selesai, menunggu respon user
+		} 
+		else if (lp <= 0 && wallet < 1200) {
+			gameActive = false;
+			gameOverMsgDiv.innerHTML = `<div class="gameover-tag">💀 GAME OVER 💀 Life point habis & wallet < 1200! Tidak bisa melanjutkan.</div>`;
+			gameMessageDiv.innerHTML = "GAME OVER - Tekan RESET untuk memulai lagi.";
+			updateUI();
+			return false;
+		}
+		return true;
+	}
+
+	// Variabel untuk menyimpan callback/resolver (opsional)
+	let pendingResolve = null;
+
+	function showRefillModal() {
+		const modal = document.getElementById('refillModal');
+		const modalMessage = document.getElementById('modalMessageText');
+		modalMessage.innerHTML = `⚠️ LIFE POINT habis! Wallet anda memiliki ${Math.floor(wallet)} LP.<br>Ambil 1200 LP dari wallet untuk melanjutkan?`;
+		modal.style.display = 'flex';
+		
+		// Hapus listener lama untuk menghindari double
+		const yesBtn = document.getElementById('modalYesBtn');
+		const noBtn = document.getElementById('modalNoBtn');
+		
+		const onYes = () => {
+			modal.style.display = 'none';
+			wallet -= 1200;
+			lp = 1200;
+			gameActive = true;
+			gameMessageDiv.innerHTML = `🔄 REFILL! Life point dikembalikan ke 1200. Sisa wallet: ${Math.floor(wallet)} LP. Selamat bermain!`;
+			gameOverMsgDiv.innerHTML = "";
+			updateUI();
+			cleanup();
+			// Setelah refill, pastikan game aktif
+			spinBtn.disabled = false;
+			if (typeof afterRefillCallback === 'function') afterRefillCallback(true);
+		};
+		
+		const onNo = () => {
+			modal.style.display = 'none';
+			gameActive = false;
+			gameOverMsgDiv.innerHTML = `<div class="gameover-tag">💀 GAME OVER 💀 (Anda menolak mengambil LP dari wallet)</div>`;
+			gameMessageDiv.innerHTML = "GAME OVER - Tekan RESET untuk memulai ulang.";
+			updateUI();
+			spinBtn.disabled = true;
+			cleanup();
+			if (typeof afterRefillCallback === 'function') afterRefillCallback(false);
+		};
+		
+		const cleanup = () => {
+			yesBtn.removeEventListener('click', onYes);
+			noBtn.removeEventListener('click', onNo);
+		};
+		
+		yesBtn.addEventListener('click', onYes);
+		noBtn.addEventListener('click', onNo);
+	}
+
+	// Panggil ini jika ada sisa proses setelah modal
+	let afterRefillCallback = null;
+    
+    // fungsi untuk memeriksa kondisi setelah setiap putaran (transfer + game over/refill)
+	function afterRoundCheck() {
+		transferExcessToWallet();
+		
+		if (lp <= 0) {
+			lp = 0;
+			updateUI();
+			// Jika wallet >= 1200, modal akan tampil dan gameActive akan diatur di dalam modal
+			if (wallet >= 1200) {
+				// Tampilkan modal, jangan langsung game over
+				tryRefillFromWallet(); // modal akan muncul, gameActive diatur nanti
+			} else {
+				gameActive = false;
+				gameOverMsgDiv.innerHTML = `<div class="gameover-tag">💀 GAME OVER 💀 Life point habis & wallet < 1200!</div>`;
+				gameMessageDiv.innerHTML = "GAME OVER - Tekan RESET.";
+				updateUI();
+				spinBtn.disabled = true;
+			}
+		} else {
+			if (!gameActive && lp > 0) {
+				gameActive = true;
+				spinBtn.disabled = false;
+				gameOverMsgDiv.innerHTML = "";
+			}
+			gameActive = true;
+			spinBtn.disabled = false;
+		}
+		updateUI();
+	}
+    
+    // MAIN LOGIC: spin & tebak warna
+    function spinGame() {
+        if (!gameActive) {
+            gameMessageDiv.innerHTML = "❌ Game sudah berakhir, tekan RESET untuk bermain lagi.";
+            return;
+        }
+        
+        // validasi minimal pilih 1 warna
+        const selectedCount = getSelectedCount();
+        if (selectedCount === 0) {
+            gameMessageDiv.innerHTML = "⚠️ Anda harus memilih minimal 1 warna untuk bertaruh!";
+            return;
+        }
+        
+        if (lp <= 0) {
+            gameMessageDiv.innerHTML = "💀 Life point habis! Silakan RESET atau lakukan refill (jika wallet cukup).";
+            let refilled = tryRefillFromWallet();
+            if (!refilled) return;
+            if (!gameActive) return;
+        }
+        
+        // RNG: acak warna hasil (gold, red, green)
+        const randomIndex = Math.floor(Math.random() * COLOR_LIST.length);
+        const resultColorKey = COLOR_LIST[randomIndex];
+        const resultColorObj = COLORS[resultColorKey];
+        
+        // TAMBAHKAN KE HISTORI (setiap spin, kartu yang keluar)
+        addHistory(resultColorKey);
+        
+        // update tampilan kartu hasil
+        resultSwatch.style.backgroundColor = resultColorObj.hex;
+        resultColorNameSpan.innerText = resultColorObj.name;
+        
+        // hitung delta LP berdasarkan taruhan yang dipilih
+        let deltaLP = 0;
+        let winDetails = [];
+        
+        const betColors = Object.keys(selectedBets);
+        for (let color of betColors) {
+            if (selectedBets[color]) {
+                if (color === resultColorKey) {
+                    deltaLP += 394;
+                    winDetails.push(`✅ ${COLORS[color].name} (+394)`);
+                } else {
+                    deltaLP -= 200;
+                    winDetails.push(`❌ ${COLORS[color].name} (-200)`);
+                }
+            }
+        }
+        
+        let oldLP = lp;
+        let newLP = oldLP + deltaLP;
+        if (newLP < 0) newLP = 0;
+        lp = newLP;
+        
+        let resultMessage = `🎲 Hasil: ${resultColorObj.name} | `;
+        resultMessage += winDetails.join(" · ");
+        let netChange = deltaLP;
+        resultMessage += ` | Perubahan: ${netChange >= 0 ? `+${netChange}` : `${netChange}`} LP`;
+        gameMessageDiv.innerHTML = resultMessage;
+        
+        updateUI();
+        afterRoundCheck();
+        
+        if (!gameActive) {
+            spinBtn.disabled = true;
+            gameMessageDiv.innerHTML += " 🔴 GAME OVER. Tekan RESET.";
+        } else {
+            spinBtn.disabled = false;
+        }
+        updateUI();
+    }
+    
+    // ---------- FITUR TOGGLE BET (pilih warna) ----------
+    function toggleBet(colorKey) {
+        if (!gameActive) {
+            gameMessageDiv.innerHTML = "Game sudah berakhir, reset untuk bermain kembali.";
+            return;
+        }
+        selectedBets[colorKey] = !selectedBets[colorKey];
+        updateUI();
+        let colorName = COLORS[colorKey].name;
+        if (selectedBets[colorKey]) {
+            gameMessageDiv.innerHTML = `✨ Taruhan pada ${colorName} dipasang (200 LP) ✨`;
+        } else {
+            gameMessageDiv.innerHTML = `❌ Membatalkan taruhan pada ${colorName}`;
+        }
+        setTimeout(() => {
+            if (gameMessageDiv.innerHTML.includes("Taruhan pada") || gameMessageDiv.innerHTML.includes("Membatalkan")) {
+                if (gameActive) gameMessageDiv.innerHTML = "🎲 Pilih kombinasi warna & spin!";
+            }
+        }, 1800);
+    }
+    
+    // ---------- RESET GAME (kondisi awal) + history reset----------
+    function resetGame() {
+        lp = 1200;
+        wallet = 0;
+        gameActive = true;
+        selectedBets = {
+            gold: false,
+            red: false,
+            green: false
+        };
+        // reset hasil kartu tampilan
+        resultSwatch.style.backgroundColor = "#2c3e2f";
+        resultColorNameSpan.innerText = "-";
+        gameMessageDiv.innerHTML = "🔄 Game direset! Pilih warna dan mulai tebak.";
+        gameOverMsgDiv.innerHTML = "";
+        // reset history array
+        resetHistory();
+        updateUI();
+        spinBtn.disabled = false;
+		// Sembunyikan modal jika kebetulan terbuka
+		const modal = document.getElementById('refillModal');
+		if (modal) modal.style.display = 'none';
+    }
+    
+    // ---------- EVENT LISTENER ----------
+    betGoldCard.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleBet("gold");
+    });
+    betRedCard.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleBet("red");
+    });
+    betGreenCard.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleBet("green");
+    });
+    
+    spinBtn.addEventListener("click", () => {
+        spinGame();
+    });
+    
+    resetBtn.addEventListener("click", () => {
+        resetGame();
+    });
+    
+    // inisialisasi UI pertama
+    updateUI();
+    resultSwatch.style.backgroundColor = "#2a3b3f";
+    resultColorNameSpan.innerText = "❓";
+    gameMessageDiv.innerHTML = "✨ Pilih warna (Gold, Red, Green) lalu SPIN! Taruhan 200 LP per warna ✨";
+    resetHistory(); // pastikan history kosong diawal
+    updateUI();
+    
+    function safeGuard() {
+        if (wallet < 0) wallet = 0;
+        if (lp < 0) lp = 0;
+        updateUI();
+    }
+    setInterval(safeGuard, 100);
+</script>
+</body>
+</html>
