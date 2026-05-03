@@ -806,6 +806,16 @@
             }
         }, 1800);
     }
+
+    function generateRandomHistory() {
+        const randomColors = [];
+        for (let i = 0; i < 8; i++) {
+            const randomIndex = Math.floor(Math.random() * COLOR_LIST.length);
+            randomColors.push(COLOR_LIST[randomIndex]);
+        }
+        historyWinners = randomColors;  // langsung timpa history
+        renderHistory();                // tampilkan
+    }
     
     // ---------- RESET GAME (kondisi awal) + history reset----------
     function resetGame() {
@@ -823,7 +833,7 @@
         gameMessageDiv.innerHTML = "🔄 Game direset! Pilih warna dan mulai tebak.";
         gameOverMsgDiv.innerHTML = "";
         // reset history array
-        resetHistory();
+        generateRandomHistory();
         updateUI();
         spinBtn.disabled = false;
 		// Sembunyikan modal jika kebetulan terbuka
@@ -858,7 +868,7 @@
     resultSwatch.style.backgroundColor = "#2a3b3f";
     resultColorNameSpan.innerText = "❓";
     gameMessageDiv.innerHTML = "✨ Pilih warna (Gold, Red, Green) lalu SPIN! Taruhan 200 LP per warna ✨";
-    resetHistory(); // pastikan history kosong diawal
+    generateRandomHistory(); // pastikan history kosong diawal
     updateUI();
     
     function safeGuard() {
