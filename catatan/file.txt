@@ -1,25 +1,3 @@
-Percobaan belajar menggunakan mode tty
-Sudah mulai lancar membuka file dengan mode tty
-ini semakin menyenangkan
-aint it funny how your new live didnr changes thinks
-you still the same old girl you use ti be:
-	1. Bicarakan baik baik jangan menghakimi
-`	2. Lakukan apa yang menurutmu baik, tapi dengan batasan
-	   saya melarangmu kemarin karena saya takut jo akan jadi seperti lutfi
-	   batasnya adalah: jangan curhat dengan mereka tentang masalah denganku
-	   ceritakan kepada mereka bahwa saya sangat baik kepadamu
-	   jika kamu marah kepadaku atau kamu pikir aku salah, jangan bilang
-	   kepada mereka, bilang kepadaku
-	   dulu aku berfiki kamu terlalu terbuka pada lutfi, tidak kepadaku
-	   kamu boleh dekat dengan siapapun tapi jangan sampai kejadian
-	   lutfi terulang lagi.
-	   Artinya, jangan curhat tentang keburukanku pada mereka. baik baik
-	   dengan mereka, tapi mereka harus tahu kita sangat harmonis dan
-	   tidak pernah ada masalah.
-	3. Saya pikir bukan masalah cp atau panggilan, tapi perasaan
-	   saya takut kamu merasa nyaman dengan dia dan kamu curhat terlalu
-	   jauh dengan dia. ini batasan ke dua. jangan sampai kamu merasa
-	   nyaman dan merasa merindukan dia. apalagi sampai merasa pelu
-	   menceritakan masalahmu kepadanya. ingat, hanya ada aku buat tempat
-	   kamu curhat.
-	
+bismillahirrohmaanirohiim
+
+	test file
