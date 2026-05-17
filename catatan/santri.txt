@@ -1,0 +1,92 @@
+Saya ingin membuat aplikasi web pondok pesantren dengan struktur seperti ini
+
+/app/
+-index.html
+/app/css/
+--style.css
+/app/scr/
+--app.js
+--auth.js
+--firebase.js
+/app/scr/page/
+---dashboard.js
+---santri.js
+---keuangan.js
+---asrama.js
+---kelompokngaji.js
+---about.js
+
+1. index html adalah halaman yang nantinya akan disuntik innerhtml oleh javascript, contoh gaya saya lampirkan, saya ingin tampilannya seperti contoh tersebut.
+
+2. dashboard.js menampilkan rangkuman dari halaman santri, total santri kelas 1a kelas 1b dan seterusnya, sesuai dengan jumlah variabel kelas yang ada di database.
+
+3. santri.js menampilkan daftar data santri yang diambil dari database, dan disini kita juga bisa menambahkan, mengedit dan menghapus data dari dan ke database.
+	3.1 data yang diinputkan kedalam data santri adalah
+		3.1.1 Data Santri. Meliputi
+			3.1.1.1 Nama Santri
+			3.1.1.2 NISN
+			3.1.1.3 NIK
+			3.1.1.4 Tempat Lahir
+			3.1.1.5 Tanggal Lahir
+			3.1.1.6 Jenis Kelamin
+			3.1.1.7 Jumlah Saudara
+			3.1.1.8 Anak Ke
+			3.1.1.9 Cita-cita
+			3.1.1.10 Hobi
+			3.1.1.11 Pendidikan Formal
+			3.1.1.12 Wali Santri (pilihan orang tua kandung / asuh)
+			3.1.1.13 Nomor KK
+			3.1.1.14 Nama Kepala Keluarga
+		3.1.2 Data Orang Tua
+			3.1.2.1 Nama Ayah Kandung
+			3.1.2.2 Status Ayah Kandung (pilihan masih hidup / sudah meninggal)
+			3.1.2.3 NIK Ayah Kandung
+			3.1.2.4 Tempat Lahir Ayah Kandung
+			3.1.2.5 Tanggal Lahir Ayah Kandung
+			3.1.2.5 Pekerjaan Ayah Kandung (Pilihan pekerjaan)
+			3.1.2.6 Nomor Whatsapp Ayah Kandung
+			3.1.2.7 Nama Ibu Kandung
+			3.1.2.8 Status Ibu Kandung (pilihan masih hidup / sudah meninggal)
+			3.1.2.9 NIK Ibu Kandung
+			3.1.2.10 Tempat Lahir Ibu Kandung
+			3.1.2.11 Tanggal Lahir Ibu Kandung
+			3.1.2.12 Pekerjaan Ayah Ibu (Pilihan pekerjaan)
+			3.1.2.13 Nomor Whatsapp Ibu Kandung
+			3.1.2.14 Wali (pilihan 1. sama dengan ayah kandung 2. sama dengan ibu kandung 3. orang tua asuh, jika pilih nomor 3, maka form ditambah data orang tua asuh seperti data ayah kandung
+		3.1.3 Data Alamat
+			3.1.3.1 Profinsi
+			3.1.3.2 Kabupaten
+			3.1.3.3 Kecamatan
+			3.1.3.4 Desa
+			3.1.3.5 Jalan / RT RW / Ancer-ancer
+		3.1.4 Data Kepesantrenan
+			3.1.4.1 Asrama
+			3.1.4.2 Kelas Diniyah
+			3.1.4.3 Kelas Formal
+			3.1.4.4 Kelompok Belajar
+			3.1.4.5 Kelompok Nga
+ji
+	3.2 untuk pengeditan cukup masuk ke form yang sama dengan menampilkan data yang sudah terisi
+
+4. asrama.js menampilkan daftar data asrama dari database dengan pengelompokkan berdasarkan asrama, setiap asrama menampilkan jumlah anggota dan ketua asrama serta tombol untuk menampilkan daftar anggota, mengedit nama dan detail asrama, serta tombol hapus asrama
+
+5 kelompokngaji.js menampilkan daftar kelompok ngaji, belajar dan kelompok formal lain dengan cara yang sama dengan asrama.js
+
+6. about.js menampilkan penjelasan aplikasi serta cara penggunaannya
+
+buatkan semua file yang dibutuhkan dan cara menghubungkannya ke firebase
+
+Saya perlu perbaikan untuk keuangan.js
+
+1. Halaman menampilkan histori transaksi dalam container utama berisi 6 kontainer di dalamnya yaitu
+	1.1 kontainer nomor transaksi berisi h3 nomor transaksi dibawahnya ambil variabel tersebut dari firebase
+	1.2 nama santri berisi h3 nama santri dibawahnya ambil variabel nama santri dari firebase
+	1.3 transaksi berisi h3 masuk atau keluar dibawahnya ambil variabel uang masuk atau keluar tersebut dari firebase
+	1.4 tanggal berisi h3 hari tanggal transaksi dibawahnya ambil variabel tersebut dari firebase
+	1.5 
+
+
+
+
+
+

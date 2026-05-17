@@ -1,0 +1,91 @@
+	Bismillahirohmanirrohiim
+	Tipe data di javascript
+	number, string, boolean, object, function, undefined
+
+	Number: tidak ada integer hanya ada floating piont. angka yang bisa 
+	disimpan sebesar 64bit
+	angka tanpa desimal di javascript sebenarnya adalah pecahan
+	maksimal integer yang bisa ditampung javascript adalah 15 digit
+	angka dengan desimal ditulis dengan . misal 3.14 bukan 3,14
+	maksimal kita bisa menambahkan 17 digit di belakang koma
+	penjumlahan desimal tidak terlalu akurat, misal 0.2 + 0.1
+	eksponen ditulis dengan e 123e5
+	jangan mengawali angkajavascript dengan 0(=>oktal) atau 0x(=>hexadesimal)
+	angka spesial : Infinity, -Infinity NaN 1/0=I -1/0=-I 0/0=NaN
+	100/"10" akan diproses sebagai angka
+
+	OPERATOR
+	simbol yang digunakan untuk melakukan operasi 
+	aritmatika, penugasan, perbandingan, logika, string = operator binary
+	kondisional = operator ternary
+	typeof = operator unary
+	OPERATOR ARITMATIKA
+	+ - * / % . % operator modulo / modulus / sisa bagi 5%2 = 1
+	urutan operasi aritmatika KuKaBaTaKu ()*/+-
+	
+	OPERATOR PENUGASAN
+	var x
+	x=10 -- setelah ini x enter muncul 10
+	= += -= *= /= %= ini juga operator penugasan
+	
+	OPERATOR PERBANDINGAN
+	== != === !== > < >= <= operator ini menghasilkan nilai boolean
+	10 == 10 hasilnya true 10 == 15 hasilnya false
+	10 == "10" hasilnya true 10 === "10" hasilnya false
+	
+	OPERATOR LOGIKA
+	&& untuk AND || !
+	var x = 5
+	(x % 2 ==0) && (x > 10)
+	|| untuk OR
+	! untuk NOT fungsinya membalikkan hasil boolean
+
+	OPERATOR STRING
+	+
+	var a="apple" var b="pen"
+	a + b enter "applepen" a + " " + b = "apple pen"
+	10 + "10" hasilnya "1010"
+	10 + 10 + "10" hasilnya "2010"
+	N+N=N N+S=S
+
+	OPERATOR TYPEOF
+	typeof(10) hasilnya number
+	typeof("10") hasilnya string
+
+	OPERATOR KONDISIONAL
+	(kondisi) ? benar : salah
+	(x % 2 ==) ? "genap" : "ganjil"
+ 
+	
+	TYPE DATA STRING
+	untuk merepresentasikan data tekstual / plain text
+	"string" 'string' "Jum'at" 'Gerakan "Infaq"' 'Gerakan "Infaq Jum\'at"'
+	escape karakter
+	\0 karakter NULL
+	\' karakter '
+	\" karakter "
+	\\ karakter \
+	\n new line
+	\t tab
+	\b backspace
+	\uXXX unicode
+
+	TYPE DATA BOOLEAN
+	true false, digunakan dalam statement pengondisian
+	truthy true non-zero "string" object arrays function
+	falsy false 0 "" undefined null NaN
+
+	VARIABLE
+	VARIABEL adalah tempat atau wadah bernama untuk menyimpan nilai
+	deklarasi mendaftarkan variable
+	inisialisasi pemesanan memori untuk variable
+	asignment menetapkan nilai spesifik untuk variabel
+	var x == deklarasi & inisialisai
+	x = 20 assignment
+	wajib deklarasi dan inisialisasi sebelum assignment
+	keyword deklarasi variable var let const
+	nama variabel tidak boleh pakai spasi, diawali dengan angka
+
+	PENULISAN
+	javascript bisa ditulis secara internal atau eksternal
+
