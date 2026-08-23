@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notepad Transit — Light Sidebar</title>
+    <style>
+        /* ----- RESET & GLOBAL ----- */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --sidebar-bg: #f4f6fa;
+            --sidebar-hover: #e9ecf2;
+            --sidebar-active: #dde1e9;
+            --sidebar-border: #dce0e8;
+            --sidebar-text: #1a1a2e;
+            --sidebar-text-dim: #6b7280;
+            --accent: #4f6ef7;
+            --accent-hover: #3a55d9;
+            --accent-glow: rgba(79, 110, 247, 0.25);
+            --main-bg: #f0f2f6;
+            --paper-bg: #ffffff;
+            --paper-text: #1a1a2e;
+            --header-bg: rgba(255, 255, 255, 0.72);
+            --border-light: #e6e9f0;
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.10);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: var(--font);
+            background: var(--main-bg);
+            overflow: hidden;
+            color: var(--paper-text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8ccd8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8aec0;
+        }
+
+        /* ----- APP LAYOUT ----- */
+        .app {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+        }
+
+        /* ===== SIDEBAR (LIGHT) ===== */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+            transition: transform var(--transition), min-width var(--transition);
+            z-index: 100;
+            flex-shrink: 0;
+            border-right: 1px solid var(--sidebar-border);
+            position: relative;
+        }
+
+        .sidebar-header {
+            padding: 22px 20px 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--sidebar-border);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-logo {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        .sidebar-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--sidebar-text);
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+        }
+        .sidebar-title span {
+            color: var(--accent);
+        }
+
+        .sidebar-actions {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            border-bottom: 1px solid var(--sidebar-border);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-sidebar {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--sidebar-text);
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            width: 100%;
+            justify-content: center;
+            font-family: var(--font);
+            letter-spacing: 0.2px;
+        }
+
+        .btn-sidebar:hover {
+            background: rgba(0, 0, 0, 0.08);
+            color: var(--sidebar-text);
+        }
+        .btn-sidebar:active {
+            transform: scale(0.96);
+        }
+        .btn-sidebar svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        .btn-sidebar-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        .btn-sidebar-primary:hover {
+            background: var(--accent-hover);
+            color: #fff;
+            box-shadow: 0 6px 24px var(--accent-glow);
+        }
+        .btn-sidebar-primary svg {
+            opacity: 1;
+        }
+
+        /* ----- DAFTAR FILE ----- */
+        .file-list-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 10px 20px 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .file-list-container::-webkit-scrollbar {
+            width: 4px;
+        }
+        .file-list-container::-webkit-scrollbar-thumb {
+            background: #c8ccd8;
+            border-radius: 10px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px 10px 14px;
+            margin: 2px 0;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s;
+            position: relative;
+            color: var(--sidebar-text);
+            gap: 8px;
+        }
+
+        .file-item:hover {
+            background: var(--sidebar-hover);
+        }
+
+        .file-item.active {
+            background: var(--sidebar-active);
+            box-shadow: inset 3px 0 0 var(--accent);
+            font-weight: 500;
+        }
+
+        .file-item-name {
+            font-size: 14px;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 4px;
+            letter-spacing: 0.1px;
+        }
+
+        .file-item-menu {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--sidebar-text-dim);
+            transition: background var(--transition), color var(--transition);
+            position: relative;
+        }
+
+        .file-item-menu:hover {
+            background: rgba(0, 0, 0, 0.06);
+            color: var(--sidebar-text);
+        }
+
+        /* ----- DROPDOWN (LIGHT) ----- */
+        .dropdown {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            background: #ffffff;
+            border-radius: var(--radius);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            min-width: 190px;
+            padding: 6px 0;
+            display: none;
+            z-index: 200;
+            animation: dropFade 0.18s ease-out;
+            border: 1px solid var(--sidebar-border);
+        }
+
+        .dropdown.open {
+            display: block;
+        }
+
+        @keyframes dropFade {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 16px;
+            font-size: 13px;
+            color: var(--sidebar-text);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.12s;
+            border-radius: 0;
+            font-family: var(--font);
+            letter-spacing: 0.1px;
+        }
+
+        .dropdown-item:hover {
+            background: var(--sidebar-hover);
+        }
+        .dropdown-item:first-child {
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+        .dropdown-item:last-child {
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+
+        .dropdown-item.danger {
+            color: #dc2626;
+        }
+        .dropdown-item.danger:hover {
+            background: #fde8e8;
+        }
+
+        .dropdown-item svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        /* ----- AREA UTAMA ----- */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            min-width: 0;
+            background: var(--main-bg);
+            position: relative;
+        }
+
+        /* ----- HEADER / TOOLBAR ----- */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 28px;
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            flex-shrink: 0;
+            min-height: 60px;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: var(--paper-text);
+            border-radius: var(--radius-sm);
+            transition: background var(--transition);
+        }
+
+        .hamburger:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .file-name-display {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--paper-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 320px;
+            letter-spacing: -0.2px;
+        }
+
+        .file-name-display .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-right: 10px;
+            vertical-align: middle;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            padding: 8px 10px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: #5a5a72;
+            transition: background var(--transition), color var(--transition), transform 0.12s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--paper-text);
+        }
+        .btn-icon:active {
+            transform: scale(0.92);
+        }
+        .btn-icon:disabled {
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .btn-icon-danger:hover {
+            background: rgba(248, 113, 113, 0.12);
+            color: #dc2626;
+        }
+        .btn-icon-primary:hover {
+            background: rgba(79, 110, 247, 0.10);
+            color: var(--accent);
+        }
+
+        .btn-icon-undo:hover {
+            background: rgba(79, 110, 247, 0.08);
+            color: var(--accent);
+        }
+
+        /* separator tipis */
+        .header-divider {
+            width: 1px;
+            height: 28px;
+            background: var(--border-light);
+            margin: 0 4px;
+        }
+
+        /* ----- TEXTAREA ----- */
+        .paper-wrapper {
+            flex: 1;
+            padding: 24px 32px 16px 32px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .paper-textarea {
+            flex: 1;
+            width: 100%;
+            padding: 32px 40px;
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, sans-serif;
+            font-size: 16.5px;
+            line-height: 1.85;
+            color: var(--paper-text);
+            background: var(--paper-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition);
+            letter-spacing: 0.15px;
+            overflow-y: auto;
+        }
+
+        .paper-textarea:focus {
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(79, 110, 247, 0.15);
+        }
+
+        .paper-textarea::placeholder {
+            color: #b0b4c8;
+            font-weight: 350;
+            letter-spacing: 0.2px;
+        }
+
+        .paper-textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+        .paper-textarea::-webkit-scrollbar-track {
+            background: #f0f2f6;
+            border-radius: 10px;
+        }
+        .paper-textarea::-webkit-scrollbar-thumb {
+            background: #d0d4e0;
+            border-radius: 10px;
+        }
+        .paper-textarea::-webkit-scrollbar-thumb:hover {
+            background: #b8bcc8;
+        }
+
+        /* ----- FOOTER ----- */
+        .main-footer {
+            padding: 10px 28px 14px 28px;
+            background: transparent;
+            text-align: right;
+            font-size: 12.5px;
+            color: #9a9eb0;
+            flex-shrink: 0;
+            user-select: none;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+        }
+
+        .main-footer span {
+            background: rgba(255, 255, 255, 0.50);
+            backdrop-filter: blur(8px);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+        }
+
+        /* ----- MODAL ----- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            max-width: 420px;
+            width: 90%;
+            padding: 32px 36px 28px 36px;
+            border-radius: var(--radius);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.20);
+            text-align: center;
+            animation: modalSlide 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-box h3 {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--paper-text);
+            letter-spacing: -0.3px;
+        }
+        .modal-box p {
+            color: #5a5a72;
+            font-size: 15px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .modal-box input[type="text"] {
+            width: 100%;
+            padding: 11px 16px;
+            border: 1.5px solid #e0e4ec;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            margin-bottom: 24px;
+            outline: none;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            font-family: var(--font);
+            background: #f8f9fc;
+            color: var(--paper-text);
+        }
+        .modal-box input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: #fff;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .modal-actions .btn {
+            min-width: 100px;
+            padding: 10px 0;
+            font-size: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            font-family: var(--font);
+            letter-spacing: 0.2px;
+        }
+        .modal-actions .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-modal-cancel {
+            background: #f0f2f6;
+            color: var(--paper-text);
+        }
+        .btn-modal-cancel:hover {
+            background: #e4e7ee;
+        }
+
+        .btn-modal-danger {
+            background: #dc2626;
+            color: white;
+        }
+        .btn-modal-danger:hover {
+            background: #b91c1c;
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.30);
+        }
+
+        .btn-modal-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-modal-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+
+        /* ----- SIDEBAR OVERLAY (mobile) ----- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.40);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+        }
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translateX(-100%);
+                height: 100vh;
+                width: 280px;
+                min-width: 280px;
+                box-shadow: 4px 0 40px rgba(0, 0, 0, 0.12);
+                transition: transform var(--transition);
+                z-index: 100;
+                border-right: none;
+                border-radius: 0 16px 16px 0;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .hamburger {
+                display: flex;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .main-header {
+                padding: 10px 16px;
+                min-height: 54px;
+            }
+            .paper-wrapper {
+                padding: 12px 14px 8px 14px;
+            }
+            .paper-textarea {
+                padding: 20px 18px;
+                font-size: 15px;
+                border-radius: var(--radius-sm);
+            }
+            .main-footer {
+                padding: 8px 16px 12px 16px;
+                font-size: 11.5px;
+            }
+            .file-name-display {
+                max-width: 130px;
+                font-size: 14px;
+            }
+            .file-name-display .dot {
+                width: 6px;
+                height: 6px;
+                margin-right: 6px;
+            }
+            .modal-box {
+                padding: 24px 20px 20px 20px;
+            }
+            .sidebar-header {
+                padding: 18px 16px 12px 16px;
+            }
+            .sidebar-actions {
+                padding: 10px 12px;
+            }
+            .btn-sidebar {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            .file-list-container {
+                padding: 4px 6px 16px 6px;
+            }
+            .file-item {
+                padding: 8px 12px;
+            }
+            .file-item-name {
+                font-size: 13px;
+            }
+            .header-right .btn-icon {
+                padding: 6px 8px;
+            }
+            .header-divider {
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .paper-wrapper {
+                padding: 8px 8px 4px 8px;
+            }
+            .paper-textarea {
+                padding: 14px 14px;
+                font-size: 14px;
+                line-height: 1.75;
+            }
+            .main-header {
+                padding: 6px 10px;
+                min-height: 46px;
+            }
+            .btn-icon {
+                padding: 5px 6px;
+            }
+            .file-name-display {
+                max-width: 90px;
+                font-size: 12.5px;
+            }
+            .header-left {
+                gap: 8px;
+            }
+            .modal-box {
+                padding: 20px 14px 16px 14px;
+                width: 95%;
+            }
+            .modal-box h3 {
+                font-size: 18px;
+            }
+            .modal-box p {
+                font-size: 14px;
+            }
+            .modal-actions .btn {
+                min-width: 80px;
+                font-size: 13px;
+                padding: 9px 0;
+            }
+            .sidebar {
+                width: 260px;
+                min-width: 260px;
+            }
+            .sidebar-title {
+                font-size: 15px;
+            }
+            .sidebar-logo {
+                width: 30px;
+                height: 30px;
+                font-size: 15px;
+            }
+        }
+
+        /* ----- UTILITY ----- */
+        .hidden {
+            display: none !important;
+        }
+
+        .file-list-empty {
+            color: var(--sidebar-text-dim);
+            font-size: 13px;
+            text-align: center;
+            padding: 40px 16px;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <!-- SIDEBAR OVERLAY (mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">✎</div>
+                <div class="sidebar-title">Notepad <span>Transit</span></div>
+            </div>
+
+            <div class="sidebar-actions">
+                <button class="btn-sidebar btn-sidebar-primary" id="uploadBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="17 8 12 3 7 8" />
+                        <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    Upload
+                </button>
+                <button class="btn-sidebar" id="newFileBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="12" y1="18" x2="12" y2="12" />
+                        <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                    Buat
+                </button>
+            </div>
+
+            <div class="file-list-container" id="fileListContainer">
+                <!-- Akan diisi JavaScript -->
+            </div>
+        </aside>
+
+        <!-- ===== AREA UTAMA ===== -->
+        <main class="main">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="6" x2="21" y2="6" />
+                            <line x1="3" y1="12" x2="21" y2="12" />
+                            <line x1="3" y1="18" x2="21" y2="18" />
+                        </svg>
+                    </button>
+                    <span class="file-name-display" id="fileNameDisplay">
+                        <span class="dot"></span>(tidak ada file)
+                    </span>
+                </div>
+                <div class="header-right">
+                    <!-- Tombol Undo -->
+                    <button class="btn-icon btn-icon-undo" id="undoBtn" title="Undo (Ctrl+Z)" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="1 4 1 10 7 10" />
+                            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+                        </svg>
+                    </button>
+                    <!-- Tombol Redo -->
+                    <button class="btn-icon btn-icon-undo" id="redoBtn" title="Redo (Ctrl+Y)" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="23 4 23 10 17 10" />
+                            <path d="M20.49 15a9 9 0 1 1-2.13-9.36L23 10" />
+                        </svg>
+                    </button>
+
+                    <span class="header-divider"></span>
+
+                    <button class="btn-icon btn-icon-primary" id="headerCopyBtn" title="Salin semua teks">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                    </button>
+                    <button class="btn-icon btn-icon-danger" id="headerClearBtn" title="Hapus semua teks (file aktif)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="paper-wrapper">
+                <textarea class="paper-textarea" id="notepad" placeholder="Tempelkan (Ctrl+V) potongan artikel di sini…&#10;Kursor bisa diletakkan di mana saja."></textarea>
+            </div>
+
+            <footer class="main-footer">
+                <span id="counterInfo">0 karakter · 0 kata · 0 baris</span>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box" id="modalBox">
+            <h3 id="modalTitle">⚠️ Hapus file?</h3>
+            <p id="modalMessage">File ini akan dihapus permanen.</p>
+            <div id="modalExtra" style="display:none;">
+                <input type="text" id="modalInput" placeholder="Nama baru..." />
+            </div>
+            <div class="modal-actions" id="modalActions">
+                <button class="btn btn-modal-cancel" id="modalCancelBtn">Batal</button>
+                <button class="btn btn-modal-danger" id="modalConfirmBtn">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- hidden file input -->
+    <input type="file" id="fileInput" accept=".txt" style="display:none" />
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ----- DOM refs -----
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const hamburger = document.getElementById('hamburgerBtn');
+            const fileListContainer = document.getElementById('fileListContainer');
+            const fileNameDisplay = document.getElementById('fileNameDisplay');
+            const textarea = document.getElementById('notepad');
+            const counterInfo = document.getElementById('counterInfo');
+            const headerCopyBtn = document.getElementById('headerCopyBtn');
+            const headerClearBtn = document.getElementById('headerClearBtn');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const newFileBtn = document.getElementById('newFileBtn');
+            const fileInput = document.getElementById('fileInput');
+            const undoBtn = document.getElementById('undoBtn');
+            const redoBtn = document.getElementById('redoBtn');
+
+            // Modal
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalExtra = document.getElementById('modalExtra');
+            const modalInput = document.getElementById('modalInput');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+            // ----- Data -----
+            const STORAGE_KEY = 'notepadTransitFiles';
+            const ACTIVE_KEY = 'notepadTransitActiveId';
+            let files = [];
+            let activeId = null;
+            let modalResolve = null;
+            const MAX_HISTORY = 100;
+
+            // ----- Helper -----
+            function genId() {
+                return Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+            }
+
+            // ----- History helpers per file -----
+            function initHistory(file) {
+                if (!file.history || !Array.isArray(file.history)) {
+                    file.history = [file.content || ''];
+                    file.historyIndex = 0;
+                }
+                // pastikan history tidak kosong dan index valid
+                if (file.history.length === 0) {
+                    file.history.push(file.content || '');
+                    file.historyIndex = 0;
+                }
+                if (file.historyIndex >= file.history.length) {
+                    file.historyIndex = file.history.length - 1;
+                }
+            }
+
+            function pushHistory(file, newContent) {
+                if (!file) return;
+                initHistory(file);
+                // jika konten sama dengan state terakhir, tidak perlu push
+                const last = file.history[file.historyIndex];
+                if (last === newContent) return;
+                // potong riwayat setelah index saat ini (redo akan hilang)
+                file.history = file.history.slice(0, file.historyIndex + 1);
+                file.history.push(newContent);
+                if (file.history.length > MAX_HISTORY) {
+                    file.history.shift();
+                }
+                file.historyIndex = file.history.length - 1;
+                updateUndoRedoButtons();
+            }
+
+            function undoFile(file) {
+                if (!file) return;
+                initHistory(file);
+                if (file.historyIndex > 0) {
+                    file.historyIndex--;
+                    const content = file.history[file.historyIndex];
+                    file.content = content;
+                    textarea.value = content;
+                    saveData();
+                    updateUI();
+                    updateCounter();
+                    updateUndoRedoButtons();
+                }
+            }
+
+            function redoFile(file) {
+                if (!file) return;
+                initHistory(file);
+                if (file.historyIndex < file.history.length - 1) {
+                    file.historyIndex++;
+                    const content = file.history[file.historyIndex];
+                    file.content = content;
+                    textarea.value = content;
+                    saveData();
+                    updateUI();
+                    updateCounter();
+                    updateUndoRedoButtons();
+                }
+            }
+
+            function updateUndoRedoButtons() {
+                const active = getActiveFile();
+                if (active) {
+                    initHistory(active);
+                    undoBtn.disabled = (active.historyIndex <= 0);
+                    redoBtn.disabled = (active.historyIndex >= active.history.length - 1);
+                } else {
+                    undoBtn.disabled = true;
+                    redoBtn.disabled = true;
+                }
+            }
+
+            // ----- Load / Save -----
+            function loadData() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    files = raw ? JSON.parse(raw) : [];
+                    files = files.filter(f => f.id && f.name !== undefined && f.content !== undefined);
+                    files.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+                    // inisialisasi history untuk setiap file
+                    files.forEach(f => {
+                        if (!f.history || !Array.isArray(f.history)) {
+                            f.history = [f.content || ''];
+                            f.historyIndex = 0;
+                        } else {
+                            // pastikan history index valid
+                            if (f.historyIndex === undefined || f.historyIndex >= f.history.length) {
+                                f.historyIndex = f.history.length - 1;
+                            }
+                            // pastikan history terakhir sama dengan content
+                            if (f.history[f.historyIndex] !== f.content) {
+                                // jika berbeda, tambahkan content sebagai state baru
+                                f.history.push(f.content);
+                                f.historyIndex = f.history.length - 1;
+                            }
+                        }
+                    });
+                } catch (e) {
+                    files = [];
+                }
+                activeId = localStorage.getItem(ACTIVE_KEY) || null;
+                if (activeId && !files.some(f => f.id === activeId)) {
+                    activeId = null;
+                }
+                if (files.length === 0) {
+                    createDefaultFile();
+                } else if (!activeId) {
+                    activeId = files[0].id;
+                }
+            }
+
+            function saveData() {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(files));
+                if (activeId) {
+                    localStorage.setItem(ACTIVE_KEY, activeId);
+                } else {
+                    localStorage.removeItem(ACTIVE_KEY);
+                }
+            }
+
+            function createDefaultFile() {
+                const newFile = {
+                    id: genId(),
+                    name: 'Catatan 1',
+                    content: '',
+                    createdAt: Date.now(),
+                    history: [''],
+                    historyIndex: 0
+                };
+                files = [newFile];
+                activeId = newFile.id;
+                saveData();
+            }
+
+            // ----- CRUD -----
+            function getActiveFile() {
+                return files.find(f => f.id === activeId) || null;
+            }
+
+            function setActiveFile(id) {
+                if (files.some(f => f.id === id)) {
+                    // simpan perubahan sebelum pindah
+                    saveCurrentContent();
+                    activeId = id;
+                    saveData();
+                    renderFileList();
+                    updateUI();
+                    updateUndoRedoButtons();
+                }
+            }
+
+            function addFile(name, content = '') {
+                let finalName = name;
+                let counter = 1;
+                while (files.some(f => f.name === finalName)) {
+                    const base = name.replace(/\s*\(\d+\)$/, '');
+                    finalName = base + ' (' + counter + ')';
+                    counter++;
+                }
+                const newFile = {
+                    id: genId(),
+                    name: finalName,
+                    content: content || '',
+                    createdAt: Date.now(),
+                    history: [content || ''],
+                    historyIndex: 0
+                };
+                files.unshift(newFile);
+                activeId = newFile.id;
+                saveData();
+                renderFileList();
+                updateUI();
+                updateUndoRedoButtons();
+                return newFile;
+            }
+
+            function deleteFile(id) {
+                const idx = files.findIndex(f => f.id === id);
+                if (idx === -1) return false;
+                files.splice(idx, 1);
+                if (files.length === 0) {
+                    createDefaultFile();
+                } else if (activeId === id) {
+                    activeId = files[0].id;
+                }
+                saveData();
+                renderFileList();
+                updateUI();
+                updateUndoRedoButtons();
+                return true;
+            }
+
+            function renameFile(id, newName) {
+                const file = files.find(f => f.id === id);
+                if (!file) return false;
+                let finalName = newName.trim() || 'Tanpa Nama';
+                let counter = 1;
+                while (files.some(f => f.id !== id && f.name === finalName)) {
+                    const base = finalName.replace(/\s*\(\d+\)$/, '');
+                    finalName = base + ' (' + counter + ')';
+                    counter++;
+                }
+                file.name = finalName;
+                saveData();
+                renderFileList();
+                updateUI();
+                return true;
+            }
+
+            // ----- Render daftar file -----
+            function renderFileList() {
+                if (!fileListContainer) return;
+                if (files.length === 0) {
+                    fileListContainer.innerHTML =
+                        `<div class="file-list-empty">Belum ada catatan<br>Buat file baru atau upload .txt</div>`;
+                    return;
+                }
+                let html = '';
+                files.forEach(file => {
+                    const isActive = (file.id === activeId);
+                    html += `
+                            <div class="file-item ${isActive ? 'active' : ''}" data-id="${file.id}">
+                                <span class="file-item-name">${escapeHtml(file.name)}</span>
+                                <button class="file-item-menu" data-id="${file.id}" aria-label="Menu file">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="5" r="1.5" />
+                                        <circle cx="12" cy="12" r="1.5" />
+                                        <circle cx="12" cy="19" r="1.5" />
+                                    </svg>
+                                </button>
+                                <div class="dropdown" data-id="${file.id}">
+                                    <button class="dropdown-item" data-action="copy" data-id="${file.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                        Salin Semua
+                                    </button>
+                                    <button class="dropdown-item" data-action="rename" data-id="${file.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                        Ganti Nama
+                                    </button>
+                                    <button class="dropdown-item" data-action="download" data-id="${file.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                        Download .txt
+                                    </button>
+                                    <button class="dropdown-item danger" data-action="delete" data-id="${file.id}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                        Hapus
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                });
+                fileListContainer.innerHTML = html;
+
+                // Klik file item
+                document.querySelectorAll('.file-item').forEach(el => {
+                    el.addEventListener('click', function(e) {
+                        if (e.target.closest('.file-item-menu') || e.target.closest('.dropdown')) return;
+                        const id = this.dataset.id;
+                        if (id && id !== activeId) {
+                            setActiveFile(id);
+                            closeAllDropdowns();
+                            if (window.innerWidth <= 768) toggleSidebar(false);
+                        }
+                    });
+                });
+
+                // Tombol menu
+                document.querySelectorAll('.file-item-menu').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const id = this.dataset.id;
+                        const dropdown = this.parentElement.querySelector('.dropdown');
+                        if (!dropdown) return;
+                        closeAllDropdowns();
+                        dropdown.classList.toggle('open');
+                    });
+                });
+
+                // Dropdown items
+                document.querySelectorAll('.dropdown-item').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const action = this.dataset.action;
+                        const id = this.dataset.id;
+                        if (!id) return;
+                        const file = files.find(f => f.id === id);
+                        if (!file) return;
+                        const dropdown = this.closest('.dropdown');
+                        if (dropdown) dropdown.classList.remove('open');
+
+                        switch (action) {
+                            case 'copy':
+                                copyFileContent(file);
+                                break;
+                            case 'rename':
+                                promptRename(file);
+                                break;
+                            case 'download':
+                                downloadFile(file);
+                                break;
+                            case 'delete':
+                                promptDeleteFile(file);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                });
+
+                // Tutup dropdown
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.file-item-menu') && !e.target.closest('.dropdown')) {
+                        closeAllDropdowns();
+                    }
+                });
+            }
+
+            function closeAllDropdowns() {
+                document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+            }
+
+            // ----- Escape HTML -----
+            function escapeHtml(str) {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            }
+
+            // ----- Update UI -----
+            function updateUI() {
+                const active = getActiveFile();
+                if (active) {
+                    const dotSpan = fileNameDisplay.querySelector('.dot');
+                    if (dotSpan) {
+                        fileNameDisplay.innerHTML = `<span class="dot"></span>${escapeHtml(active.name)}`;
+                    } else {
+                        fileNameDisplay.textContent = active.name;
+                    }
+                    if (textarea.value !== active.content) {
+                        textarea.value = active.content;
+                    }
+                } else {
+                    fileNameDisplay.innerHTML = `<span class="dot"></span>(tidak ada file)`;
+                    textarea.value = '';
+                }
+                updateCounter();
+                document.querySelectorAll('.file-item').forEach(el => {
+                    el.classList.toggle('active', el.dataset.id === activeId);
+                });
+                updateUndoRedoButtons();
+            }
+
+            function updateCounter() {
+                const text = textarea.value;
+                const charCount = text.length;
+                const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+                const lineCount = text === '' ? 0 : text.split('\n').length;
+                counterInfo.textContent = `${charCount} karakter · ${wordCount} kata · ${lineCount} baris`;
+            }
+
+            // ----- Save content -----
+            function saveCurrentContent() {
+                const active = getActiveFile();
+                if (active) {
+                    const newContent = textarea.value;
+                    if (active.content !== newContent) {
+                        active.content = newContent;
+                        pushHistory(active, newContent);
+                        saveData();
+                    }
+                }
+            }
+
+            // ----- Event textarea (input) -----
+            textarea.addEventListener('input', function() {
+                const active = getActiveFile();
+                if (active) {
+                    const newContent = textarea.value;
+                    if (active.content !== newContent) {
+                        active.content = newContent;
+                        pushHistory(active, newContent);
+                        saveData();
+                    }
+                }
+                updateCounter();
+            });
+
+            // ----- Undo / Redo -----
+            undoBtn.addEventListener('click', function() {
+                const active = getActiveFile();
+                if (active) {
+                    undoFile(active);
+                }
+            });
+
+            redoBtn.addEventListener('click', function() {
+                const active = getActiveFile();
+                if (active) {
+                    redoFile(active);
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+                    if (!e.shiftKey) {
+                        e.preventDefault();
+                        undoBtn.click();
+                    } else {
+                        // Ctrl+Shift+Z = Redo
+                        e.preventDefault();
+                        redoBtn.click();
+                    }
+                }
+                if ((e.ctrlKey || e.metaKey) && e.key === 'y') {
+                    e.preventDefault();
+                    redoBtn.click();
+                }
+            });
+
+            // ----- Header: Salin -----
+            headerCopyBtn.addEventListener('click', async function() {
+                const text = textarea.value;
+                if (!text) {
+                    alert('Tidak ada teks untuk disalin.');
+                    return;
+                }
+                try {
+                    await navigator.clipboard.writeText(text);
+                    const orig = headerCopyBtn.innerHTML;
+                    headerCopyBtn.innerHTML =
+                        `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+                    setTimeout(() => { headerCopyBtn.innerHTML = orig; }, 1500);
+                } catch (err) {
+                    textarea.select();
+                    document.execCommand('copy');
+                    alert('Teks berhasil disalin (metode cadangan).');
+                }
+            });
+
+            // ----- Header: Hapus semua -----
+            headerClearBtn.addEventListener('click', function() {
+                const active = getActiveFile();
+                if (!active) {
+                    alert('Tidak ada file aktif.');
+                    return;
+                }
+                if (active.content.trim() === '') {
+                    alert('File ini sudah kosong.');
+                    return;
+                }
+                showModal(
+                    '⚠️ Hapus semua teks?',
+                    `Semua teks di file "${active.name}" akan dihapus. Tindakan ini tidak bisa dibatalkan.`,
+                    'Hapus Teks',
+                    'danger'
+                ).then(confirmed => {
+                    if (confirmed) {
+                        active.content = '';
+                        textarea.value = '';
+                        pushHistory(active, '');
+                        saveData();
+                        updateCounter();
+                        updateUI();
+                    }
+                });
+            });
+
+            // ----- Sidebar toggle -----
+            function toggleSidebar(open) {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('open', open);
+                    overlay.classList.toggle('active', open);
+                }
+            }
+
+            hamburger.addEventListener('click', function() {
+                const isOpen = sidebar.classList.contains('open');
+                toggleSidebar(!isOpen);
+            });
+
+            overlay.addEventListener('click', function() {
+                toggleSidebar(false);
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+            });
+
+            // ----- Upload .txt -----
+            uploadBtn.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function(e) {
+                const file = this.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    const content = ev.target.result;
+                    const name = file.name.replace(/\.txt$/i, '');
+                    addFile(name, content);
+                    if (window.innerWidth <= 768) toggleSidebar(false);
+                    fileInput.value = '';
+                };
+                reader.readAsText(file);
+            });
+
+            // ----- Buat baru -----
+            newFileBtn.addEventListener('click', function() {
+                let maxNum = 0;
+                files.forEach(f => {
+                    const match = f.name.match(/^Catatan (\d+)$/);
+                    if (match) {
+                        const num = parseInt(match[1], 10);
+                        if (num > maxNum) maxNum = num;
+                    }
+                });
+                const newName = 'Catatan ' + (maxNum + 1);
+                addFile(newName, '');
+                if (window.innerWidth <= 768) toggleSidebar(false);
+            });
+
+            // ----- Dropdown actions -----
+            function copyFileContent(file) {
+                if (!file.content) {
+                    alert('File ini kosong.');
+                    return;
+                }
+                navigator.clipboard.writeText(file.content).then(() => {
+                    alert(`Teks dari "${file.name}" telah disalin ke clipboard.`);
+                }).catch(() => {
+                    const temp = textarea;
+                    const prev = temp.value;
+                    temp.value = file.content;
+                    temp.select();
+                    document.execCommand('copy');
+                    temp.value = prev;
+                    alert(`Teks dari "${file.name}" telah disalin (metode cadangan).`);
+                });
+            }
+
+            function downloadFile(file) {
+                const blob = new Blob([file.content], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = file.name + '.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            function promptRename(file) {
+                showModal(
+                    '✏️ Ganti Nama',
+                    `Masukkan nama baru untuk "${file.name}":`,
+                    'Simpan',
+                    'primary',
+                    true,
+                    file.name
+                ).then(result => {
+                    if (result && result.trim() !== '') {
+                        renameFile(file.id, result.trim());
+                    }
+                });
+            }
+
+            function promptDeleteFile(file) {
+                showModal(
+                    '⚠️ Hapus file?',
+                    `Anda akan menghapus file "${file.name}". Data tidak bisa dikembalikan.`,
+                    'Ya, Hapus',
+                    'danger'
+                ).then(confirmed => {
+                    if (confirmed) {
+                        deleteFile(file.id);
+                        updateUI();
+                    }
+                });
+            }
+
+            // ----- Modal System -----
+            function showModal(title, message, confirmLabel = 'OK', type = 'primary', showInput = false,
+                inputValue = '') {
+                return new Promise((resolve) => {
+                    modalTitle.textContent = title;
+                    modalMessage.textContent = message;
+                    modalExtra.style.display = showInput ? 'block' : 'none';
+                    if (showInput) {
+                        modalInput.value = inputValue || '';
+                        modalInput.focus();
+                        modalInput.select();
+                    }
+                    const isDanger = (type === 'danger');
+                    modalConfirmBtn.className = 'btn ' + (isDanger ? 'btn-modal-danger' : 'btn-modal-primary');
+                    modalConfirmBtn.textContent = confirmLabel;
+                    modalCancelBtn.textContent = 'Batal';
+
+                    modalOverlay.classList.add('active');
+                    modalResolve = resolve;
+                });
+            }
+
+            modalCancelBtn.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) {
+                    const showInput = modalExtra.style.display !== 'none';
+                    if (showInput) {
+                        modalResolve(null);
+                    } else {
+                        modalResolve(false);
+                    }
+                    modalResolve = null;
+                }
+            });
+
+            modalConfirmBtn.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) {
+                    const showInput = modalExtra.style.display !== 'none';
+                    if (showInput) {
+                        modalResolve(modalInput.value);
+                    } else {
+                        modalResolve(true);
+                    }
+                    modalResolve = null;
+                }
+            });
+
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    if (modalResolve) {
+                        const showInput = modalExtra.style.display !== 'none';
+                        if (showInput) {
+                            modalResolve(null);
+                        } else {
+                            modalResolve(false);
+                        }
+                        modalResolve = null;
+                    }
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    modalOverlay.classList.remove('active');
+                    if (modalResolve) {
+                        const showInput = modalExtra.style.display !== 'none';
+                        if (showInput) {
+                            modalResolve(null);
+                        } else {
+                            modalResolve(false);
+                        }
+                        modalResolve = null;
+                    }
+                }
+                if (e.key === 'Enter' && modalOverlay.classList.contains('active') && modalExtra.style.display !==
+                    'none') {
+                    modalConfirmBtn.click();
+                }
+            });
+
+            // ----- Inisialisasi -----
+            function init() {
+                loadData();
+                renderFileList();
+                updateUI();
+                updateUndoRedoButtons();
+                textarea.focus();
+            }
+
+            init();
+
+            // ----- Auto-save -----
+            window.addEventListener('beforeunload', function() {
+                saveCurrentContent();
+            });
+
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    saveCurrentContent();
+                }
+            });
+
+        })();
+    </script>
+</body>
+</html>
