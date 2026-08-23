@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Notepad Transit — Light Sidebar</title>
     <style>
         /* ----- RESET & GLOBAL ----- */
@@ -12,6 +12,18 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f6;
+            overflow: hidden;
+            color: #1a1a2e;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         :root {
@@ -33,22 +45,10 @@
             --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.10);
             --radius: 12px;
             --radius-sm: 8px;
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        html,
-        body {
-            height: 100%;
-            width: 100%;
-            font-family: var(--font);
-            background: var(--main-bg);
-            overflow: hidden;
-            color: var(--paper-text);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
+        /* ----- SCROLLBAR ----- */
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
@@ -67,8 +67,8 @@
         /* ----- APP LAYOUT ----- */
         .app {
             display: flex;
-            height: 100vh;
-            width: 100vw;
+            height: 100%;
+            width: 100%;
             overflow: hidden;
         }
 
@@ -79,7 +79,7 @@
             background: var(--sidebar-bg);
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
             overflow: hidden;
             transition: transform var(--transition), min-width var(--transition);
             z-index: 100;
@@ -152,7 +152,7 @@
             transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
             width: 100%;
             justify-content: center;
-            font-family: var(--font);
+            font-family: inherit;
             letter-spacing: 0.2px;
         }
 
@@ -298,7 +298,7 @@
             cursor: pointer;
             transition: background 0.12s;
             border-radius: 0;
-            font-family: var(--font);
+            font-family: inherit;
             letter-spacing: 0.1px;
         }
 
@@ -329,7 +329,7 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            height: 100%;
             min-width: 0;
             background: var(--main-bg);
             position: relative;
@@ -443,7 +443,6 @@
             color: var(--accent);
         }
 
-        /* separator tipis */
         .header-divider {
             width: 1px;
             height: 28px;
@@ -451,9 +450,10 @@
             margin: 0 4px;
         }
 
-        /* ----- TEXTAREA ----- */
+        /* ----- PAPER WRAPPER (flex agar footer terlihat) ----- */
         .paper-wrapper {
             flex: 1;
+            min-height: 0;
             padding: 24px 32px 16px 32px;
             overflow: hidden;
             display: flex;
@@ -506,12 +506,12 @@
 
         /* ----- FOOTER ----- */
         .main-footer {
+            flex-shrink: 0;
             padding: 10px 28px 14px 28px;
             background: transparent;
             text-align: right;
             font-size: 12.5px;
             color: #9a9eb0;
-            flex-shrink: 0;
             user-select: none;
             letter-spacing: 0.3px;
             font-weight: 400;
@@ -584,7 +584,7 @@
             margin-bottom: 24px;
             outline: none;
             transition: border-color var(--transition), box-shadow var(--transition);
-            font-family: var(--font);
+            font-family: inherit;
             background: #f8f9fc;
             color: var(--paper-text);
         }
@@ -609,7 +609,7 @@
             font-weight: 500;
             cursor: pointer;
             transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
-            font-family: var(--font);
+            font-family: inherit;
             letter-spacing: 0.2px;
         }
         .modal-actions .btn:active {
@@ -680,6 +680,7 @@
                 z-index: 100;
                 border-right: none;
                 border-radius: 0 16px 16px 0;
+                height: 100%;
             }
             .sidebar.open {
                 transform: translateX(0);
@@ -865,14 +866,12 @@
                     </span>
                 </div>
                 <div class="header-right">
-                    <!-- Tombol Undo -->
                     <button class="btn-icon btn-icon-undo" id="undoBtn" title="Undo (Ctrl+Z)" disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="1 4 1 10 7 10" />
                             <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
                         </svg>
                     </button>
-                    <!-- Tombol Redo -->
                     <button class="btn-icon btn-icon-undo" id="redoBtn" title="Redo (Ctrl+Y)" disabled>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="23 4 23 10 17 10" />
@@ -973,7 +972,6 @@
                     file.history = [file.content || ''];
                     file.historyIndex = 0;
                 }
-                // pastikan history tidak kosong dan index valid
                 if (file.history.length === 0) {
                     file.history.push(file.content || '');
                     file.historyIndex = 0;
@@ -986,10 +984,8 @@
             function pushHistory(file, newContent) {
                 if (!file) return;
                 initHistory(file);
-                // jika konten sama dengan state terakhir, tidak perlu push
                 const last = file.history[file.historyIndex];
                 if (last === newContent) return;
-                // potong riwayat setelah index saat ini (redo akan hilang)
                 file.history = file.history.slice(0, file.historyIndex + 1);
                 file.history.push(newContent);
                 if (file.history.length > MAX_HISTORY) {
@@ -1048,19 +1044,15 @@
                     files = raw ? JSON.parse(raw) : [];
                     files = files.filter(f => f.id && f.name !== undefined && f.content !== undefined);
                     files.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                    // inisialisasi history untuk setiap file
                     files.forEach(f => {
                         if (!f.history || !Array.isArray(f.history)) {
                             f.history = [f.content || ''];
                             f.historyIndex = 0;
                         } else {
-                            // pastikan history index valid
                             if (f.historyIndex === undefined || f.historyIndex >= f.history.length) {
                                 f.historyIndex = f.history.length - 1;
                             }
-                            // pastikan history terakhir sama dengan content
                             if (f.history[f.historyIndex] !== f.content) {
-                                // jika berbeda, tambahkan content sebagai state baru
                                 f.history.push(f.content);
                                 f.historyIndex = f.history.length - 1;
                             }
@@ -1110,7 +1102,6 @@
 
             function setActiveFile(id) {
                 if (files.some(f => f.id === id)) {
-                    // simpan perubahan sebelum pindah
                     saveCurrentContent();
                     activeId = id;
                     saveData();
@@ -1378,7 +1369,6 @@
                         e.preventDefault();
                         undoBtn.click();
                     } else {
-                        // Ctrl+Shift+Z = Redo
                         e.preventDefault();
                         redoBtn.click();
                     }
