@@ -1,0 +1,1982 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="description" content="Bismillah" />
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6ef7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>" />
+    <title>Muthinx · Color Guess</title>
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+           RESET & GLOBAL (SAMA DENGAN GDRIVEDIRECT)
+           ============================================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f6;
+            overflow: hidden;
+            color: #1a1a2e;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --sidebar-bg: #f4f6fa;
+            --sidebar-hover: #e9ecf2;
+            --sidebar-active: #dde1e9;
+            --sidebar-border: #dce0e8;
+            --sidebar-text: #1a1a2e;
+            --sidebar-text-dim: #6b7280;
+            --accent: #4f6ef7;
+            --accent-hover: #3a55d9;
+            --accent-glow: rgba(79, 110, 247, 0.25);
+            --main-bg: #f0f2f6;
+            --paper-bg: #ffffff;
+            --paper-text: #1a1a2e;
+            --header-bg: rgba(255, 255, 255, 0.72);
+            --border-light: #e6e9f0;
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.10);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --toast-success: #22c55e;
+            --toast-error: #ef4444;
+        }
+
+        [data-theme="dark"] {
+            --sidebar-bg: #18182a;
+            --sidebar-hover: #22223a;
+            --sidebar-active: #2a2a48;
+            --sidebar-border: #2a2a48;
+            --sidebar-text: #f0f0f8;
+            --sidebar-text-dim: #8a8ea0;
+            --main-bg: #0f0f1a;
+            --paper-bg: #1e1e32;
+            --paper-text: #f0f0f8;
+            --header-bg: rgba(20, 20, 40, 0.80);
+            --border-light: #2a2a48;
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.40);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.50);
+            --accent: #6a84ff;
+            --accent-hover: #5a74ef;
+            --accent-glow: rgba(106, 132, 255, 0.30);
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8ccd8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8aec0;
+        }
+
+        /* ============================================================
+           APP LAYOUT
+           ============================================================ */
+        .app {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            transition: transform var(--transition), min-width var(--transition);
+            z-index: 100;
+            flex-shrink: 0;
+            border-right: 1px solid var(--sidebar-border);
+            position: relative;
+        }
+
+        .sidebar-header {
+            padding: 22px 20px 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid var(--sidebar-border);
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 16px var(--accent-glow);
+			transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+			text-decoration: none;
+        }
+
+		.sidebar-logo:hover {
+			transform: scale(1.08) rotate(2deg);
+			box-shadow: 0 6px 24px var(--accent-glow);
+			background: var(--accent-hover);
+		}
+
+        .sidebar-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--sidebar-text);
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+        }
+        .sidebar-title span {
+            color: var(--accent);
+        }
+
+        /* ----- MENU NAVIGASI ----- */
+        .sidebar-nav {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            border-bottom: 1px solid var(--sidebar-border);
+            flex-shrink: 0;
+			position: relative;
+			z-index: 1;
+        }
+
+        .btn-nav {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--sidebar-text);
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            width: 100%;
+            justify-content: center;
+            font-family: inherit;
+            letter-spacing: 0.2px;
+        }
+        .btn-nav:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+        .btn-nav:active {
+            transform: scale(0.96);
+        }
+        .btn-nav.active {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        .btn-nav.active svg {
+            opacity: 1;
+        }
+        .btn-nav svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        /* ----- KONTEN SIDEBAR (riwayat) ----- */
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 6px 8px 12px 8px;
+        }
+
+        .history-item-sidebar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 10px;
+            margin: 1px 0;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--transition);
+            color: var(--sidebar-text);
+            gap: 6px;
+            font-size: 12px;
+        }
+        .history-item-sidebar:hover {
+            background: var(--sidebar-hover);
+        }
+        .history-item-sidebar .h-name {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .history-item-sidebar .h-time {
+            font-size: 10px;
+            color: var(--sidebar-text-dim);
+            flex-shrink: 0;
+        }
+        .history-item-sidebar .h-menu {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 4px;
+            color: var(--sidebar-text-dim);
+            transition: background var(--transition), color var(--transition);
+        }
+        .history-item-sidebar .h-menu:hover {
+            background: rgba(0, 0, 0, 0.06);
+            color: var(--sidebar-text);
+        }
+
+        .sidebar-empty {
+            color: var(--sidebar-text-dim);
+            font-size: 12px;
+            text-align: center;
+            padding: 30px 12px;
+            opacity: 0.6;
+        }
+
+        /* ----- DROPDOWN ----- */
+        .dropdown {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            background: #ffffff;
+            border-radius: var(--radius);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            min-width: 170px;
+            padding: 4px 0;
+            display: none;
+            z-index: 200;
+            animation: dropFade 0.18s ease-out;
+            border: 1px solid var(--sidebar-border);
+        }
+        .dropdown.open {
+            display: block;
+        }
+        @keyframes dropFade {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            font-size: 12px;
+            color: var(--sidebar-text);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.12s;
+            border-radius: 0;
+            font-family: inherit;
+        }
+        .dropdown-item:hover {
+            background: var(--sidebar-hover);
+        }
+        .dropdown-item.danger {
+            color: #dc2626;
+        }
+        .dropdown-item.danger:hover {
+            background: #fde8e8;
+        }
+        .dropdown-item svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        /* ----- FOOTER SIDEBAR ----- */
+        .sidebar-footer {
+            flex-shrink: 0;
+            padding: 12px 16px 16px 16px;
+            border-top: 1px solid var(--sidebar-border);
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+        .sidebar-footer a {
+            color: var(--sidebar-text-dim);
+            font-size: 20px;
+            transition: color var(--transition), transform 0.15s;
+            text-decoration: none;
+        }
+        .sidebar-footer a:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.1);
+        }
+
+        /* ===== AREA UTAMA ===== */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-width: 0;
+            background: var(--main-bg);
+            position: relative;
+        }
+
+        /* ----- HEADER ----- */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 20px;
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            flex-shrink: 0;
+            min-height: 46px;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            color: var(--paper-text);
+            border-radius: var(--radius-sm);
+            transition: background var(--transition);
+        }
+        .hamburger:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .header-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--paper-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 200px;
+            letter-spacing: -0.2px;
+        }
+        .header-title .dot {
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-right: 8px;
+            vertical-align: middle;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            padding: 6px 8px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: #5a5a72;
+            transition: background var(--transition), color var(--transition), transform 0.12s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+        .btn-icon:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--paper-text);
+        }
+        .btn-icon:active {
+            transform: scale(0.92);
+        }
+        .btn-icon-primary:hover {
+            background: rgba(79, 110, 247, 0.10);
+            color: var(--accent);
+        }
+
+        /* ----- PAPER WRAPPER (KONTEN GAME KOMPAK) ----- */
+        .paper-wrapper {
+            flex: 1;
+            min-height: 0;
+            padding: 10px 20px 6px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow: hidden;
+        }
+
+        /* --- KARTU GAME (KOMPAK) --- */
+        .game-card {
+            background: var(--paper-bg);
+            border-radius: var(--radius);
+            padding: 14px 18px 12px 18px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: border var(--transition), box-shadow var(--transition);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+        .game-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .game-card .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--paper-text);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .game-card .card-title i {
+            color: var(--accent);
+            font-size: 16px;
+        }
+
+        /* ----- STATS (baris atas) ----- */
+        .stats-row {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+        .stat-box {
+            flex: 1;
+            background: var(--main-bg);
+            border-radius: var(--radius-sm);
+            padding: 4px 10px;
+            text-align: center;
+            border: 1px solid var(--border-light);
+        }
+        .stat-box .stat-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--sidebar-text-dim);
+            font-weight: 600;
+        }
+        .stat-box .stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+        .stat-box .stat-value.lp-color {
+            color: #ffb347;
+        }
+        .stat-box .stat-value.wallet-color {
+            color: #c3e88d;
+        }
+
+        /* ----- BET CARDS (3 warna) ----- */
+        .bet-row {
+            display: flex;
+            gap: 10px;
+            flex-shrink: 0;
+            margin-bottom: 8px;
+        }
+        .bet-card {
+            flex: 1;
+            background: var(--main-bg);
+            border-radius: var(--radius-sm);
+            padding: 8px 4px 6px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.12s, box-shadow 0.2s, border 0.2s;
+            border: 2px solid var(--border-light);
+            box-shadow: 0 2px 0 var(--border-light);
+        }
+        .bet-card:active {
+            transform: scale(0.95);
+        }
+        .bet-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px var(--accent-glow), 0 2px 0 var(--accent);
+        }
+        .bet-card .color-swatch {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin: 0 auto 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        .swatch-gold {
+            background: #B09E5F;
+        }
+        .swatch-red {
+            background: #591616;
+        }
+        .swatch-green {
+            background: #144710;
+        }
+        .bet-card .color-name {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+        }
+        .bet-card .bet-amount {
+            font-size: 9px;
+            color: var(--sidebar-text-dim);
+            background: rgba(0, 0, 0, 0.08);
+            padding: 0 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        .bet-card .color-name.gold-text {
+            color: #B09E5F;
+        }
+        .bet-card .color-name.red-text {
+            color: #b34a4a;
+        }
+        .bet-card .color-name.green-text {
+            color: #4caf50;
+        }
+
+        /* ----- RESULT AREA (kompak) ----- */
+        .result-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+            margin-bottom: 6px;
+            background: var(--main-bg);
+            border-radius: var(--radius-sm);
+            padding: 6px 14px;
+            border: 1px solid var(--border-light);
+        }
+        .result-row .result-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: #2c3e2f;
+            transition: 0.2s;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .result-row .result-text {
+            font-weight: 700;
+            font-size: 14px;
+            flex: 1;
+        }
+        .result-row .result-text .color-result-name {
+            color: var(--accent);
+        }
+        .result-row .total-bet-info {
+            font-size: 11px;
+            color: var(--sidebar-text-dim);
+            background: rgba(0, 0, 0, 0.05);
+            padding: 2px 12px;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+
+        /* ----- HISTORY CHIPS (baris) ----- */
+        .history-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+            margin-bottom: 6px;
+        }
+        .history-row .history-label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--sidebar-text-dim);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        .history-chips {
+            display: flex;
+            gap: 4px;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            flex: 1;
+            padding: 2px 0;
+        }
+        .history-chips .chip {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .chip.gold-bg {
+            background: #B09E5F;
+        }
+        .chip.red-bg {
+            background: #591616;
+        }
+        .chip.green-bg {
+            background: #144710;
+        }
+        .chip.empty-chip {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--sidebar-text-dim);
+            font-size: 8px;
+            border: 1px dashed var(--border-light);
+        }
+
+        /* ----- ACTION BUTTONS (baris) ----- */
+        .actions-row {
+            display: flex;
+            gap: 8px;
+            flex-shrink: 0;
+            margin-top: auto;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 12px;
+            border: none;
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            height: 36px;
+        }
+        .btn:active {
+            transform: scale(0.94);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 6px 18px var(--accent-glow);
+        }
+        .btn-ghost {
+            background: var(--sidebar-hover);
+            color: var(--sidebar-text);
+            border: 1px solid var(--border-light);
+        }
+        .btn-ghost:hover {
+            background: var(--sidebar-active);
+        }
+        .btn-danger-ghost {
+            background: transparent;
+            color: var(--toast-error);
+            border: 1px solid var(--toast-error);
+        }
+        .btn-danger-ghost:hover {
+            background: var(--toast-error);
+            color: #fff;
+        }
+        .btn-spin {
+            background: #b37b2e;
+            color: #ffefcf;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+        .btn-spin:hover {
+            background: #9e6a27;
+        }
+        .btn-spin:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-sm {
+            height: 30px;
+            padding: 4px 12px;
+            font-size: 11px;
+        }
+
+        /* ----- VIEW RIWAYAT (di area utama) ----- */
+        #viewHistory {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+        }
+        #viewHistory:not(.hidden) {
+            display: flex;
+        }
+
+        .history-list-main {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-top: 2px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        .history-item-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 6px 10px;
+            background: var(--main-bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            flex-wrap: wrap;
+            font-size: 12px;
+        }
+        .history-item-main .h-left {
+            flex: 1;
+            min-width: 100px;
+        }
+        .history-item-main .h-left .h-original {
+            color: var(--sidebar-text-dim);
+        }
+        .history-item-main .h-left .h-result {
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .history-item-main .h-actions {
+            display: flex;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .history-empty {
+            color: var(--sidebar-text-dim);
+            font-size: 12px;
+            text-align: center;
+            padding: 16px 0;
+            opacity: 0.6;
+        }
+        .history-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+        .history-header-main span {
+            font-size: 12px;
+            color: var(--sidebar-text-dim);
+        }
+
+        /* ----- TOAST ----- */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 340px;
+            width: 100%;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 10px 16px;
+            border-radius: var(--radius-sm);
+            background: var(--paper-bg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            color: var(--paper-text);
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+            animation: slideUp 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        .toast i {
+            font-size: 16px;
+        }
+        .toast.success i {
+            color: var(--toast-success);
+        }
+        .toast.error i {
+            color: var(--toast-error);
+        }
+        .toast.info i {
+            color: var(--accent);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- FOOTER UTAMA (pesan/info di sini) ----- */
+        .main-footer {
+            flex-shrink: 0;
+            padding: 4px 20px 6px 20px;
+            background: var(--header-bg);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            font-size: 11px;
+            color: var(--sidebar-text-dim);
+            min-height: 30px;
+        }
+        .main-footer .footer-message {
+            flex: 1;
+            text-align: center;
+            font-weight: 500;
+            color: var(--paper-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .main-footer .footer-message .highlight {
+            color: var(--accent);
+        }
+        .main-footer .footer-credit {
+            font-size: 10px;
+            opacity: 0.6;
+            flex-shrink: 0;
+        }
+
+        /* ===== SIDEBAR OVERLAY ===== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.40);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+        }
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: #ffffff;
+            max-width: 380px;
+            width: 90%;
+            padding: 24px 28px 20px 28px;
+            border-radius: var(--radius);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.20);
+            text-align: center;
+            animation: modalSlide 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .modal-box h3 {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 6px;
+            color: var(--paper-text);
+        }
+        .modal-box p {
+            color: #5a5a72;
+            font-size: 14px;
+            margin-bottom: 18px;
+            line-height: 1.5;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .modal-actions .btn {
+            min-width: 80px;
+            padding: 8px 0;
+            font-size: 13px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s;
+            font-family: inherit;
+        }
+        .modal-actions .btn:active {
+            transform: scale(0.96);
+        }
+        .btn-modal-cancel {
+            background: #f0f2f6;
+            color: var(--paper-text);
+        }
+        .btn-modal-cancel:hover {
+            background: #e4e7ee;
+        }
+        .btn-modal-danger {
+            background: #dc2626;
+            color: white;
+        }
+        .btn-modal-danger:hover {
+            background: #b91c1c;
+        }
+        .btn-modal-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-modal-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translateX(-100%);
+                height: 100vh;
+                width: 260px;
+                min-width: 260px;
+                box-shadow: 4px 0 40px rgba(0, 0, 0, 0.12);
+                transition: transform var(--transition);
+                z-index: 100;
+                border-right: none;
+                border-radius: 0 16px 16px 0;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .hamburger {
+                display: flex;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .main-header {
+                padding: 6px 12px;
+                min-height: 40px;
+            }
+            .paper-wrapper {
+                padding: 6px 10px 4px 10px;
+                gap: 6px;
+            }
+            .game-card {
+                padding: 10px 12px 8px 12px;
+            }
+            .stats-row .stat-value {
+                font-size: 15px;
+            }
+            .bet-card .color-swatch {
+                width: 30px;
+                height: 30px;
+            }
+            .bet-card .color-name {
+                font-size: 9px;
+            }
+            .result-row {
+                padding: 4px 10px;
+            }
+            .result-row .result-swatch {
+                width: 26px;
+                height: 26px;
+            }
+            .result-row .result-text {
+                font-size: 12px;
+            }
+            .history-chips .chip {
+                width: 22px;
+                height: 22px;
+                font-size: 8px;
+            }
+            .btn {
+                font-size: 11px;
+                height: 32px;
+                padding: 4px 12px;
+            }
+            .main-footer {
+                padding: 2px 12px 4px 12px;
+                font-size: 10px;
+                min-height: 26px;
+            }
+            .main-footer .footer-message {
+                white-space: normal;
+                text-align: left;
+            }
+            .header-title {
+                max-width: 100px;
+                font-size: 12px;
+            }
+            .toast-container {
+                right: 10px;
+                left: 10px;
+                max-width: unset;
+                bottom: 12px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .paper-wrapper {
+                padding: 4px 6px 2px 6px;
+            }
+            .game-card {
+                padding: 6px 8px 6px 8px;
+            }
+            .stats-row {
+                gap: 6px;
+            }
+            .stat-box {
+                padding: 2px 6px;
+            }
+            .stat-box .stat-value {
+                font-size: 13px;
+            }
+            .bet-row {
+                gap: 6px;
+            }
+            .bet-card {
+                padding: 4px 2px;
+            }
+            .bet-card .color-swatch {
+                width: 24px;
+                height: 24px;
+            }
+            .bet-card .color-name {
+                font-size: 8px;
+            }
+            .bet-card .bet-amount {
+                font-size: 7px;
+            }
+            .result-row {
+                padding: 3px 8px;
+                gap: 8px;
+            }
+            .result-row .result-swatch {
+                width: 22px;
+                height: 22px;
+            }
+            .result-row .result-text {
+                font-size: 11px;
+            }
+            .result-row .total-bet-info {
+                font-size: 9px;
+                padding: 1px 8px;
+            }
+            .history-chips .chip {
+                width: 18px;
+                height: 18px;
+                font-size: 7px;
+                border-radius: 5px;
+            }
+            .btn {
+                font-size: 10px;
+                height: 28px;
+                padding: 3px 8px;
+            }
+            .main-footer {
+                font-size: 9px;
+                min-height: 22px;
+                padding: 2px 8px 3px 8px;
+                flex-direction: column;
+                gap: 2px;
+            }
+            .main-footer .footer-message {
+                text-align: center;
+                font-size: 9px;
+            }
+            .main-footer .footer-credit {
+                font-size: 8px;
+            }
+            .header-title {
+                max-width: 70px;
+                font-size: 11px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <!-- SIDEBAR OVERLAY -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo" aria-label="Home">
+					<i class="fa-solid fa-house-chimney"></i>
+				</a>
+                <div class="sidebar-title">Tebak <span>Warna</span></div>
+            </div>
+
+            <div class="sidebar-nav">
+                <button class="btn-nav active" id="navGame" data-view="game">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="6" width="20" height="12" rx="2" />
+                        <path d="M12 12h.01" />
+                        <path d="M8 12h.01" />
+                        <path d="M16 12h.01" />
+                    </svg>
+                    Game
+                </button>
+                <button class="btn-nav" id="navHistory" data-view="history">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    Riwayat
+                </button>
+            </div>
+
+            <div class="sidebar-content" id="sidebarContent">
+                <!-- diisi JS -->
+            </div>
+
+            <div class="sidebar-footer">
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </aside>
+
+        <!-- ===== AREA UTAMA ===== -->
+        <main class="main">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="hamburger" id="hamburgerBtn"><i class="fas fa-bars"></i></button>
+                    <span class="header-title" id="headerTitle"><span class="dot"></span>Game</span>
+                </div>
+                <div class="header-right">
+                    <button class="btn-icon btn-icon-primary" id="themeToggle"><i class="fas fa-sun" id="themeIcon"></i></button>
+                </div>
+            </header>
+
+            <div class="paper-wrapper" id="paperWrapper">
+                <!-- VIEW GAME -->
+                <div id="viewGame" style="display:flex;flex-direction:column;height:100%;min-height:0;">
+                    <div class="game-card">
+                        <div class="card-title">
+                            <i class="fas fa-gamepad"></i> Tebak Warna · Gold / Red / Green
+                        </div>
+
+                        <!-- STATS -->
+                        <div class="stats-row">
+                            <div class="stat-box">
+                                <div class="stat-label">❤️ Life Point</div>
+                                <div class="stat-value lp-color" id="lpValue">1200</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-label">👛 Wallet</div>
+                                <div class="stat-value wallet-color" id="walletValue">0</div>
+                            </div>
+                        </div>
+
+                        <!-- BET CARDS -->
+                        <div class="bet-row" id="betColorsContainer">
+                            <div class="bet-card" data-color="gold" id="betGold">
+                                <div class="color-swatch swatch-gold"></div>
+                                <div class="color-name gold-text">✨ GOLD</div>
+                                <div class="bet-amount">200 LP</div>
+                            </div>
+                            <div class="bet-card" data-color="red" id="betRed">
+                                <div class="color-swatch swatch-red"></div>
+                                <div class="color-name red-text">🔥 RED</div>
+                                <div class="bet-amount">200 LP</div>
+                            </div>
+                            <div class="bet-card" data-color="green" id="betGreen">
+                                <div class="color-swatch swatch-green"></div>
+                                <div class="color-name green-text">🌿 GREEN</div>
+                                <div class="bet-amount">200 LP</div>
+                            </div>
+                        </div>
+
+                        <!-- RESULT -->
+                        <div class="result-row">
+                            <div class="result-swatch" id="resultSwatch"></div>
+                            <div class="result-text">
+                                Hasil: <span class="color-result-name" id="resultColorName">-</span>
+                            </div>
+                            <span class="total-bet-info" id="totalBetInfo">0 warna</span>
+                        </div>
+
+                        <!-- HISTORY CHIPS -->
+                        <div class="history-row">
+                            <span class="history-label">📜 History</span>
+                            <div class="history-chips" id="historyContainer">
+                                <!-- diisi JS -->
+                            </div>
+                        </div>
+
+                        <!-- ACTION BUTTONS -->
+                        <div class="actions-row">
+                            <button class="btn btn-spin" id="spinBtn"><i class="fas fa-dice"></i> SPIN</button>
+                            <button class="btn btn-ghost" id="resetBtn"><i class="fas fa-rotate-right"></i> Reset</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW RIWAYAT -->
+                <div id="viewHistory" class="hidden">
+                    <div class="game-card">
+                        <div class="card-title">
+                            <i class="fas fa-clock-rotate-left"></i> Riwayat Spin
+                        </div>
+                        <div class="history-header-main">
+                            <span id="historyCountMain">0 item</span>
+                            <button class="btn btn-danger-ghost btn-sm" id="clearHistoryBtnMain"><i class="fas fa-trash-can"></i> Hapus Semua</button>
+                        </div>
+                        <div class="history-list-main" id="historyListMain">
+                            <div class="history-empty">Belum ada riwayat spin.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== FOOTER (pesan/info di sini) ===== -->
+            <footer class="main-footer" id="mainFooter">
+                <span class="footer-message" id="footerMessage">✨ Pilih warna (1-3) lalu <span class="highlight">SPIN</span> · Benar +394 LP · Salah -200 LP</span>
+                <span class="footer-credit">Muthinx Color Guess</span>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box" id="modalBox">
+            <h3 id="modalTitle">⚠️ Hapus riwayat?</h3>
+            <p id="modalMessage">Data riwayat akan dihapus permanen.</p>
+            <div class="modal-actions" id="modalActions">
+                <button class="btn btn-modal-cancel" id="modalCancelBtn">Batal</button>
+                <button class="btn btn-modal-danger" id="modalConfirmBtn">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const hamburger = document.getElementById('hamburgerBtn');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const headerTitle = document.getElementById('headerTitle');
+
+            const navGame = document.getElementById('navGame');
+            const navHistory = document.getElementById('navHistory');
+            const viewGame = document.getElementById('viewGame');
+            const viewHistory = document.getElementById('viewHistory');
+            const sidebarContent = document.getElementById('sidebarContent');
+
+            const lpElement = document.getElementById('lpValue');
+            const walletElement = document.getElementById('walletValue');
+            const spinBtn = document.getElementById('spinBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const resultSwatch = document.getElementById('resultSwatch');
+            const resultColorName = document.getElementById('resultColorName');
+            const totalBetInfo = document.getElementById('totalBetInfo');
+            const historyContainer = document.getElementById('historyContainer');
+            const footerMessage = document.getElementById('footerMessage');
+
+            const betGold = document.getElementById('betGold');
+            const betRed = document.getElementById('betRed');
+            const betGreen = document.getElementById('betGreen');
+
+            const historyListMain = document.getElementById('historyListMain');
+            const historyCountMain = document.getElementById('historyCountMain');
+            const clearHistoryBtnMain = document.getElementById('clearHistoryBtnMain');
+
+            const toastContainer = document.getElementById('toastContainer');
+
+            // Modal
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+            const STORAGE_KEY = 'muthinx_color_history';
+
+            // ============================================================
+            // KONFIGURASI WARNA
+            // ============================================================
+            const COLORS = {
+                gold: { name: 'GOLD', hex: '#B09E5F', short: '✨', bgClass: 'gold-bg' },
+                red: { name: 'RED', hex: '#591616', short: '🔥', bgClass: 'red-bg' },
+                green: { name: 'GREEN', hex: '#144710', short: '🌿', bgClass: 'green-bg' }
+            };
+            const COLOR_LIST = ['gold', 'red', 'green'];
+
+            // ============================================================
+            // STATE
+            // ============================================================
+            let lp = 1200;
+            let wallet = 0;
+            let gameActive = true;
+            let selectedBets = { gold: false, red: false, green: false };
+            let historyWinners = []; // max 8
+
+            // ============================================================
+            // TEMA
+            // ============================================================
+            function getStoredTheme() {
+                return localStorage.getItem('muthinx-theme') || 'light';
+            }
+
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('muthinx-theme', theme);
+                themeIcon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+            setTheme(getStoredTheme());
+            themeToggle.addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-theme');
+                setTheme(current === 'dark' ? 'light' : 'dark');
+            });
+
+            // ============================================================
+            // SIDEBAR TOGGLE
+            // ============================================================
+            function toggleSidebar(open) {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('open', open);
+                    overlay.classList.toggle('active', open);
+                }
+            }
+            hamburger.addEventListener('click', function() { toggleSidebar(!sidebar.classList.contains('open')); });
+            overlay.addEventListener('click', function() { toggleSidebar(false); });
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+            });
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    const isSidebar = e.target.closest('.sidebar');
+                    const isHamburger = e.target.closest('.hamburger');
+                    if (!isSidebar && !isHamburger && sidebar.classList.contains('open')) {
+                        toggleSidebar(false);
+                    }
+                }
+            });
+
+            // ============================================================
+            // TOAST
+            // ============================================================
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                const iconMap = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
+                toast.innerHTML = `<i class="fas ${iconMap[type] || iconMap.info}"></i> ${message}`;
+                toastContainer.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(40px)';
+                    toast.style.transition = 'opacity 0.3s, transform 0.3s';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3000);
+            }
+
+            // ============================================================
+            // RIWAYAT (localStorage)
+            // ============================================================
+            function getHistory() {
+                try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch (_) { return []; }
+            }
+
+            function saveHistory(resultColor, betColors, deltaLP) {
+                const history = getHistory();
+                const entry = {
+                    result: resultColor,
+                    bets: betColors.join(', '),
+                    delta: deltaLP,
+                    timestamp: Date.now()
+                };
+                history.unshift(entry);
+                if (history.length > 50) history.pop();
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+                renderAllHistory();
+            }
+
+            function deleteHistoryItem(index) {
+                const history = getHistory();
+                if (index >= 0 && index < history.length) {
+                    history.splice(index, 1);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+                    renderAllHistory();
+                    showToast('Riwayat dihapus.', 'info');
+                }
+            }
+
+            function clearAllHistory() {
+                if (getHistory().length === 0) {
+                    showToast('Riwayat sudah kosong.', 'info');
+                    return;
+                }
+                showModal('⚠️ Hapus semua riwayat?', 'Semua data riwayat akan dihapus permanen.', 'Ya, Hapus Semua', 'danger')
+                    .then(confirmed => {
+                        if (confirmed) {
+                            localStorage.removeItem(STORAGE_KEY);
+                            renderAllHistory();
+                            showToast('Semua riwayat dihapus.', 'success');
+                        }
+                    });
+            }
+
+            function renderAllHistory() {
+                renderHistoryMain();
+                renderHistorySidebar();
+            }
+
+            function renderHistoryMain() {
+                const history = getHistory();
+                historyCountMain.textContent = `${history.length} item`;
+                if (history.length === 0) {
+                    historyListMain.innerHTML = `<div class="history-empty">Belum ada riwayat spin.</div>`;
+                    return;
+                }
+                let html = '';
+                history.forEach((item, index) => {
+                    const time = new Date(item.timestamp).toLocaleString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        day: 'numeric',
+                        month: 'short'
+                    });
+                    const colorData = COLORS[item.result] || COLORS.gold;
+                    const deltaStr = item.delta >= 0 ? `+${item.delta}` : `${item.delta}`;
+                    const deltaClass = item.delta >= 0 ? 'style="color:var(--toast-success);"' :
+                        'style="color:var(--toast-error);"';
+                    html += `
+                                <div class="history-item-main">
+                                    <div class="h-left">
+                                        <div class="h-original">🎯 ${colorData.short} ${colorData.name} · Taruhan: ${item.bets}</div>
+                                        <div class="h-result" ${deltaClass}>${deltaStr} LP</div>
+                                        <div style="font-size:10px;color:var(--sidebar-text-dim);">${time}</div>
+                                    </div>
+                                    <div class="h-actions">
+                                        <button class="btn btn-danger-ghost btn-sm" onclick="deleteHistoryItem(${index})"><i class="fas fa-trash-can"></i></button>
+                                    </div>
+                                </div>
+                            `;
+                });
+                historyListMain.innerHTML = html;
+            }
+
+            function renderHistorySidebar() {
+                const history = getHistory();
+                if (history.length === 0) {
+                    sidebarContent.innerHTML = `<div class="sidebar-empty">Belum ada riwayat</div>`;
+                    return;
+                }
+                let html = '';
+                history.slice(0, 15).forEach((item, index) => {
+                    const time = new Date(item.timestamp).toLocaleString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    const colorData = COLORS[item.result] || COLORS.gold;
+                    const label = `${colorData.short} ${item.bets.substring(0, 12)}${item.bets.length > 12 ? '…' : ''}`;
+                    html += `
+                                <div class="history-item-sidebar" data-index="${index}">
+                                    <span class="h-name">${label}</span>
+                                    <span class="h-time">${time}</span>
+                                    <button class="h-menu" data-index="${index}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="5" r="1.5" />
+                                            <circle cx="12" cy="12" r="1.5" />
+                                            <circle cx="12" cy="19" r="1.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown" data-index="${index}">
+                                        <button class="dropdown-item danger" onclick="deleteHistoryItem(${index})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                });
+                sidebarContent.innerHTML = html;
+
+                // Event untuk dropdown di sidebar
+                document.querySelectorAll('.history-item-sidebar .h-menu').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const parent = this.closest('.history-item-sidebar');
+                        const dropdown = parent.querySelector('.dropdown');
+                        if (!dropdown) return;
+                        document.querySelectorAll('.dropdown.open').forEach(d => d !== dropdown && d.classList
+                            .remove('open'));
+                        dropdown.classList.toggle('open');
+                    });
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.h-menu') && !e.target.closest('.dropdown')) {
+                        document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+                    }
+                });
+            }
+
+            // ============================================================
+            // MODAL
+            // ============================================================
+            let modalResolve = null;
+
+            function showModal(title, message, confirmLabel = 'OK', type = 'primary') {
+                return new Promise((resolve) => {
+                    modalTitle.textContent = title;
+                    modalMessage.textContent = message;
+                    const isDanger = type === 'danger';
+                    modalConfirmBtn.className = 'btn ' + (isDanger ? 'btn-modal-danger' : 'btn-modal-primary');
+                    modalConfirmBtn.textContent = confirmLabel;
+                    modalCancelBtn.textContent = 'Batal';
+                    modalOverlay.classList.add('active');
+                    modalResolve = resolve;
+                });
+            }
+
+            modalCancelBtn.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) { modalResolve(false);
+                    modalResolve = null; }
+            });
+            modalConfirmBtn.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) { modalResolve(true);
+                    modalResolve = null; }
+            });
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    if (modalResolve) { modalResolve(false);
+                        modalResolve = null; }
+                }
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    modalOverlay.classList.remove('active');
+                    if (modalResolve) { modalResolve(false);
+                        modalResolve = null; }
+                }
+            });
+
+            // ============================================================
+            // SWITCH VIEW
+            // ============================================================
+            function switchView(view) {
+                if (view === 'game') {
+                    viewGame.style.display = 'flex';
+                    viewHistory.classList.add('hidden');
+                    navGame.classList.add('active');
+                    navHistory.classList.remove('active');
+                    headerTitle.innerHTML = '<span class="dot"></span>Game';
+                } else {
+                    viewGame.style.display = 'none';
+                    viewHistory.classList.remove('hidden');
+                    viewHistory.style.display = 'flex';
+                    navHistory.classList.add('active');
+                    navGame.classList.remove('active');
+                    headerTitle.innerHTML = '<span class="dot"></span>Riwayat';
+                    renderHistoryMain(); // refresh konten
+                }
+                if (window.innerWidth <= 768) toggleSidebar(false);
+            }
+
+            navGame.addEventListener('click', function() { switchView('game'); });
+            navHistory.addEventListener('click', function() { switchView('history'); });
+
+            // ============================================================
+            // GAME LOGIC
+            // ============================================================
+            function getSelectedCount() {
+                let count = 0;
+                if (selectedBets.gold) count++;
+                if (selectedBets.red) count++;
+                if (selectedBets.green) count++;
+                return count;
+            }
+
+            function updateUI() {
+                lpElement.textContent = Math.floor(lp);
+                walletElement.textContent = Math.floor(wallet);
+                const count = getSelectedCount();
+                totalBetInfo.textContent = `${count} warna`;
+
+                betGold.classList.toggle('selected', selectedBets.gold);
+                betRed.classList.toggle('selected', selectedBets.red);
+                betGreen.classList.toggle('selected', selectedBets.green);
+
+                spinBtn.disabled = !gameActive || lp <= 0;
+
+                renderHistoryChips();
+                updateFooterMessage();
+            }
+
+            function renderHistoryChips() {
+                historyContainer.innerHTML = '';
+                if (historyWinners.length === 0) {
+                    const chip = document.createElement('div');
+                    chip.className = 'chip empty-chip';
+                    chip.textContent = '⚡';
+                    historyContainer.appendChild(chip);
+                    return;
+                }
+                // tampilkan dari terbaru ke lama
+                for (let i = historyWinners.length - 1; i >= 0; i--) {
+                    const key = historyWinners[i];
+                    const data = COLORS[key];
+                    const chip = document.createElement('div');
+                    chip.className = `chip ${data.bgClass}`;
+                    chip.textContent = data.short;
+                    chip.title = data.name;
+                    historyContainer.appendChild(chip);
+                }
+            }
+
+            function addHistory(colorKey) {
+                historyWinners.push(colorKey);
+                if (historyWinners.length > 8) historyWinners.shift();
+                renderHistoryChips();
+            }
+
+            function updateFooterMessage(msg) {
+                if (msg) {
+                    footerMessage.innerHTML = msg;
+                } else {
+                    const count = getSelectedCount();
+                    if (count === 0) {
+                        footerMessage.innerHTML = '⚠️ Pilih minimal 1 warna lalu <span class="highlight">SPIN</span>';
+                    } else if (!gameActive) {
+                        footerMessage.innerHTML = '💀 Game Over. Tekan <span class="highlight">Reset</span> untuk bermain lagi.';
+                    } else if (lp <= 0) {
+                        footerMessage.innerHTML = '💀 Life Point habis! <span class="highlight">Reset</span> atau tunggu refill.';
+                    } else {
+                        footerMessage.innerHTML =
+                            `🎯 ${count} warna aktif · Benar +394 LP · Salah -200 LP · Tekan <span class="highlight">SPIN</span>`;
+                    }
+                }
+            }
+
+            function transferExcessToWallet() {
+                if (lp > 1200) {
+                    const excess = lp - 1200;
+                    wallet += excess;
+                    lp = 1200;
+                    updateFooterMessage(`💎 Kelebihan LP +${Math.floor(excess)} masuk Wallet!`);
+                    updateUI();
+                }
+            }
+
+            function tryRefillFromWallet() {
+                if (lp <= 0 && wallet >= 1200) {
+                    showModal('🔄 Refill LP', `Wallet: ${Math.floor(wallet)} LP. Ambil 1200 LP untuk melanjutkan?`, 'Ya, Ambil',
+                        'primary').then(confirmed => {
+                        if (confirmed) {
+                            wallet -= 1200;
+                            lp = 1200;
+                            gameActive = true;
+                            updateFooterMessage('🔄 Refill! LP kembali ke 1200. Selamat bermain!');
+                            updateUI();
+                            spinBtn.disabled = false;
+                        } else {
+                            gameActive = false;
+                            updateFooterMessage('💀 Game Over. Tekan Reset untuk memulai ulang.');
+                            updateUI();
+                            spinBtn.disabled = true;
+                        }
+                    });
+                    return true;
+                } else if (lp <= 0 && wallet < 1200) {
+                    gameActive = false;
+                    updateFooterMessage('💀 Game Over · Wallet < 1200 LP. Tekan Reset.');
+                    updateUI();
+                    spinBtn.disabled = true;
+                    return false;
+                }
+                return true;
+            }
+
+            function spinGame() {
+                if (!gameActive) {
+                    updateFooterMessage('❌ Game sudah berakhir. Tekan <span class="highlight">Reset</span>.');
+                    return;
+                }
+                if (getSelectedCount() === 0) {
+                    updateFooterMessage('⚠️ Pilih minimal 1 warna!');
+                    return;
+                }
+                if (lp <= 0) {
+                    tryRefillFromWallet();
+                    return;
+                }
+
+                // RNG
+                const idx = Math.floor(Math.random() * COLOR_LIST.length);
+                const resultKey = COLOR_LIST[idx];
+                const resultData = COLORS[resultKey];
+
+                // tampilkan hasil
+                resultSwatch.style.backgroundColor = resultData.hex;
+                resultColorName.textContent = resultData.name;
+
+                // hitung delta
+                let deltaLP = 0;
+                const betColors = [];
+                let winDetails = [];
+
+                for (const color of Object.keys(selectedBets)) {
+                    if (selectedBets[color]) {
+                        betColors.push(color);
+                        if (color === resultKey) {
+                            deltaLP += 394;
+                            winDetails.push(`✅ ${COLORS[color].name} +394`);
+                        } else {
+                            deltaLP -= 200;
+                            winDetails.push(`❌ ${COLORS[color].name} -200`);
+                        }
+                    }
+                }
+
+                const oldLP = lp;
+                lp = Math.max(0, oldLP + deltaLP);
+                addHistory(resultKey);
+
+                // simpan riwayat global
+                saveHistory(resultKey, betColors, deltaLP);
+
+                // update footer
+                const deltaStr = deltaLP >= 0 ? `+${deltaLP}` : `${deltaLP}`;
+                const emoji = deltaLP >= 0 ? '🎉' : '😢';
+                updateFooterMessage(
+                    `${emoji} Hasil: ${resultData.short} ${resultData.name} · ${winDetails.join(' · ')} · ${deltaStr} LP`
+                );
+
+                updateUI();
+                transferExcessToWallet();
+
+                if (lp <= 0) {
+                    tryRefillFromWallet();
+                } else {
+                    gameActive = true;
+                    spinBtn.disabled = false;
+                }
+                updateUI();
+
+                // reset message setelah 3 detik
+                setTimeout(() => {
+                    if (gameActive && lp > 0) {
+                        updateFooterMessage(null);
+                    }
+                }, 4000);
+            }
+
+            // ============================================================
+            // RESET
+            // ============================================================
+            function resetGame() {
+                lp = 1200;
+                wallet = 0;
+                gameActive = true;
+                selectedBets = { gold: false, red: false, green: false };
+                resultSwatch.style.backgroundColor = '#2c3e2f';
+                resultColorName.textContent = '-';
+                historyWinners = [];
+                renderHistoryChips();
+                updateFooterMessage('🔄 Game direset! Pilih warna dan SPIN.');
+                updateUI();
+                spinBtn.disabled = false;
+                // sembunyikan modal
+                modalOverlay.classList.remove('active');
+            }
+
+            // ============================================================
+            // TOGGLE BET
+            // ============================================================
+            function toggleBet(colorKey) {
+                if (!gameActive) {
+                    updateFooterMessage('❌ Game over. Reset dulu.');
+                    return;
+                }
+                selectedBets[colorKey] = !selectedBets[colorKey];
+                const name = COLORS[colorKey].name;
+                const status = selectedBets[colorKey] ? '✅' : '❌';
+                updateFooterMessage(`${status} ${name} ${selectedBets[colorKey] ? 'dipasang' : 'dibatalkan'}`);
+                updateUI();
+                setTimeout(() => {
+                    if (gameActive) updateFooterMessage(null);
+                }, 1500);
+            }
+
+            // ============================================================
+            // EVENT LISTENERS
+            // ============================================================
+            betGold.addEventListener('click', function() { toggleBet('gold'); });
+            betRed.addEventListener('click', function() { toggleBet('red'); });
+            betGreen.addEventListener('click', function() { toggleBet('green'); });
+
+            spinBtn.addEventListener('click', spinGame);
+
+            resetBtn.addEventListener('click', function() {
+                resetGame();
+                showToast('Game direset!', 'info');
+            });
+
+            clearHistoryBtnMain.addEventListener('click', clearAllHistory);
+
+            // keyboard shortcut: Enter untuk spin
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !modalOverlay.classList.contains('active')) {
+                    if (!viewHistory.classList.contains('hidden') && viewHistory.style.display === 'flex') {
+                        // jika di view history, pindah ke game
+                        switchView('game');
+                    } else {
+                        spinGame();
+                    }
+                }
+            });
+
+            // ============================================================
+            // EKSPOS GLOBAL (agar tombol hapus di riwayat bisa dipanggil dari onclick)
+            // ============================================================
+            window.deleteHistoryItem = deleteHistoryItem;
+
+            // ============================================================
+            // INISIALISASI
+            // ============================================================
+            // Set sosial media
+            const socialLinks = document.querySelectorAll('.sidebar-footer a');
+            if (socialLinks.length >= 4) {
+					socialLinks[0].href = 'https://instagram.com/salimmuthinx';
+                    socialLinks[1].href = 'https://facebook.com/muthinx';
+                    socialLinks[2].href = 'https://tiktok.com/@bengkel.kangacul';
+                    socialLinks[3].href = 'https://github.com/muthinx';
+            }
+
+            // Muat riwayat dari localStorage
+            renderAllHistory();
+            // Tampilkan game
+            switchView('game');
+            resultSwatch.style.backgroundColor = '#2c3e2f';
+            resultColorName.textContent = '-';
+            updateUI();
+            updateFooterMessage('✨ Pilih warna lalu <span class="highlight">SPIN</span> · Benar +394 LP · Salah -200 LP');
+
+            console.log('🎮 Muthinx Color Guess siap!');
+            console.log('📂 Riwayat:', getHistory().length, 'item');
+
+        })();
+    </script>
+
+</body>
+</html>

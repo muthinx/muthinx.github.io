@@ -1,0 +1,2036 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta name="description" content="Bismillah" />
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6ef7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>" />
+    <title>Dotalias Generator</title>
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <!-- Font Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+           RESET & GLOBAL (SAMA PERSIS DENGAN GDRIVEDIRECT.HTML)
+           ============================================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f6;
+            overflow: hidden;
+            color: #1a1a2e;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        :root {
+            --sidebar-bg: #f4f6fa;
+            --sidebar-hover: #e9ecf2;
+            --sidebar-active: #dde1e9;
+            --sidebar-border: #dce0e8;
+            --sidebar-text: #1a1a2e;
+            --sidebar-text-dim: #6b7280;
+            --accent: #4f6ef7;
+            --accent-hover: #3a55d9;
+            --accent-glow: rgba(79, 110, 247, 0.25);
+            --main-bg: #f0f2f6;
+            --paper-bg: #ffffff;
+            --paper-text: #1a1a2e;
+            --header-bg: rgba(255, 255, 255, 0.72);
+            --border-light: #e6e9f0;
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.10);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --toast-success: #22c55e;
+            --toast-error: #ef4444;
+        }
+
+        [data-theme="dark"] {
+            --sidebar-bg: #18182a;
+            --sidebar-hover: #22223a;
+            --sidebar-active: #2a2a48;
+            --sidebar-border: #2a2a48;
+            --sidebar-text: #f0f0f8;
+            --sidebar-text-dim: #8a8ea0;
+            --main-bg: #0f0f1a;
+            --paper-bg: #1e1e32;
+            --paper-text: #f0f0f8;
+            --header-bg: rgba(20, 20, 40, 0.80);
+            --border-light: #2a2a48;
+            --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.40);
+            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.50);
+            --accent: #6a84ff;
+            --accent-hover: #5a74ef;
+            --accent-glow: rgba(106, 132, 255, 0.30);
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c8ccd8;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8aec0;
+        }
+
+        /* ============================================================
+           APP LAYOUT
+           ============================================================ */
+        .app {
+            display: flex;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 280px;
+            min-width: 280px;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+            transition: transform var(--transition), min-width var(--transition);
+            z-index: 100;
+            flex-shrink: 0;
+            border-right: 1px solid var(--sidebar-border);
+            position: relative;
+        }
+
+        .sidebar-header {
+            padding: 22px 20px 14px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--sidebar-border);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .sidebar-logo {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: var(--radius-sm);
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 4px 16px var(--accent-glow);
+			transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+			text-decoration: none;
+        }
+
+		.sidebar-logo:hover {
+			transform: scale(1.08) rotate(2deg);
+			box-shadow: 0 6px 24px var(--accent-glow);
+			background: var(--accent-hover);
+		}
+
+        .sidebar-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--sidebar-text);
+            letter-spacing: -0.2px;
+            white-space: nowrap;
+        }
+        .sidebar-title span {
+            color: var(--accent);
+        }
+
+        /* ----- MENU NAVIGASI ----- */
+        .sidebar-nav {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            border-bottom: 1px solid var(--sidebar-border);
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-nav {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 12px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.04);
+            color: var(--sidebar-text);
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            width: 100%;
+            justify-content: center;
+            font-family: inherit;
+            letter-spacing: 0.2px;
+        }
+        .btn-nav:hover {
+            background: rgba(0, 0, 0, 0.08);
+        }
+        .btn-nav:active {
+            transform: scale(0.96);
+        }
+        .btn-nav.active {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+        .btn-nav.active svg {
+            opacity: 1;
+        }
+        .btn-nav svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        /* ----- KONTEN SIDEBAR (riwayat) ----- */
+        .sidebar-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 10px 20px 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .history-item-sidebar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            margin: 2px 0;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s;
+            color: var(--sidebar-text);
+            gap: 8px;
+        }
+        .history-item-sidebar:hover {
+            background: var(--sidebar-hover);
+        }
+        .history-item-sidebar .h-name {
+            font-size: 13px;
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            letter-spacing: 0.1px;
+        }
+        .history-item-sidebar .h-time {
+            font-size: 11px;
+            color: var(--sidebar-text-dim);
+            flex-shrink: 0;
+        }
+        .history-item-sidebar .h-menu {
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            color: var(--sidebar-text-dim);
+            transition: background var(--transition), color var(--transition);
+        }
+        .history-item-sidebar .h-menu:hover {
+            background: rgba(0, 0, 0, 0.06);
+            color: var(--sidebar-text);
+        }
+
+        .sidebar-empty {
+            color: var(--sidebar-text-dim);
+            font-size: 13px;
+            text-align: center;
+            padding: 40px 16px;
+            opacity: 0.6;
+        }
+
+        /* ----- DROPDOWN ----- */
+        .dropdown {
+            position: absolute;
+            right: 0;
+            top: 110%;
+            background: #ffffff;
+            border-radius: var(--radius);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            min-width: 190px;
+            padding: 6px 0;
+            display: none;
+            z-index: 200;
+            animation: dropFade 0.18s ease-out;
+            border: 1px solid var(--sidebar-border);
+        }
+        .dropdown.open {
+            display: block;
+        }
+        @keyframes dropFade {
+            from {
+                opacity: 0;
+                transform: scale(0.94) translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 16px;
+            font-size: 13px;
+            color: var(--sidebar-text);
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            transition: background 0.12s;
+            border-radius: 0;
+            font-family: inherit;
+            letter-spacing: 0.1px;
+        }
+        .dropdown-item:hover {
+            background: var(--sidebar-hover);
+        }
+        .dropdown-item:first-child {
+            border-radius: var(--radius) var(--radius) 0 0;
+        }
+        .dropdown-item:last-child {
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+        .dropdown-item.danger {
+            color: #dc2626;
+        }
+        .dropdown-item.danger:hover {
+            background: #fde8e8;
+        }
+        .dropdown-item svg {
+            flex-shrink: 0;
+            opacity: 0.7;
+        }
+
+        /* ----- FOOTER SIDEBAR (sosial media) ----- */
+        .sidebar-footer {
+            flex-shrink: 0;
+            padding: 12px 16px 16px 16px;
+            border-top: 1px solid var(--sidebar-border);
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+        .sidebar-footer a {
+            color: var(--sidebar-text-dim);
+            font-size: 20px;
+            transition: color var(--transition), transform 0.15s;
+            text-decoration: none;
+        }
+        .sidebar-footer a:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.1);
+        }
+
+        /* ===== AREA UTAMA ===== */
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-width: 0;
+            background: var(--main-bg);
+            position: relative;
+        }
+
+        /* ----- HEADER / TOOLBAR ----- */
+        .main-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 28px;
+            background: var(--header-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-light);
+            flex-shrink: 0;
+            min-height: 60px;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-width: 0;
+        }
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 6px;
+            color: var(--paper-text);
+            border-radius: var(--radius-sm);
+            transition: background var(--transition);
+        }
+        .hamburger:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--paper-text);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 320px;
+            letter-spacing: -0.2px;
+        }
+        .header-title .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            margin-right: 10px;
+            vertical-align: middle;
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            flex-shrink: 0;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            padding: 8px 10px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            color: #5a5a72;
+            transition: background var(--transition), color var(--transition), transform 0.12s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        .btn-icon:hover {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--paper-text);
+        }
+        .btn-icon:active {
+            transform: scale(0.92);
+        }
+        .btn-icon-primary:hover {
+            background: rgba(79, 110, 247, 0.10);
+            color: var(--accent);
+        }
+
+        /* ----- PAPER WRAPPER (KONTEN UTAMA) ----- */
+        .paper-wrapper {
+            flex: 1;
+            min-height: 0;
+            padding: 24px 32px 16px 32px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* --- KARTU GENERATOR --- */
+        .generator-card {
+            background: var(--paper-bg);
+            border-radius: var(--radius);
+            padding: 24px 26px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: border var(--transition), box-shadow var(--transition);
+        }
+        .generator-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .generator-card .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--paper-text);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .generator-card .card-title i {
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .input-row .input-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border-light);
+            background: var(--main-bg);
+            color: var(--paper-text);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: border var(--transition), box-shadow var(--transition);
+            outline: none;
+            resize: vertical;
+            min-height: 52px;
+        }
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        .input-field::placeholder {
+            color: var(--sidebar-text-dim);
+            opacity: 0.6;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            font-family: 'Inter', sans-serif;
+            white-space: nowrap;
+            height: 44px;
+        }
+        .btn:active {
+            transform: scale(0.94);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 6px 18px var(--accent-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--accent);
+            border: 1.5px solid var(--accent);
+        }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 12px var(--accent-glow);
+        }
+
+        .btn-ghost {
+            background: var(--sidebar-hover);
+            color: var(--sidebar-text);
+            border: 1px solid var(--border-light);
+        }
+        .btn-ghost:hover {
+            background: var(--sidebar-active);
+        }
+
+        .btn-danger-ghost {
+            background: transparent;
+            color: var(--toast-error);
+            border: 1px solid var(--toast-error);
+        }
+        .btn-danger-ghost:hover {
+            background: var(--toast-error);
+            color: #fff;
+        }
+
+        .btn-sm {
+            height: 34px;
+            padding: 4px 14px;
+            font-size: 12px;
+        }
+
+        .btn-success {
+            background: var(--toast-success);
+            color: #fff;
+        }
+        .btn-success:hover {
+            background: #16a34a;
+        }
+
+        .btn-csv {
+            background: #2d7d3a;
+            color: #fff;
+        }
+        .btn-csv:hover {
+            background: #1f5f2a;
+        }
+
+        /* Opsi tambahan */
+        .options-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin: 12px 0 4px 0;
+            padding: 12px 16px;
+            background: var(--main-bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        .opt-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--sidebar-text-dim);
+        }
+        .opt-group label {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+        .opt-group input[type="checkbox"] {
+            width: 17px;
+            height: 17px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        .opt-group select,
+        .opt-group input[type="number"],
+        .opt-group input[type="text"] {
+            padding: 5px 10px;
+            border-radius: 6px;
+            border: 1.5px solid var(--border-light);
+            background: var(--paper-bg);
+            color: var(--paper-text);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            outline: none;
+            transition: border var(--transition);
+        }
+        .opt-group select:focus,
+        .opt-group input:focus {
+            border-color: var(--accent);
+        }
+        .opt-group input[type="number"] {
+            width: 70px;
+            text-align: center;
+        }
+        .opt-group input[type="text"] {
+            width: 80px;
+        }
+
+        /* Status bar */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 4px 0 10px 0;
+        }
+        .status-bar .count {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--sidebar-text-dim);
+        }
+        .status-bar .count strong {
+            color: var(--paper-text);
+            font-weight: 700;
+        }
+        .status-bar .count .limit-info {
+            font-weight: 400;
+            font-size: 13px;
+            margin-left: 6px;
+        }
+        .status-bar .count .limit-info em {
+            font-style: normal;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .status-bar .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        /* Textarea hasil */
+        .textarea-wrap {
+            position: relative;
+            margin-top: 2px;
+        }
+        .textarea-wrap textarea {
+            width: 100%;
+            height: 340px;
+            padding: 14px 16px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13px;
+            line-height: 1.7;
+            background: var(--main-bg);
+            border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            color: var(--paper-text);
+            resize: vertical;
+            transition: border var(--transition), box-shadow var(--transition);
+            outline: none;
+            tab-size: 2;
+        }
+        .textarea-wrap textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        .textarea-wrap textarea::selection {
+            background: var(--accent-glow);
+            color: var(--paper-text);
+        }
+
+        .textarea-wrap textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+        .textarea-wrap textarea::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .textarea-wrap textarea::-webkit-scrollbar-thumb {
+            background: var(--border-light);
+            border-radius: 6px;
+        }
+        .textarea-wrap textarea::-webkit-scrollbar-thumb:hover {
+            background: var(--sidebar-text-dim);
+        }
+
+        /* ----- VIEW RIWAYAT (di area utama) ----- */
+        .history-list-main {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .history-item-main {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 14px;
+            background: var(--main-bg);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            flex-wrap: wrap;
+        }
+        .history-item-main .h-left {
+            flex: 1;
+            min-width: 150px;
+        }
+        .history-item-main .h-left .h-original {
+            font-size: 12px;
+            color: var(--sidebar-text-dim);
+            word-break: break-all;
+        }
+        .history-item-main .h-left .h-count {
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .history-item-main .h-actions {
+            display: flex;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .history-empty {
+            color: var(--sidebar-text-dim);
+            font-size: 13px;
+            text-align: center;
+            padding: 20px 0;
+            opacity: 0.6;
+        }
+        .history-header-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* ----- TOAST NOTIFICATION ----- */
+        .toast-container {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 380px;
+            width: 100%;
+            pointer-events: none;
+        }
+        .toast {
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            background: var(--paper-bg);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-md);
+            color: var(--paper-text);
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            pointer-events: auto;
+            animation: slideUp 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+        .toast i {
+            font-size: 18px;
+        }
+        .toast.success i {
+            color: var(--toast-success);
+        }
+        .toast.error i {
+            color: var(--toast-error);
+        }
+        .toast.info i {
+            color: var(--accent);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ----- FOOTER (bawah main) ----- */
+        .main-footer {
+            flex-shrink: 0;
+            padding: 10px 28px 14px 28px;
+            background: transparent;
+            text-align: right;
+            font-size: 12.5px;
+            color: #9a9eb0;
+            user-select: none;
+            letter-spacing: 0.3px;
+            font-weight: 400;
+        }
+        .main-footer span {
+            background: rgba(255, 255, 255, 0.50);
+            backdrop-filter: blur(8px);
+            padding: 4px 14px;
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+        }
+
+        /* ===== SIDEBAR OVERLAY (mobile) ===== */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.40);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+        }
+        .sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.25s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: 0;
+                transform: translateX(-100%);
+                height: 100vh;
+                width: 280px;
+                min-width: 280px;
+                box-shadow: 4px 0 40px rgba(0, 0, 0, 0.12);
+                transition: transform var(--transition);
+                z-index: 100;
+                border-right: none;
+                border-radius: 0 16px 16px 0;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .hamburger {
+                display: flex;
+            }
+            .sidebar-overlay.active {
+                display: block;
+            }
+            .main-header {
+                padding: 10px 16px;
+                min-height: 54px;
+            }
+            .paper-wrapper {
+                padding: 12px 14px 8px 14px;
+                gap: 14px;
+            }
+            .header-title {
+                max-width: 130px;
+                font-size: 14px;
+            }
+            .header-title .dot {
+                width: 6px;
+                height: 6px;
+                margin-right: 6px;
+            }
+            .main-footer {
+                padding: 8px 16px 12px 16px;
+                font-size: 11.5px;
+            }
+            .generator-card {
+                padding: 16px 16px;
+            }
+            .input-row {
+                flex-direction: column;
+            }
+            .input-row .input-field {
+                min-width: unset;
+            }
+            .options-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .status-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .status-bar .actions {
+                justify-content: flex-start;
+            }
+            .textarea-wrap textarea {
+                height: 220px;
+                font-size: 12px;
+            }
+            .history-item-main {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .history-item-main .h-actions {
+                justify-content: flex-end;
+            }
+            .toast-container {
+                right: 12px;
+                left: 12px;
+                max-width: unset;
+                bottom: 16px;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .paper-wrapper {
+                padding: 8px 8px 4px 8px;
+                gap: 10px;
+            }
+            .main-header {
+                padding: 6px 10px;
+                min-height: 46px;
+            }
+            .btn-icon {
+                padding: 5px 6px;
+                font-size: 17px;
+            }
+            .header-title {
+                max-width: 90px;
+                font-size: 12.5px;
+            }
+            .header-left {
+                gap: 8px;
+            }
+            .sidebar {
+                width: 260px;
+                min-width: 260px;
+            }
+            .generator-card {
+                padding: 12px 12px;
+            }
+            .generator-card .card-title {
+                font-size: 13px;
+            }
+            .btn {
+                font-size: 12px;
+                height: 38px;
+                padding: 6px 14px;
+            }
+            .opt-group select,
+            .opt-group input {
+                font-size: 12px;
+                padding: 4px 6px;
+            }
+            .opt-group input[type="number"] {
+                width: 60px;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+        .mt-8 {
+            margin-top: 8px;
+        }
+
+        /* ===== MODAL (sama dengan gdrivedirect) ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.50);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #ffffff;
+            max-width: 420px;
+            width: 90%;
+            padding: 32px 36px 28px 36px;
+            border-radius: var(--radius);
+            box-shadow: 0 24px 80px rgba(0, 0, 0, 0.20);
+            text-align: center;
+            animation: modalSlide 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes modalSlide {
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-box h3 {
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--paper-text);
+            letter-spacing: -0.3px;
+        }
+        .modal-box p {
+            color: #5a5a72;
+            font-size: 15px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .modal-box input[type="text"] {
+            width: 100%;
+            padding: 11px 16px;
+            border: 1.5px solid #e0e4ec;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            margin-bottom: 24px;
+            outline: none;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            font-family: inherit;
+            background: #f8f9fc;
+            color: var(--paper-text);
+        }
+        .modal-box input[type="text"]:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+            background: #fff;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .modal-actions .btn {
+            min-width: 100px;
+            padding: 10px 0;
+            font-size: 14px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
+            font-family: inherit;
+            letter-spacing: 0.2px;
+        }
+        .modal-actions .btn:active {
+            transform: scale(0.96);
+        }
+
+        .btn-modal-cancel {
+            background: #f0f2f6;
+            color: var(--paper-text);
+        }
+        .btn-modal-cancel:hover {
+            background: #e4e7ee;
+        }
+
+        .btn-modal-danger {
+            background: #dc2626;
+            color: white;
+        }
+        .btn-modal-danger:hover {
+            background: #b91c1c;
+            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.30);
+        }
+
+        .btn-modal-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-modal-primary:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 16px var(--accent-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app">
+        <!-- SIDEBAR OVERLAY (mobile) -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo" aria-label="Home">
+					<i class="fa-solid fa-house-chimney"></i>
+				</a>
+                <div class="sidebar-title">Dotalias <span>Generator</span></div>
+            </div>
+
+            <!-- NAVIGASI 2 MENU -->
+            <div class="sidebar-nav">
+                <button class="btn-nav active" id="navGenerator" data-view="generator">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14" />
+                        <path d="M5 12h14" />
+                    </svg>
+                    Generator
+                </button>
+                <button class="btn-nav" id="navHistory" data-view="history">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    Riwayat
+                </button>
+            </div>
+
+            <!-- KONTEN SIDEBAR (riwayat) -->
+            <div class="sidebar-content" id="sidebarContent">
+                <!-- akan diisi oleh JS -->
+            </div>
+
+            <!-- FOOTER SIDEBAR (sosial media) -->
+            <div class="sidebar-footer">
+                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank" aria-label="Tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </aside>
+
+        <!-- ===== AREA UTAMA ===== -->
+        <main class="main">
+            <header class="main-header">
+                <div class="header-left">
+                    <button class="hamburger" id="hamburgerBtn" aria-label="Toggle sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <span class="header-title" id="headerTitle">
+                        <span class="dot"></span>Generator
+                    </span>
+                </div>
+                <div class="header-right">
+                    <button class="btn-icon btn-icon-primary" id="themeToggle" aria-label="Toggle tema">
+                        <i class="fas fa-sun" id="themeIcon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="paper-wrapper" id="paperWrapper">
+                <!-- VIEW GENERATOR -->
+                <div id="viewGenerator">
+                    <div class="generator-card">
+                        <div class="card-title">
+                            <i class="fas fa-envelope-open-text"></i>
+                            Generator Alias Gmail
+                        </div>
+
+                        <div class="input-group">
+                            <div class="input-row">
+                                <div class="input-field">
+                                    <input class="input-field" id="emailInput" type="email" placeholder="contoh: salimmuthinx@gmail.com" autocomplete="off" spellcheck="false" style="min-height:52px;" />
+                                </div>
+                            </div>
+                            <div class="input-row">
+                                <button class="btn btn-ghost" id="pasteBtn"><i class="fas fa-paste"></i> Paste</button>
+                                <button class="btn btn-primary" id="generateBtn"><i class="fas fa-bolt"></i> Generate</button>
+                                <button class="btn btn-ghost" id="clearBtn"><i class="fas fa-eraser"></i> Bersihkan</button>
+                            </div>
+                        </div>
+
+                        <!-- Opsi -->
+                        <div class="options-row">
+                            <div class="opt-group">
+                                <label>
+                                    <input type="checkbox" id="includePlus" />
+                                    <i class="fas fa-plus-circle"></i> Plus +alias
+                                </label>
+                                <input type="text" id="plusTag" placeholder="tag" value="work" />
+                            </div>
+                            <div class="opt-group">
+                                <label><i class="fas fa-globe"></i> Domain</label>
+                                <select id="domainSelect">
+                                    <option value="gmail.com">gmail.com</option>
+                                    <option value="googlemail.com">googlemail.com</option>
+                                </select>
+                            </div>
+                            <div class="opt-group">
+                                <label><i class="fas fa-sort-amount-down"></i> Urutkan</label>
+                                <select id="sortOrder">
+                                    <option value="none">Default</option>
+                                    <option value="short">Terpendek</option>
+                                    <option value="long">Terpanjang</option>
+                                    <option value="alpha">A–Z</option>
+                                </select>
+                            </div>
+                            <div class="opt-group">
+                                <label><i class="fas fa-filter"></i> Maks</label>
+                                <input type="number" id="maxResults" value="500" min="1" max="10000" />
+                            </div>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="status-bar">
+                            <span class="count" id="countDisplay">
+                                <i class="fas fa-hashtag" style="opacity:0.5;"></i>
+                                <strong id="countNumber">0</strong> variasi
+                                <span class="limit-info" id="limitInfo"></span>
+                            </span>
+                            <div class="actions">
+                                <button class="btn btn-outline btn-sm" id="copyBtn"><i class="fas fa-copy"></i> Salin</button>
+                                <button class="btn btn-ghost btn-sm" id="downloadBtn"><i class="fas fa-download"></i> .txt</button>
+                                <button class="btn btn-csv btn-sm" id="downloadCsvBtn"><i class="fas fa-file-csv"></i> CSV</button>
+                                <button class="btn btn-ghost btn-sm" id="pickRandomBtn"><i class="fas fa-dice"></i> Acak</button>
+                            </div>
+                        </div>
+
+                        <!-- Textarea hasil -->
+                        <div class="textarea-wrap">
+                            <textarea id="resultArea" readonly></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIEW RIWAYAT -->
+                <div id="viewHistory" class="hidden">
+                    <div class="generator-card">
+                        <div class="card-title">
+                            <i class="fas fa-clock-rotate-left"></i>
+                            Riwayat Generator
+                        </div>
+                        <div class="history-header-main">
+                            <span style="font-size:13px; color:var(--sidebar-text-dim);" id="historyCountMain">0 item</span>
+                            <div style="display:flex; gap:8px;">
+                                <button class="btn btn-ghost btn-sm" id="clearHistoryBtnMain"><i class="fas fa-trash-can"></i> Hapus Semua</button>
+                            </div>
+                        </div>
+                        <div class="history-list-main" id="historyListMain">
+                            <div class="history-empty">Belum ada riwayat.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="main-footer">
+                <span id="footerInfo">Dotalias Generator · 100% client-side</span>
+            </footer>
+        </main>
+    </div>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box" id="modalBox">
+            <h3 id="modalTitle">⚠️ Hapus riwayat?</h3>
+            <p id="modalMessage">Data riwayat akan dihapus permanen.</p>
+            <div id="modalExtra" style="display:none;">
+                <input type="text" id="modalInput" placeholder="Nama baru..." />
+            </div>
+            <div class="modal-actions" id="modalActions">
+                <button class="btn btn-modal-cancel" id="modalCancelBtn">Batal</button>
+                <button class="btn btn-modal-danger" id="modalConfirmBtn">Ya, Hapus</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            const hamburger = document.getElementById('hamburgerBtn');
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const headerTitle = document.getElementById('headerTitle');
+
+            const navGenerator = document.getElementById('navGenerator');
+            const navHistory = document.getElementById('navHistory');
+            const viewGenerator = document.getElementById('viewGenerator');
+            const viewHistory = document.getElementById('viewHistory');
+            const sidebarContent = document.getElementById('sidebarContent');
+
+            const emailInput = document.getElementById('emailInput');
+            const generateBtn = document.getElementById('generateBtn');
+            const pasteBtn = document.getElementById('pasteBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const resultArea = document.getElementById('resultArea');
+            const countNumber = document.getElementById('countNumber');
+            const limitInfo = document.getElementById('limitInfo');
+
+            const includePlus = document.getElementById('includePlus');
+            const plusTag = document.getElementById('plusTag');
+            const domainSelect = document.getElementById('domainSelect');
+            const sortOrder = document.getElementById('sortOrder');
+            const maxResults = document.getElementById('maxResults');
+
+            const copyBtn = document.getElementById('copyBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const downloadCsvBtn = document.getElementById('downloadCsvBtn');
+            const pickRandomBtn = document.getElementById('pickRandomBtn');
+
+            const historyListMain = document.getElementById('historyListMain');
+            const historyCountMain = document.getElementById('historyCountMain');
+            const clearHistoryBtnMain = document.getElementById('clearHistoryBtnMain');
+
+            const toastContainer = document.getElementById('toastContainer');
+
+            // Modal
+            const modalOverlay = document.getElementById('modalOverlay');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const modalExtra = document.getElementById('modalExtra');
+            const modalInput = document.getElementById('modalInput');
+            const modalCancelBtn = document.getElementById('modalCancelBtn');
+            const modalConfirmBtn = document.getElementById('modalConfirmBtn');
+
+            const STORAGE_KEY = 'muthinx_alias_history';
+
+            // ============================================================
+            // TEMA (sinkron dengan gdrivedirect)
+            // ============================================================
+            function getStoredTheme() {
+                return localStorage.getItem('muthinx-theme') || 'light';
+            }
+
+            function setTheme(theme) {
+                document.documentElement.setAttribute('data-theme', theme);
+                localStorage.setItem('muthinx-theme', theme);
+                themeIcon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+
+            setTheme(getStoredTheme());
+            themeToggle.addEventListener('click', function() {
+                const current = document.documentElement.getAttribute('data-theme');
+                setTheme(current === 'dark' ? 'light' : 'dark');
+            });
+
+            // ============================================================
+            // SIDEBAR TOGGLE (mobile)
+            // ============================================================
+            function toggleSidebar(open) {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.toggle('open', open);
+                    overlay.classList.toggle('active', open);
+                }
+            }
+
+            hamburger.addEventListener('click', function() {
+                toggleSidebar(!sidebar.classList.contains('open'));
+            });
+            overlay.addEventListener('click', function() {
+                toggleSidebar(false);
+            });
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                }
+            });
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    const isSidebar = e.target.closest('.sidebar');
+                    const isHamburger = e.target.closest('.hamburger');
+                    if (!isSidebar && !isHamburger && sidebar.classList.contains('open')) {
+                        toggleSidebar(false);
+                    }
+                }
+            });
+
+            // ============================================================
+            // TOAST
+            // ============================================================
+            function showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                const iconMap = {
+                    success: 'fa-circle-check',
+                    error: 'fa-circle-xmark',
+                    info: 'fa-circle-info'
+                };
+                toast.innerHTML = `<i class="fas ${iconMap[type] || iconMap.info}"></i> ${message}`;
+                toastContainer.appendChild(toast);
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    toast.style.transform = 'translateX(40px)';
+                    toast.style.transition = 'opacity 0.3s, transform 0.3s';
+                    setTimeout(() => toast.remove(), 300);
+                }, 3500);
+            }
+
+            // ============================================================
+            // INTI: GENERATE ALIAS
+            // ============================================================
+            let currentAliases = [];
+            let totalAvailable = 0;
+
+            function generateAliases() {
+                const raw = emailInput.value.trim();
+                if (!raw) {
+                    showToast('Masukkan alamat Gmail terlebih dahulu.', 'error');
+                    return;
+                }
+
+                let username, domain = domainSelect.value;
+                if (raw.includes('@')) {
+                    const parts = raw.split('@');
+                    if (parts.length !== 2 || !parts[0]) {
+                        showToast('Format email tidak valid.', 'error');
+                        return;
+                    }
+                    username = parts[0].replace(/\./g, '');
+                } else {
+                    username = raw.replace(/\./g, '');
+                }
+
+                if (!username) {
+                    showToast('Nama pengguna tidak boleh kosong.', 'error');
+                    return;
+                }
+
+                if (!/^[a-zA-Z0-9]+$/.test(username)) {
+                    showToast('Hanya huruf dan angka yang diizinkan (tanpa titik).', 'error');
+                    return;
+                }
+
+                const gaps = username.length - 1;
+                if (gaps > 22) {
+                    showToast(`Terlalu banyak kombinasi (2^${gaps} ≈ ${Math.pow(2, gaps).toLocaleString()}). Maks 22 karakter.`, 'error');
+                    return;
+                }
+
+                const totalCombinations = 1 << gaps;
+                const maxLimit = parseInt(maxResults.value) || 500;
+                const limit = Math.min(totalCombinations, maxLimit);
+                totalAvailable = totalCombinations;
+
+                const aliases = [];
+                for (let mask = 0; mask < limit; mask++) {
+                    let alias = username[0];
+                    for (let i = 0; i < gaps; i++) {
+                        if (mask & (1 << i)) alias += '.';
+                        alias += username[i + 1];
+                    }
+                    aliases.push(alias);
+                }
+
+                const order = sortOrder.value;
+                if (order === 'short') {
+                    aliases.sort((a, b) => a.length - b.length);
+                } else if (order === 'long') {
+                    aliases.sort((a, b) => b.length - a.length);
+                } else if (order === 'alpha') {
+                    aliases.sort((a, b) => a.localeCompare(b));
+                }
+
+                const usePlus = includePlus.checked;
+                const tag = plusTag.value.trim() || 'work';
+
+                let final = aliases.map(a => a + '@' + domain);
+                if (usePlus && tag) {
+                    final = final.map(a => {
+                        const base = a.split('@')[0];
+                        return base + '+' + tag + '@' + domain;
+                    });
+                }
+
+                currentAliases = final;
+                renderResult(final, totalCombinations, limit);
+
+                // Simpan ke riwayat
+                saveHistory(raw, final.length, final.slice(0, 3).join(', ') + (final.length > 3 ? '…' : ''));
+
+                if (limit < totalCombinations) {
+                    showToast(`✅ Menampilkan ${limit.toLocaleString()} dari ${totalCombinations.toLocaleString()} variasi`, 'info', 2500);
+                } else {
+                    showToast(`✅ ${final.length.toLocaleString()} variasi dibuat`, 'success', 2000);
+                }
+            }
+
+            function renderResult(list, total, shown) {
+                if (!list || list.length === 0) {
+                    resultArea.value = '';
+                    countNumber.textContent = '0';
+                    limitInfo.textContent = '';
+                    return;
+                }
+                resultArea.value = list.join('\n');
+                countNumber.textContent = list.length.toLocaleString();
+
+                if (total && shown < total) {
+                    limitInfo.textContent = `(menampilkan ${shown.toLocaleString()} dari total ${total.toLocaleString()} variasi)`;
+                } else {
+                    limitInfo.textContent = '';
+                }
+                resultArea.scrollTop = 0;
+            }
+
+            // ============================================================
+            // RIWAYAT (localStorage)
+            // ============================================================
+            function getHistory() {
+                try {
+                    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+                } catch (_) {
+                    return [];
+                }
+            }
+
+            function saveHistory(original, count, preview) {
+                const history = getHistory();
+                const entry = {
+                    original,
+                    count,
+                    preview,
+                    timestamp: Date.now()
+                };
+                const exists = history.some(h => h.original === original && h.count === count);
+                if (!exists) {
+                    history.unshift(entry);
+                    if (history.length > 50) history.pop();
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+                }
+                renderAllHistory();
+            }
+
+            function deleteHistoryItem(index) {
+                const history = getHistory();
+                if (index >= 0 && index < history.length) {
+                    history.splice(index, 1);
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+                    renderAllHistory();
+                    showToast('Riwayat dihapus.', 'info');
+                }
+            }
+
+            function clearAllHistory() {
+                if (getHistory().length === 0) {
+                    showToast('Riwayat sudah kosong.', 'info');
+                    return;
+                }
+                showModal(
+                    '⚠️ Hapus semua riwayat?',
+                    'Semua data riwayat akan dihapus permanen.',
+                    'Ya, Hapus Semua',
+                    'danger'
+                ).then(confirmed => {
+                    if (confirmed) {
+                        localStorage.removeItem(STORAGE_KEY);
+                        renderAllHistory();
+                        showToast('Semua riwayat dihapus.', 'success');
+                    }
+                });
+            }
+
+            function renderAllHistory() {
+                renderHistoryMain();
+                renderHistorySidebar();
+            }
+
+            function renderHistoryMain() {
+                const history = getHistory();
+                historyCountMain.textContent = `${history.length} item`;
+
+                if (history.length === 0) {
+                    historyListMain.innerHTML = `<div class="history-empty">Belum ada riwayat.</div>`;
+                    return;
+                }
+
+                let html = '';
+                history.forEach((item, index) => {
+                    const time = new Date(item.timestamp).toLocaleString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric'
+                    });
+                    html += `
+                                <div class="history-item-main">
+                                    <div class="h-left">
+                                        <div class="h-original"><i class="fas fa-envelope"></i> ${item.original}</div>
+                                        <div class="h-count"><i class="fas fa-hashtag"></i> ${item.count} variasi · ${item.preview}</div>
+                                        <div style="font-size:11px;color:var(--sidebar-text-dim);margin-top:4px;">${time}</div>
+                                    </div>
+                                    <div class="h-actions">
+                                        <button class="btn btn-outline btn-sm" onclick="window.location.href='#generator'; loadAliasHistory(${index})"><i class="fas fa-rotate-right"></i></button>
+                                        <button class="btn btn-danger-ghost btn-sm" onclick="deleteHistoryItem(${index})"><i class="fas fa-trash-can"></i></button>
+                                    </div>
+                                </div>
+                            `;
+                });
+                historyListMain.innerHTML = html;
+            }
+
+            function renderHistorySidebar() {
+                const history = getHistory();
+                if (history.length === 0) {
+                    sidebarContent.innerHTML = `<div class="sidebar-empty">Belum ada riwayat</div>`;
+                    return;
+                }
+
+                let html = '';
+                history.forEach((item, index) => {
+                    const time = new Date(item.timestamp).toLocaleString('id-ID', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    const label = item.original.length > 20 ? item.original.substring(0, 20) + '…' : item.original;
+                    html += `
+                                <div class="history-item-sidebar" data-index="${index}">
+                                    <span class="h-name">${label}</span>
+                                    <span class="h-time">${time}</span>
+                                    <button class="h-menu" data-index="${index}" aria-label="Menu riwayat">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="5" r="1.5" />
+                                            <circle cx="12" cy="12" r="1.5" />
+                                            <circle cx="12" cy="19" r="1.5" />
+                                        </svg>
+                                    </button>
+                                    <div class="dropdown" data-index="${index}">
+                                        <button class="dropdown-item" onclick="loadAliasHistory(${index})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                                            Muat Ulang
+                                        </button>
+                                        <button class="dropdown-item danger" onclick="deleteHistoryItem(${index})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            `;
+                });
+                sidebarContent.innerHTML = html;
+
+                document.querySelectorAll('.history-item-sidebar .h-menu').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const parent = this.closest('.history-item-sidebar');
+                        const dropdown = parent.querySelector('.dropdown');
+                        if (!dropdown) return;
+                        document.querySelectorAll('.dropdown.open').forEach(d => d !== dropdown && d.classList
+                            .remove('open'));
+                        dropdown.classList.toggle('open');
+                    });
+                });
+
+                document.querySelectorAll('.history-item-sidebar').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        if (e.target.closest('.h-menu') || e.target.closest('.dropdown')) return;
+                        const idx = parseInt(this.dataset.index);
+                        loadAliasHistory(idx);
+                        if (window.innerWidth <= 768) toggleSidebar(false);
+                    });
+                });
+
+                document.addEventListener('click', function(e) {
+                    if (!e.target.closest('.h-menu') && !e.target.closest('.dropdown')) {
+                        document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
+                    }
+                });
+            }
+
+            // Fungsi untuk memuat riwayat ke generator
+            window.loadAliasHistory = function(index) {
+                const history = getHistory();
+                if (history[index]) {
+                    emailInput.value = history[index].original;
+                    switchView('generator');
+                    generateAliases();
+                }
+            };
+
+            // ============================================================
+            // COPY & DOWNLOAD
+            // ============================================================
+            function copyResult() {
+                const text = resultArea.value;
+                if (!text) {
+                    showToast('Tidak ada data untuk disalin.', 'error');
+                    return;
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('📋 Tersalin ke clipboard!', 'success');
+                    }).catch(() => fallbackCopy(text));
+                } else {
+                    fallbackCopy(text);
+                }
+            }
+
+            function fallbackCopy(text) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('📋 Tersalin!', 'success');
+                } catch (_) {
+                    showToast('Gagal menyalin.', 'error');
+                }
+                document.body.removeChild(ta);
+            }
+
+            function downloadTxt() {
+                const text = resultArea.value;
+                if (!text) {
+                    showToast('Tidak ada data untuk diunduh.', 'error');
+                    return;
+                }
+                const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `gmail-aliases-${Date.now()}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('⬇️ File .txt berhasil diunduh!', 'success');
+            }
+
+            function downloadCsv() {
+                const text = resultArea.value;
+                if (!text) {
+                    showToast('Tidak ada data untuk diunduh.', 'error');
+                    return;
+                }
+                const lines = text.split('\n').filter(Boolean);
+                const header = 'Email';
+                const rows = [header, ...lines];
+                const csvContent = rows.join('\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `gmail-aliases-${Date.now()}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('⬇️ File CSV berhasil diunduh!', 'success');
+            }
+
+            function pickRandom() {
+                const lines = resultArea.value.split('\n').filter(Boolean);
+                if (lines.length === 0) {
+                    showToast('Tidak ada alias untuk dipilih.', 'error');
+                    return;
+                }
+                const random = lines[Math.floor(Math.random() * lines.length)];
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(random).then(() => {
+                        showToast(`🎲 ${random} — disalin ke clipboard!`, 'success');
+                    }).catch(() => {
+                        showToast(`🎲 ${random}`, 'info');
+                    });
+                } else {
+                    showToast(`🎲 ${random}`, 'info');
+                }
+            }
+
+            // ============================================================
+            // SWITCH VIEW
+            // ============================================================
+            function switchView(view) {
+                if (view === 'generator') {
+                    viewGenerator.classList.remove('hidden');
+                    viewHistory.classList.add('hidden');
+                    navGenerator.classList.add('active');
+                    navHistory.classList.remove('active');
+                    headerTitle.innerHTML = `<span class="dot"></span>Generator`;
+                } else {
+                    viewGenerator.classList.add('hidden');
+                    viewHistory.classList.remove('hidden');
+                    navHistory.classList.add('active');
+                    navGenerator.classList.remove('active');
+                    headerTitle.innerHTML = `<span class="dot"></span>Riwayat`;
+                    renderHistoryMain();
+                }
+                if (window.innerWidth <= 768) toggleSidebar(false);
+            }
+
+            navGenerator.addEventListener('click', function() { switchView('generator'); });
+            navHistory.addEventListener('click', function() { switchView('history'); });
+
+            // ============================================================
+            // MODAL SYSTEM
+            // ============================================================
+            let modalResolve = null;
+
+            function showModal(title, message, confirmLabel = 'OK', type = 'primary', showInput = false, inputValue = '') {
+                return new Promise((resolve) => {
+                    modalTitle.textContent = title;
+                    modalMessage.textContent = message;
+                    modalExtra.style.display = showInput ? 'block' : 'none';
+                    if (showInput) {
+                        modalInput.value = inputValue || '';
+                        modalInput.focus();
+                        modalInput.select();
+                    }
+                    const isDanger = (type === 'danger');
+                    modalConfirmBtn.className = 'btn ' + (isDanger ? 'btn-modal-danger' : 'btn-modal-primary');
+                    modalConfirmBtn.textContent = confirmLabel;
+                    modalCancelBtn.textContent = 'Batal';
+                    modalOverlay.classList.add('active');
+                    modalResolve = resolve;
+                });
+            }
+
+            modalCancelBtn.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) {
+                    const showInput = modalExtra.style.display !== 'none';
+                    if (showInput) modalResolve(null);
+                    else modalResolve(false);
+                    modalResolve = null;
+                }
+            });
+
+            modalConfirmBtn.addEventListener('click', function() {
+                modalOverlay.classList.remove('active');
+                if (modalResolve) {
+                    const showInput = modalExtra.style.display !== 'none';
+                    if (showInput) modalResolve(modalInput.value);
+                    else modalResolve(true);
+                    modalResolve = null;
+                }
+            });
+
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('active');
+                    if (modalResolve) {
+                        const showInput = modalExtra.style.display !== 'none';
+                        if (showInput) modalResolve(null);
+                        else modalResolve(false);
+                        modalResolve = null;
+                    }
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                    modalOverlay.classList.remove('active');
+                    if (modalResolve) {
+                        const showInput = modalExtra.style.display !== 'none';
+                        if (showInput) modalResolve(null);
+                        else modalResolve(false);
+                        modalResolve = null;
+                    }
+                }
+                if (e.key === 'Enter' && modalOverlay.classList.contains('active') && modalExtra.style.display !==
+                    'none') {
+                    modalConfirmBtn.click();
+                }
+            });
+
+            // ============================================================
+            // EVENT LISTENERS
+            // ============================================================
+            generateBtn.addEventListener('click', generateAliases);
+
+            emailInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    generateAliases();
+                }
+            });
+
+            pasteBtn.addEventListener('click', async function() {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    if (text) {
+                        emailInput.value = text;
+                        showToast('Link ditempel dari clipboard.', 'info');
+                    }
+                } catch (_) {
+                    showToast('Gagal mengakses clipboard. Tempel manual (Ctrl+V).', 'error');
+                }
+            });
+
+            clearBtn.addEventListener('click', function() {
+                emailInput.value = '';
+                resultArea.value = '';
+                countNumber.textContent = '0';
+                limitInfo.textContent = '';
+                currentAliases = [];
+                totalAvailable = 0;
+                showToast('🧹 Dibersihkan.', 'info');
+            });
+
+            copyBtn.addEventListener('click', copyResult);
+            downloadBtn.addEventListener('click', downloadTxt);
+            downloadCsvBtn.addEventListener('click', downloadCsv);
+            pickRandomBtn.addEventListener('click', pickRandom);
+            clearHistoryBtnMain.addEventListener('click', clearAllHistory);
+
+            // Auto-regen ketika opsi berubah
+            const autoTriggers = [includePlus, plusTag, domainSelect, sortOrder, maxResults];
+            autoTriggers.forEach(el => {
+                el.addEventListener('change', function() {
+                    if (currentAliases.length > 0) generateAliases();
+                });
+            });
+
+            // ============================================================
+            // EKSPOS GLOBAL
+            // ============================================================
+            window.deleteHistoryItem = deleteHistoryItem;
+            window.loadAliasHistory = loadAliasHistory;
+            window.copyResult = copyResult;
+
+            // ============================================================
+            // INISIALISASI
+            // ============================================================
+            renderAllHistory();
+            switchView('generator');
+            emailInput.value = '';
+            generateAliases();
+
+            // Set sosial media
+            const socialLinks = document.querySelectorAll('.sidebar-footer a');
+            if (socialLinks.length >= 4) {
+					socialLinks[0].href = 'https://instagram.com/salimmuthinx';
+                    socialLinks[1].href = 'https://facebook.com/muthinx';
+                    socialLinks[2].href = 'https://tiktok.com/@bengkel.kangacul';
+                    socialLinks[3].href = 'https://github.com/muthinx';
+            }
+
+            console.log('🚀 Muthinx Dot Alias Generator siap!');
+            console.log('📂 Riwayat:', getHistory().length, 'item');
+
+            // Jika ada ?email= di URL
+            const params = new URLSearchParams(window.location.search);
+            const prefill = params.get('email');
+            if (prefill) {
+                emailInput.value = prefill;
+                generateAliases();
+            }
+
+        })();
+    </script>
+
+</body>
+</html>
