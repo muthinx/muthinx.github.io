@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Notepad Transit — Light Sidebar</title>
+	<meta name="description" content="Bismillah" />
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6ef7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>" />
+    <title>Notepad Transit</title>
+    <!-- Font Awesome (dibutuhkan untuk ikon sosial) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         /* ----- RESET & GLOBAL ----- */
         *,
@@ -97,6 +101,7 @@
             flex-shrink: 0;
             position: relative;
             z-index: 1;
+			
         }
 
         .sidebar-logo {
@@ -112,7 +117,15 @@
             font-weight: 700;
             font-size: 18px;
             box-shadow: 0 4px 16px var(--accent-glow);
+			transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+			text-decoration: none;
         }
+
+		.sidebar-logo:hover {
+			transform: scale(1.08) rotate(2deg);
+			box-shadow: 0 6px 24px var(--accent-glow);
+			background: var(--accent-hover);
+		}
 
         .sidebar-title {
             font-size: 17px;
@@ -322,6 +335,26 @@
         .dropdown-item svg {
             flex-shrink: 0;
             opacity: 0.7;
+        }
+
+        /* ===== FOOTER SIDEBAR (tambahan baru) ===== */
+        .sidebar-footer {
+            flex-shrink: 0;
+            padding: 12px 16px 16px 16px;
+            border-top: 1px solid var(--sidebar-border);
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+        }
+        .sidebar-footer a {
+            color: var(--sidebar-text-dim);
+            font-size: 20px;
+            transition: color var(--transition), transform 0.15s;
+            text-decoration: none;
+        }
+        .sidebar-footer a:hover {
+            color: var(--accent);
+            transform: translateY(-2px) scale(1.1);
         }
 
         /* ----- AREA UTAMA ----- */
@@ -821,7 +854,9 @@
         <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo">✎</div>
+                <a href="index.html" class="sidebar-logo" aria-label="Home">
+					<i class="fa-solid fa-house-chimney"></i>
+				</a>
                 <div class="sidebar-title">Notepad <span>Transit</span></div>
             </div>
 
@@ -847,6 +882,14 @@
 
             <div class="file-list-container" id="fileListContainer">
                 <!-- Akan diisi JavaScript -->
+            </div>
+
+            <!-- ===== FOOTER SIDEBAR (TAMBAHAN BARU) ===== -->
+            <div class="sidebar-footer">
+                <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" target="_blank" aria-label="Tiktok"><i class="fab fa-tiktok"></i></a>
+                <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
             </div>
         </aside>
 
@@ -1634,6 +1677,15 @@
                 updateUI();
                 updateUndoRedoButtons();
                 textarea.focus();
+
+                // ===== TAMBAHAN: Atur link sosial media di sidebar footer =====
+                const socialLinks = document.querySelectorAll('.sidebar-footer a');
+                if (socialLinks.length >= 4) {
+					socialLinks[0].href = 'https://instagram.com/salimmuthinx';
+                    socialLinks[1].href = 'https://facebook.com/muthinx';
+                    socialLinks[2].href = 'https://tiktok.com/@bengkel.kangacul';
+                    socialLinks[3].href = 'https://github.com/muthinx';
+                }
             }
 
             init();
