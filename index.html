@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Muthinx · App Portal</title>
+	<meta name="description" content="Bismillah" />
+    <title>Uiscript · App Portal</title>
+	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6ef7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>" />
 
     <!-- Font Awesome 6 (gratis) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
@@ -15,8 +17,8 @@
 
     <style>
         /* ============================================================
-                   RESET & GLOBAL (sama dengan note.html)
-                   ============================================================ */
+        RESET & GLOBAL (sama dengan note.html)
+        ============================================================ */
         *,
         *::before,
         *::after {
@@ -638,8 +640,8 @@
         <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo"><i class="fas fa-cubes"></i></div>
-                <div class="sidebar-title">Muthinx <span>Apps</span></div>
+                <div class="sidebar-logo"><i class="fa-solid fa-house-chimney"></i></div>
+                <div class="sidebar-title">Uiscript <span>Reborn</span></div>
             </div>
 
             <!-- DAFTAR KATEGORI -->
@@ -651,7 +653,7 @@
             <div class="sidebar-footer" id="sidebarFooter">
                 <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank" aria-label="Tiktok"><i class="fab fa-tiktok"></i></a>
                 <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
             </div>
         </aside>
@@ -703,7 +705,15 @@
 
             // Data aplikasi dengan kategori
             const appsData = [{
-                id: 'notepad',
+                id: 'pegonin',
+                icon: 'fa-solid fa-language',
+                name: 'Pegonin',
+                description: 'Ubah teks alfabet menjadi teks arab berbahasa Indonesia. (Versi Beta, masih perlu penyempurnaan)',
+                status: 'beta',
+                category: 'web',
+                link: 'pegonin.html'
+            }, {
+				id: 'notepad',
                 icon: 'fa-solid fa-pencil',
                 name: 'Notepad Transit',
                 description: 'Catatan ringan dengan sidebar, riwayat undo/redo, upload .txt, dan statistik karakter.',
@@ -711,61 +721,69 @@
                 category: 'web',
                 link: 'note.html'
             }, {
-                id: 'kalkulator',
-                icon: 'fas fa-calculator',
-                name: 'Kalkulator Cepat',
-                description: 'Kalkulator sederhana dengan mode dark/light, riwayat perhitungan, dan dukungan keyboard.',
-                status: 'beta',
+				id: 'gdrivedirect',
+                icon: 'fa-brands fa-google-drive',
+                name: 'GDrive Direct Download',
+                description: 'Mengonversi link file yang dibagikan dari google drive agar dibuka langsung download',
+                status: 'live',
                 category: 'web',
-                link: '#'
+                link: 'gdrivedirect.html'
             }, {
-                id: 'timer',
-                icon: 'fas fa-clock',
-                name: 'Timer Fokus',
-                description: 'Pomodoro timer dengan notifikasi, statistik sesi, dan tema yang dapat disesuaikan.',
-                status: 'coming',
+                id: 'dotalias',
+                icon: 'fas fa-envelope-open-text',
+                name: 'Dotalias Generator',
+                description: 'Generator variasi alamat gmail dengan dot yang menghasilkan alamat email berbeda tapi masuk ke satu Inbox gmail.',
+                status: 'live',
                 category: 'web',
-                link: '#'
+                link: 'dotalias.html'
             }, {
                 id: 'clipboard',
                 icon: 'fas fa-clipboard',
                 name: 'Clipboard Manager',
                 description: 'Kelola riwayat clipboard, simpan teks favorit, dan sinkronisasi antar perangkat.',
-                status: 'coming',
+                status: 'live',
                 category: 'chrome',
-                link: '#'
+                link: 'https://drive.usercontent.google.com/download?id=1p7w2hBUbZzQ8rPwYshJx0tZ-FSDonV-2&export=download'
             }, {
-                id: 'json',
+                id: 'url-scraper',
                 icon: 'fa-brands fa-js',
-                name: 'JSON Formatter',
-                description: 'Validasi, format, dan perbaiki JSON dengan tampilan yang rapi dan error highlighting.',
-                status: 'beta',
+                name: 'URL Scraper',
+                description: 'Ekstensi untuk mengekstrak dan mengelola tautan (URL) dari halaman web aktif secara cepat.',
+                status: 'live',
                 category: 'chrome',
-                link: '#'
+                link: 'https://drive.usercontent.google.com/download?id=1VKryJukvzarQgbbijwMQ-Ku0_bSHvdzt&export=download'
             }, {
-                id: 'color',
-                icon: 'fas fa-palette',
-                name: 'Palette Studio',
-                description: 'Generator palet warna dengan aksesibilitas, ekspor CSS, dan preview live.',
-                status: 'coming',
-                category: 'game',
-                link: '#'
-            }, {
-                id: 'snake',
-                icon: 'fas fa-arrow-up',
-                name: 'Snake Game',
-                description: 'Game ular klasik dengan kontrol keyboard dan skor tertinggi.',
+                id: 'tebakwarna',
+                icon: 'fas fa-dice',
+                name: 'Tebak Warna',
+                description: 'Simulator permainan JUDOL, membuktikan bahwa BANDAR selalu MENANG, dan PEMAIN selalu KALAH.',
                 status: 'live',
                 category: 'game',
-                link: '#'
+                link: 'tebakwarna.html'
             }, {
-                id: 'ui-script',
+                id: 'tankwar',
+                icon: 'fas fa-gamepad',
+                name: 'Tank War',
+                description: 'Game Tank War klasik dengan kontrol keyboard dan skor tertinggi.',
+                status: 'live',
+                category: 'game',
+                link: 'tankwar.html'
+            }, {
+				id: 'tetris',
+                icon: 'fas fa-gamepad',
+                name: 'Classic Tetris',
+                description: 'Game Tetris klasik dengan kontrol keyboard dan skor tertinggi.',
+                status: 'live',
+                category: 'game',
+                link: 'tetris.html'
+            }, {
+                id: 'uploadfb',
                 icon: 'fas fa-terminal',
-                name: 'UI Vision Script Runner',
-                description: 'Jalankan dan kelola skrip UI Vision untuk otomatisasi browser.',
-                status: 'beta',
+                name: 'UPLOAD V 26.08.29',
+                description: 'Skrip UI Vision untuk upload Facebook Marketplace',
+                status: 'live',
                 category: 'skrip',
-                link: '#'
+                link: 'https://drive.usercontent.google.com/download?id=18OHGsnnDqmeDVPvKMUDLzQguIo_7rHVK&export=download'
             }];
 
             // ============================================================
@@ -958,11 +976,11 @@
             const socialLinks = document.querySelectorAll('.sidebar-footer a');
             if (socialLinks.length >= 4) {
                 // Instagram
-                socialLinks[0].href = 'https://instagram.com/username';
+                socialLinks[0].href = 'https://instagram.com/salimmuthinx';
                 // Facebook
-                socialLinks[1].href = 'https://facebook.com/username';
-                // Twitter
-                socialLinks[2].href = 'https://twitter.com/username';
+                socialLinks[1].href = 'https://facebook.com/muthinx';
+                // Tiktok
+                socialLinks[2].href = 'https://tiktok.com/@bengkel.kangacul';
                 // GitHub
                 socialLinks[3].href = 'https://github.com/muthinx';
             }
