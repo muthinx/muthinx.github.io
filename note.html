@@ -51,813 +51,546 @@
         }
 
         /* ----- SCROLLBAR ----- */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #c8ccd8;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8aec0;
-        }
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #c8ccd8; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a8aec0; }
 
         /* ----- APP LAYOUT ----- */
-        .app {
-            display: flex;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-        }
+        .app { display: flex; height: 100%; width: 100%; overflow: hidden; }
 
-        /* ===== SIDEBAR (LIGHT) ===== */
+        /* ===== SIDEBAR ===== */
         .sidebar {
-            width: 280px;
-            min-width: 280px;
+            width: 280px; min-width: 280px;
             background: var(--sidebar-bg);
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
+            display: flex; flex-direction: column;
+            height: 100%; overflow: hidden;
             transition: transform var(--transition), min-width var(--transition);
-            z-index: 100;
-            flex-shrink: 0;
+            z-index: 100; flex-shrink: 0;
             border-right: 1px solid var(--sidebar-border);
             position: relative;
         }
-
         .sidebar-header {
             padding: 22px 20px 14px 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display: flex; align-items: center; gap: 12px;
             border-bottom: 1px solid var(--sidebar-border);
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
+            flex-shrink: 0; position: relative; z-index: 1;
         }
-
         .sidebar-logo {
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 36px;
-            height: 36px;
-            background: var(--accent);
-            border-radius: var(--radius-sm);
-            color: white;
-            box-shadow: 0 4px 16px var(--accent-glow);
+            flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            background: var(--accent); border-radius: var(--radius-sm);
+            color: white; box-shadow: 0 4px 16px var(--accent-glow);
             transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
             text-decoration: none;
         }
-
-        .sidebar-logo svg {
-            width: 20px;
-            height: 20px;
-        }
-
+        .sidebar-logo svg { width: 20px; height: 20px; }
         .sidebar-logo:hover {
             transform: scale(1.08) rotate(2deg);
             box-shadow: 0 6px 24px var(--accent-glow);
             background: var(--accent-hover);
         }
-
-        .sidebar-title {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--sidebar-text);
-            letter-spacing: -0.2px;
-            white-space: nowrap;
-        }
-        .sidebar-title span {
-            color: var(--accent);
-        }
-
+        .sidebar-title { font-size: 17px; font-weight: 600; color: var(--sidebar-text); letter-spacing: -0.2px; white-space: nowrap; }
+        .sidebar-title span { color: var(--accent); }
         .sidebar-actions {
-            padding: 14px 16px;
-            display: flex;
-            flex-direction: row;
-            gap: 8px;
+            padding: 14px 16px; display: flex; flex-direction: row; gap: 8px;
             border-bottom: 1px solid var(--sidebar-border);
-            flex-shrink: 0;
-            position: relative;
-            z-index: 1;
+            flex-shrink: 0; position: relative; z-index: 1;
         }
-
         .btn-sidebar {
-            display: flex;
-            flex: 1;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 12px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            font-weight: 500;
-            cursor: pointer;
-            background: rgba(0, 0, 0, 0.04);
-            color: var(--sidebar-text);
+            display: flex; flex: 1; align-items: center; gap: 8px;
+            padding: 9px 12px; border: none; border-radius: var(--radius-sm);
+            font-size: 13px; font-weight: 500; cursor: pointer;
+            background: rgba(0, 0, 0, 0.04); color: var(--sidebar-text);
             transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
-            width: 100%;
-            justify-content: center;
-            font-family: inherit;
-            letter-spacing: 0.2px;
+            width: 100%; justify-content: center; font-family: inherit; letter-spacing: 0.2px;
         }
-
-        .btn-sidebar:hover {
-            background: rgba(0, 0, 0, 0.08);
-            color: var(--sidebar-text);
-        }
-        .btn-sidebar:active {
-            transform: scale(0.96);
-        }
-        .btn-sidebar svg {
-            flex-shrink: 0;
-            opacity: 0.7;
-        }
-
-        .btn-sidebar-primary {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 0 4px 16px var(--accent-glow);
-        }
-        .btn-sidebar-primary:hover {
-            background: var(--accent-hover);
-            color: #fff;
-            box-shadow: 0 6px 24px var(--accent-glow);
-        }
-        .btn-sidebar-primary svg {
-            opacity: 1;
-        }
+        .btn-sidebar:hover { background: rgba(0, 0, 0, 0.08); color: var(--sidebar-text); }
+        .btn-sidebar:active { transform: scale(0.96); }
+        .btn-sidebar svg { flex-shrink: 0; opacity: 0.7; }
+        .btn-sidebar-primary { background: var(--accent); color: #fff; box-shadow: 0 4px 16px var(--accent-glow); }
+        .btn-sidebar-primary:hover { background: var(--accent-hover); color: #fff; box-shadow: 0 6px 24px var(--accent-glow); }
+        .btn-sidebar-primary svg { opacity: 1; }
 
         /* ----- DAFTAR FILE ----- */
         .file-list-container {
-            flex: 1;
-            overflow-y: auto;
+            flex: 1; overflow-y: auto;
             padding: 8px 10px 20px 10px;
-            position: relative;
-            z-index: 1;
+            position: relative; z-index: 1;
         }
-
-        .file-list-container::-webkit-scrollbar {
-            width: 4px;
-        }
-        .file-list-container::-webkit-scrollbar-thumb {
-            background: #c8ccd8;
-            border-radius: 10px;
-        }
-
+        .file-list-container::-webkit-scrollbar { width: 4px; }
+        .file-list-container::-webkit-scrollbar-thumb { background: #c8ccd8; border-radius: 10px; }
         .file-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 14px 10px 14px;
-            margin: 2px 0;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 14px 10px 14px; margin: 2px 0;
+            border-radius: var(--radius-sm); cursor: pointer;
             transition: background var(--transition), transform 0.12s;
-            position: relative;
-            color: var(--sidebar-text);
-            gap: 8px;
+            position: relative; color: var(--sidebar-text); gap: 8px;
         }
-
-        .file-item:hover {
-            background: var(--sidebar-hover);
-        }
-
-        .file-item.active {
-            background: var(--sidebar-active);
-            box-shadow: inset 3px 0 0 var(--accent);
-            font-weight: 500;
-        }
-
+        .file-item:hover { background: var(--sidebar-hover); }
+        .file-item.active { background: var(--sidebar-active); box-shadow: inset 3px 0 0 var(--accent); font-weight: 500; }
         .file-item-name {
-            font-size: 14px;
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-right: 4px;
-            letter-spacing: 0.1px;
+            font-size: 14px; flex: 1; overflow: hidden; text-overflow: ellipsis;
+            white-space: nowrap; padding-right: 4px; letter-spacing: 0.1px;
         }
-
         .file-item-menu {
-            flex-shrink: 0;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-shrink: 0; background: none; border: none; cursor: pointer;
+            padding: 4px 6px; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
             color: var(--sidebar-text-dim);
             transition: background var(--transition), color var(--transition);
             position: relative;
         }
+        .file-item-menu:hover { background: rgba(0, 0, 0, 0.06); color: var(--sidebar-text); }
 
-        .file-item-menu:hover {
-            background: rgba(0, 0, 0, 0.06);
-            color: var(--sidebar-text);
-        }
-
-        /* ----- DROPDOWN (LIGHT) ----- */
+        /* ----- DROPDOWN ----- */
         .dropdown {
-            position: absolute;
-            right: 0;
-            top: 110%;
-            background: #ffffff;
-            border-radius: var(--radius);
+            position: absolute; right: 0; top: 110%;
+            background: #ffffff; border-radius: var(--radius);
             box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
-            min-width: 190px;
-            padding: 6px 0;
-            display: none;
-            z-index: 200;
-            animation: dropFade 0.18s ease-out;
+            min-width: 190px; padding: 6px 0; display: none;
+            z-index: 200; animation: dropFade 0.18s ease-out;
             border: 1px solid var(--sidebar-border);
         }
-
-        .dropdown.open {
-            display: block;
-        }
-
+        .dropdown.open { display: block; }
         @keyframes dropFade {
-            from {
-                opacity: 0;
-                transform: scale(0.94) translateY(-8px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            from { opacity: 0; transform: scale(0.94) translateY(-8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
-
         .dropdown-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 16px;
-            font-size: 13px;
-            color: var(--sidebar-text);
-            border: none;
-            background: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            transition: background 0.12s;
-            border-radius: 0;
-            font-family: inherit;
-            letter-spacing: 0.1px;
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 16px; font-size: 13px; color: var(--sidebar-text);
+            border: none; background: none; width: 100%; text-align: left;
+            cursor: pointer; transition: background 0.12s; border-radius: 0;
+            font-family: inherit; letter-spacing: 0.1px;
         }
+        .dropdown-item:hover { background: var(--sidebar-hover); }
+        .dropdown-item:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+        .dropdown-item:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+        .dropdown-item.danger { color: #dc2626; }
+        .dropdown-item.danger:hover { background: #fde8e8; }
+        .dropdown-item svg { flex-shrink: 0; opacity: 0.7; }
 
-        .dropdown-item:hover {
-            background: var(--sidebar-hover);
-        }
-        .dropdown-item:first-child {
-            border-radius: var(--radius) var(--radius) 0 0;
-        }
-        .dropdown-item:last-child {
-            border-radius: 0 0 var(--radius) var(--radius);
-        }
-
-        .dropdown-item.danger {
-            color: #dc2626;
-        }
-        .dropdown-item.danger:hover {
-            background: #fde8e8;
-        }
-
-        .dropdown-item svg {
-            flex-shrink: 0;
-            opacity: 0.7;
-        }
-
-        /* ===== FOOTER SIDEBAR (tambahan baru) ===== */
+        /* ===== FOOTER SIDEBAR ===== */
         .sidebar-footer {
-            flex-shrink: 0;
-            padding: 12px 16px 16px 16px;
+            flex-shrink: 0; padding: 12px 16px 16px 16px;
             border-top: 1px solid var(--sidebar-border);
-            display: flex;
-            justify-content: center;
-            gap: 14px;
+            display: flex; justify-content: center; gap: 14px;
         }
         .sidebar-footer a {
             color: var(--sidebar-text-dim);
             transition: color var(--transition), transform 0.15s;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
         }
-        .sidebar-footer a svg {
-            width: 20px;
-            height: 20px;
-        }
-        .sidebar-footer a:hover {
-            color: var(--accent);
-            transform: translateY(-2px) scale(1.1);
-        }
+        .sidebar-footer a svg { width: 20px; height: 20px; }
+        .sidebar-footer a:hover { color: var(--accent); transform: translateY(-2px) scale(1.1); }
 
         /* ----- AREA UTAMA ----- */
         .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            min-width: 0;
-            background: var(--main-bg);
-            position: relative;
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; min-width: 0;
+            background: var(--main-bg); position: relative;
         }
 
         /* ----- HEADER / TOOLBAR ----- */
         .main-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             padding: 12px 28px;
             background: var(--header-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid var(--border-light);
-            flex-shrink: 0;
-            min-height: 60px;
-            gap: 12px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
+            flex-shrink: 0; min-height: 60px; gap: 12px;
+            position: sticky; top: 0; z-index: 10;
         }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            min-width: 0;
-        }
-
+        .header-left { display: flex; align-items: center; gap: 14px; min-width: 0; }
         .hamburger {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 6px;
-            color: var(--paper-text);
-            border-radius: var(--radius-sm);
+            display: none; background: none; border: none; cursor: pointer;
+            padding: 6px; color: var(--paper-text); border-radius: var(--radius-sm);
             transition: background var(--transition);
         }
-
-        .hamburger:hover {
-            background: rgba(0, 0, 0, 0.05);
-        }
-
+        .hamburger:hover { background: rgba(0, 0, 0, 0.05); }
         .file-name-display {
-            font-size: 16px;
-            font-weight: 500;
-            color: var(--paper-text);
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 320px;
-            letter-spacing: -0.2px;
+            font-size: 16px; font-weight: 500; color: var(--paper-text);
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+            max-width: 320px; letter-spacing: -0.2px;
         }
-
         .file-name-display .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--accent);
-            margin-right: 10px;
-            vertical-align: middle;
-            box-shadow: 0 0 12px var(--accent-glow);
+            display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+            background: var(--accent); margin-right: 10px;
+            vertical-align: middle; box-shadow: 0 0 12px var(--accent-glow);
         }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 2px;
-            flex-shrink: 0;
-        }
+        .header-right { display: flex; align-items: center; gap: 2px; flex-shrink: 0; }
 
         .btn-icon {
-            background: none;
-            border: none;
-            padding: 8px 10px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            color: #5a5a72;
+            background: none; border: none; padding: 8px 10px;
+            border-radius: var(--radius-sm); cursor: pointer; color: #5a5a72;
             transition: background var(--transition), color var(--transition), transform 0.12s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
         }
+        .btn-icon:hover { background: rgba(0, 0, 0, 0.05); color: var(--paper-text); }
+        .btn-icon:active { transform: scale(0.92); }
+        .btn-icon:disabled { opacity: 0.35; pointer-events: none; }
+        .btn-icon-danger:hover { background: rgba(248, 113, 113, 0.12); color: #dc2626; }
+        .btn-icon-primary:hover { background: rgba(79, 110, 247, 0.10); color: var(--accent); }
+        .btn-icon-undo:hover { background: rgba(79, 110, 247, 0.08); color: var(--accent); }
+        .header-divider { width: 1px; height: 28px; background: var(--border-light); margin: 0 4px; }
 
-        .btn-icon:hover {
+        /* ----- VIEW TOGGLE (Edit | Baca) ----- */
+        .view-toggle {
+            display: inline-flex;
             background: rgba(0, 0, 0, 0.05);
-            color: var(--paper-text);
-        }
-        .btn-icon:active {
-            transform: scale(0.92);
-        }
-        .btn-icon:disabled {
-            opacity: 0.35;
-            pointer-events: none;
-        }
-
-        .btn-icon-danger:hover {
-            background: rgba(248, 113, 113, 0.12);
-            color: #dc2626;
-        }
-        .btn-icon-primary:hover {
-            background: rgba(79, 110, 247, 0.10);
-            color: var(--accent);
-        }
-
-        .btn-icon-undo:hover {
-            background: rgba(79, 110, 247, 0.08);
-            color: var(--accent);
-        }
-
-        .header-divider {
-            width: 1px;
-            height: 28px;
-            background: var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 2px;
+            gap: 2px;
+            flex-shrink: 0;
             margin: 0 4px;
         }
+        .view-toggle-btn {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 6px 11px; border: none; background: transparent;
+            color: #5a5a72; font-size: 13px; font-weight: 500;
+            cursor: pointer; border-radius: 6px;
+            transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+            font-family: inherit; letter-spacing: 0.1px;
+            white-space: nowrap;
+        }
+        .view-toggle-btn:hover { color: var(--paper-text); }
+        .view-toggle-btn.active {
+            background: #ffffff; color: var(--accent);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(79, 110, 247, 0.08);
+        }
+        .view-toggle-btn.active:hover { color: var(--accent); }
+        .view-toggle-btn svg { width: 15px; height: 15px; }
 
-        /* ----- PAPER WRAPPER (flex agar footer terlihat) ----- */
+        /* ----- PAPER WRAPPER ----- */
         .paper-wrapper {
-            flex: 1;
-            min-height: 0;
+            flex: 1; min-height: 0;
             padding: 24px 32px 16px 32px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            display: flex; flex-direction: column;
         }
-
         .paper-textarea {
-            flex: 1;
-            width: 100%;
-            padding: 32px 40px;
-            border: none;
-            outline: none;
-            resize: none;
+            flex: 1; width: 100%;
+            padding: 32px 40px; border: none; outline: none; resize: none;
             font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, sans-serif;
-            font-size: 16.5px;
-            line-height: 1.85;
-            color: var(--paper-text);
-            background: var(--paper-bg);
-            border-radius: var(--radius);
+            font-size: 16.5px; line-height: 1.85; color: var(--paper-text);
+            background: var(--paper-bg); border-radius: var(--radius);
             box-shadow: var(--shadow-sm);
             transition: box-shadow var(--transition);
-            letter-spacing: 0.15px;
-            overflow-y: auto;
+            letter-spacing: 0.15px; overflow-y: auto;
         }
-
         .paper-textarea:focus {
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07), 0 0 0 1px rgba(79, 110, 247, 0.15);
         }
-
         .paper-textarea::placeholder {
-            color: #b0b4c8;
-            font-weight: 350;
-            letter-spacing: 0.2px;
+            color: #b0b4c8; font-weight: 350; letter-spacing: 0.2px;
+        }
+        .paper-textarea::-webkit-scrollbar { width: 6px; }
+        .paper-textarea::-webkit-scrollbar-track { background: #f0f2f6; border-radius: 10px; }
+        .paper-textarea::-webkit-scrollbar-thumb { background: #d0d4e0; border-radius: 10px; }
+        .paper-textarea::-webkit-scrollbar-thumb:hover { background: #b8bcc8; }
+
+        /* ===== READ VIEW ===== */
+        .read-view {
+            flex: 1; min-height: 0; width: 100%;
+            padding: 32px 40px;
+            background: var(--paper-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow-y: auto;
+            font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, sans-serif;
+            font-size: 16.5px; line-height: 1.85; color: var(--paper-text);
+            letter-spacing: 0.15px;
+        }
+        .read-view::-webkit-scrollbar { width: 6px; }
+        .read-view::-webkit-scrollbar-track { background: #f0f2f6; border-radius: 10px; }
+        .read-view::-webkit-scrollbar-thumb { background: #d0d4e0; border-radius: 10px; }
+        .read-view::-webkit-scrollbar-thumb:hover { background: #b8bcc8; }
+
+        .read-empty {
+            text-align: center; color: var(--sidebar-text-dim);
+            padding: 60px 20px; font-style: italic; font-size: 15px;
         }
 
-        .paper-textarea::-webkit-scrollbar {
-            width: 6px;
+        /* ----- MARKDOWN CONTENT STYLES ----- */
+        .markdown-body > *:first-child { margin-top: 0; }
+        .markdown-body > *:last-child { margin-bottom: 0; }
+
+        .markdown-body h1, .markdown-body h2, .markdown-body h3,
+        .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+            font-weight: 600; line-height: 1.3;
+            margin: 1.6em 0 0.65em 0;
+            letter-spacing: -0.3px; color: var(--paper-text);
         }
-        .paper-textarea::-webkit-scrollbar-track {
-            background: #f0f2f6;
-            border-radius: 10px;
+        .markdown-body h1 { font-size: 1.9em; padding-bottom: 0.3em; border-bottom: 1px solid var(--border-light); }
+        .markdown-body h2 { font-size: 1.5em; padding-bottom: 0.25em; border-bottom: 1px solid var(--border-light); }
+        .markdown-body h3 { font-size: 1.25em; }
+        .markdown-body h4 { font-size: 1.1em; }
+        .markdown-body h5 { font-size: 1em; }
+        .markdown-body h6 { font-size: 0.92em; color: var(--sidebar-text-dim); }
+
+        .markdown-body p { margin: 0 0 1em 0; }
+
+        .markdown-body a {
+            color: var(--accent); text-decoration: none;
+            border-bottom: 1px solid rgba(79, 110, 247, 0.3);
+            transition: border-color 0.15s;
         }
-        .paper-textarea::-webkit-scrollbar-thumb {
-            background: #d0d4e0;
-            border-radius: 10px;
+        .markdown-body a:hover { border-bottom-color: var(--accent); }
+
+        .markdown-body strong { font-weight: 600; color: var(--paper-text); }
+        .markdown-body em { font-style: italic; }
+
+        .markdown-body ul, .markdown-body ol {
+            margin: 0 0 1em 0; padding-left: 1.8em;
         }
-        .paper-textarea::-webkit-scrollbar-thumb:hover {
-            background: #b8bcc8;
+        .markdown-body ul { list-style-type: disc; }
+        .markdown-body ol { list-style-type: decimal; }
+        .markdown-body li { margin: 0.3em 0; }
+        .markdown-body li > p { margin: 0; }
+
+        .markdown-body blockquote {
+            margin: 0 0 1em 0; padding: 0.5em 1em;
+            border-left: 3px solid var(--accent);
+            background: rgba(79, 110, 247, 0.06);
+            color: #4a4a5e;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+        }
+        .markdown-body blockquote p:last-child { margin-bottom: 0; }
+
+        .markdown-body hr {
+            border: none; border-top: 1px solid var(--border-light);
+            margin: 1.8em 0;
+        }
+
+        .markdown-body code.md-inline-code {
+            background: #eef1f7; color: #d63384;
+            padding: 0.15em 0.45em; border-radius: 4px;
+            font-family: 'SFMono-Regular', 'Consolas', 'Monaco', monospace;
+            font-size: 0.88em; letter-spacing: 0;
+        }
+
+        .markdown-body .md-code-block {
+            position: relative; margin: 0 0 1.2em 0;
+            background: #1e1e2e; border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+        .markdown-body .md-code-lang {
+            position: absolute; top: 0; right: 0;
+            padding: 4px 10px; font-size: 11px; color: #9a9eb0;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 0 var(--radius-sm) 0 var(--radius-sm);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            font-family: 'SFMono-Regular', 'Consolas', 'Monaco', monospace;
+        }
+        .markdown-body .md-code-block pre {
+            margin: 0; padding: 16px 18px;
+            overflow-x: auto; color: #e6e6f0;
+            font-size: 13.5px; line-height: 1.6;
+            font-family: 'SFMono-Regular', 'Consolas', 'Monaco', monospace;
+            letter-spacing: 0;
+        }
+        .markdown-body .md-code-block pre code {
+            background: none; padding: 0; color: inherit;
+            font-family: inherit; font-size: inherit;
+        }
+        .markdown-body .md-code-block pre::-webkit-scrollbar { height: 6px; }
+        .markdown-body .md-code-block pre::-webkit-scrollbar-track { background: transparent; }
+        .markdown-body .md-code-block pre::-webkit-scrollbar-thumb { background: #444; border-radius: 10px; }
+
+        .markdown-body .md-table-wrap {
+            margin: 0 0 1.2em 0; overflow-x: auto;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+        }
+        .markdown-body table {
+            width: 100%; border-collapse: collapse; font-size: 14.5px;
+        }
+        .markdown-body thead { background: #f8f9fc; }
+        .markdown-body th {
+            padding: 10px 14px; text-align: left;
+            font-weight: 600; color: var(--paper-text);
+            border-bottom: 1px solid var(--border-light);
+        }
+        .markdown-body td {
+            padding: 9px 14px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--paper-text);
+        }
+        .markdown-body tr:last-child td { border-bottom: none; }
+        .markdown-body tbody tr:hover { background: rgba(79, 110, 247, 0.03); }
+
+        .markdown-body img.md-img {
+            max-width: 100%; height: auto;
+            border-radius: var(--radius-sm);
+            margin: 0.3em 0;
         }
 
         /* ----- FOOTER ----- */
         .main-footer {
-            flex-shrink: 0;
-            padding: 10px 28px 14px 28px;
-            background: transparent;
-            text-align: right;
-            font-size: 12.5px;
-            color: #9a9eb0;
-            user-select: none;
-            letter-spacing: 0.3px;
-            font-weight: 400;
+            flex-shrink: 0; padding: 10px 28px 14px 28px;
+            background: transparent; text-align: right;
+            font-size: 12.5px; color: #9a9eb0;
+            user-select: none; letter-spacing: 0.3px; font-weight: 400;
         }
-
         .main-footer span {
             background: rgba(255, 255, 255, 0.50);
             backdrop-filter: blur(8px);
-            padding: 4px 14px;
-            border-radius: 20px;
+            padding: 4px 14px; border-radius: 20px;
             border: 1px solid var(--border-light);
         }
 
         /* ----- MODAL ----- */
         .modal-overlay {
-            position: fixed;
-            inset: 0;
+            position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.50);
             backdrop-filter: blur(8px);
-            display: none;
-            align-items: center;
-            justify-content: center;
+            display: none; align-items: center; justify-content: center;
             z-index: 999;
         }
-        .modal-overlay.active {
-            display: flex;
-        }
-
+        .modal-overlay.active { display: flex; }
         .modal-box {
-            background: #ffffff;
-            max-width: 420px;
-            width: 90%;
-            padding: 32px 36px 28px 36px;
-            border-radius: var(--radius);
+            background: #ffffff; max-width: 420px; width: 90%;
+            padding: 32px 36px 28px 36px; border-radius: var(--radius);
             box-shadow: 0 24px 80px rgba(0, 0, 0, 0.20);
             text-align: center;
             animation: modalSlide 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
         @keyframes modalSlide {
-            from {
-                opacity: 0;
-                transform: scale(0.92) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            from { opacity: 0; transform: scale(0.92) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
-
         .modal-box h3 {
-            font-weight: 600;
-            font-size: 20px;
-            margin-bottom: 8px;
-            color: var(--paper-text);
-            letter-spacing: -0.3px;
+            font-weight: 600; font-size: 20px; margin-bottom: 8px;
+            color: var(--paper-text); letter-spacing: -0.3px;
         }
         .modal-box p {
-            color: #5a5a72;
-            font-size: 15px;
-            margin-bottom: 24px;
-            line-height: 1.6;
+            color: #5a5a72; font-size: 15px; margin-bottom: 24px; line-height: 1.6;
         }
         .modal-box input[type="text"] {
-            width: 100%;
-            padding: 11px 16px;
-            border: 1.5px solid #e0e4ec;
-            border-radius: var(--radius-sm);
-            font-size: 15px;
-            margin-bottom: 24px;
-            outline: none;
+            width: 100%; padding: 11px 16px;
+            border: 1.5px solid #e0e4ec; border-radius: var(--radius-sm);
+            font-size: 15px; margin-bottom: 24px; outline: none;
             transition: border-color var(--transition), box-shadow var(--transition);
-            font-family: inherit;
-            background: #f8f9fc;
-            color: var(--paper-text);
+            font-family: inherit; background: #f8f9fc; color: var(--paper-text);
         }
         .modal-box input[type="text"]:focus {
             border-color: var(--accent);
             box-shadow: 0 0 0 3px var(--accent-glow);
             background: #fff;
         }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
+        .modal-actions { display: flex; gap: 12px; justify-content: center; }
         .modal-actions .btn {
-            min-width: 100px;
-            padding: 10px 0;
-            font-size: 14px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-weight: 500;
+            min-width: 100px; padding: 10px 0; font-size: 14px;
+            border: none; border-radius: var(--radius-sm); font-weight: 500;
             cursor: pointer;
             transition: background var(--transition), transform 0.12s, box-shadow var(--transition);
-            font-family: inherit;
-            letter-spacing: 0.2px;
+            font-family: inherit; letter-spacing: 0.2px;
         }
-        .modal-actions .btn:active {
-            transform: scale(0.96);
-        }
-
-        .btn-modal-cancel {
-            background: #f0f2f6;
-            color: var(--paper-text);
-        }
-        .btn-modal-cancel:hover {
-            background: #e4e7ee;
-        }
-
-        .btn-modal-danger {
-            background: #dc2626;
-            color: white;
-        }
-        .btn-modal-danger:hover {
-            background: #b91c1c;
-            box-shadow: 0 4px 16px rgba(220, 38, 38, 0.30);
-        }
-
-        .btn-modal-primary {
-            background: var(--accent);
-            color: white;
-        }
-        .btn-modal-primary:hover {
-            background: var(--accent-hover);
-            box-shadow: 0 4px 16px var(--accent-glow);
-        }
+        .modal-actions .btn:active { transform: scale(0.96); }
+        .btn-modal-cancel { background: #f0f2f6; color: var(--paper-text); }
+        .btn-modal-cancel:hover { background: #e4e7ee; }
+        .btn-modal-danger { background: #dc2626; color: white; }
+        .btn-modal-danger:hover { background: #b91c1c; box-shadow: 0 4px 16px rgba(220, 38, 38, 0.30); }
+        .btn-modal-primary { background: var(--accent); color: white; }
+        .btn-modal-primary:hover { background: var(--accent-hover); box-shadow: 0 4px 16px var(--accent-glow); }
 
         /* ----- SIDEBAR OVERLAY (mobile) ----- */
         .sidebar-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
+            display: none; position: fixed; inset: 0;
             background: rgba(0, 0, 0, 0.40);
             backdrop-filter: blur(4px);
             z-index: 99;
         }
         .sidebar-overlay.active {
-            display: block;
-            animation: fadeIn 0.25s ease;
+            display: block; animation: fadeIn 0.25s ease;
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
+                position: fixed; top: 0; left: 0;
                 transform: translateX(-100%);
-                height: 100vh;
-                width: 280px;
-                min-width: 280px;
+                height: 100vh; width: 280px; min-width: 280px;
                 box-shadow: 4px 0 40px rgba(0, 0, 0, 0.12);
                 transition: transform var(--transition);
-                z-index: 100;
-                border-right: none;
-                border-radius: 0 16px 16px 0;
-                height: 100%;
+                z-index: 100; border-right: none;
+                border-radius: 0 16px 16px 0; height: 100%;
             }
-            .sidebar.open {
-                transform: translateX(0);
-            }
-            .hamburger {
-                display: flex;
-            }
-            .sidebar-overlay.active {
-                display: block;
-            }
-            .main-header {
-                padding: 10px 16px;
-                min-height: 54px;
-            }
-            .paper-wrapper {
-                padding: 12px 14px 8px 14px;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .hamburger { display: flex; }
+            .sidebar-overlay.active { display: block; }
+            .main-header { padding: 10px 16px; min-height: 54px; }
+            .paper-wrapper { padding: 12px 14px 8px 14px; }
             .paper-textarea {
-                padding: 20px 18px;
-                font-size: 15px;
+                padding: 20px 18px; font-size: 15px; border-radius: var(--radius-sm);
+            }
+            .read-view {
+                padding: 20px 18px; font-size: 15px;
                 border-radius: var(--radius-sm);
             }
-            .main-footer {
-                padding: 8px 16px 12px 16px;
-                font-size: 11.5px;
-            }
-            .file-name-display {
-                max-width: 130px;
-                font-size: 14px;
-            }
-            .file-name-display .dot {
-                width: 6px;
-                height: 6px;
-                margin-right: 6px;
-            }
-            .modal-box {
-                padding: 24px 20px 20px 20px;
-            }
-            .sidebar-header {
-                padding: 18px 16px 12px 16px;
-            }
-            .sidebar-actions {
-                padding: 10px 12px;
-            }
-            .btn-sidebar {
-                font-size: 12px;
-                padding: 8px 10px;
-            }
-            .file-list-container {
-                padding: 4px 6px 16px 6px;
-            }
-            .file-item {
-                padding: 8px 12px;
-            }
-            .file-item-name {
-                font-size: 13px;
-            }
-            .header-right .btn-icon {
-                padding: 6px 8px;
-            }
-            .header-divider {
-                height: 20px;
-            }
+            .markdown-body h1 { font-size: 1.6em; }
+            .markdown-body h2 { font-size: 1.35em; }
+            .main-footer { padding: 8px 16px 12px 16px; font-size: 11.5px; }
+            .file-name-display { max-width: 130px; font-size: 14px; }
+            .file-name-display .dot { width: 6px; height: 6px; margin-right: 6px; }
+            .modal-box { padding: 24px 20px 20px 20px; }
+            .sidebar-header { padding: 18px 16px 12px 16px; }
+            .sidebar-actions { padding: 10px 12px; }
+            .btn-sidebar { font-size: 12px; padding: 8px 10px; }
+            .file-list-container { padding: 4px 6px 16px 6px; }
+            .file-item { padding: 8px 12px; }
+            .file-item-name { font-size: 13px; }
+            .header-right .btn-icon { padding: 6px 8px; }
+            .header-divider { height: 20px; }
+            .view-toggle-btn { padding: 5px 8px; font-size: 12px; }
+            .view-toggle-btn svg { width: 14px; height: 14px; }
         }
 
         @media (max-width: 450px) {
-            .paper-wrapper {
-                padding: 8px 8px 4px 8px;
-            }
+            .paper-wrapper { padding: 8px 8px 4px 8px; }
             .paper-textarea {
-                padding: 14px 14px;
-                font-size: 14px;
-                line-height: 1.75;
+                padding: 14px 14px; font-size: 14px; line-height: 1.75;
             }
-            .main-header {
-                padding: 6px 10px;
-                min-height: 46px;
+            .read-view {
+                padding: 14px 14px; font-size: 14px; line-height: 1.75;
             }
-            .btn-icon {
-                padding: 5px 6px;
-            }
-            .file-name-display {
-                max-width: 90px;
-                font-size: 12.5px;
-            }
-            .header-left {
-                gap: 8px;
-            }
-            .modal-box {
-                padding: 20px 14px 16px 14px;
-                width: 95%;
-            }
-            .modal-box h3 {
-                font-size: 18px;
-            }
-            .modal-box p {
-                font-size: 14px;
-            }
-            .modal-actions .btn {
-                min-width: 80px;
-                font-size: 13px;
-                padding: 9px 0;
-            }
-            .sidebar {
-                width: 260px;
-                min-width: 260px;
-            }
-            .sidebar-title {
-                font-size: 15px;
-            }
-            .sidebar-logo {
-                width: 30px;
-                height: 30px;
-                font-size: 15px;
-            }
+            .markdown-body h1 { font-size: 1.4em; }
+            .markdown-body h2 { font-size: 1.2em; }
+            .markdown-body h3 { font-size: 1.1em; }
+            .markdown-body .md-code-block pre { padding: 12px 14px; font-size: 12.5px; }
+            .markdown-body th, .markdown-body td { padding: 7px 10px; font-size: 13px; }
+            .main-header { padding: 6px 10px; min-height: 46px; gap: 6px; }
+            .btn-icon { padding: 5px 6px; }
+            .file-name-display { max-width: 90px; font-size: 12.5px; }
+            .header-left { gap: 8px; }
+            .modal-box { padding: 20px 14px 16px 14px; width: 95%; }
+            .modal-box h3 { font-size: 18px; }
+            .modal-box p { font-size: 14px; }
+            .modal-actions .btn { min-width: 80px; font-size: 13px; padding: 9px 0; }
+            .sidebar { width: 260px; min-width: 260px; }
+            .sidebar-title { font-size: 15px; }
+            .sidebar-logo { width: 30px; height: 30px; font-size: 15px; }
+            /* Sembunyikan label toggle di layar sangat kecil */
+            .view-toggle-btn span { display: none; }
+            .view-toggle-btn { padding: 5px 7px; }
+            .view-toggle { margin: 0 2px; }
         }
 
         /* ----- UTILITY ----- */
-        .hidden {
-            display: none !important;
-        }
-
+        .hidden { display: none !important; }
         .file-list-empty {
-            color: var(--sidebar-text-dim);
-            font-size: 13px;
-            text-align: center;
-            padding: 40px 16px;
-            opacity: 0.6;
+            color: var(--sidebar-text-dim); font-size: 13px;
+            text-align: center; padding: 40px 16px; opacity: 0.6;
         }
     </style>
 </head>
 <body>
 
     <div class="app">
-        <!-- SIDEBAR OVERLAY (mobile) -->
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <!-- ===== SIDEBAR ===== -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <a href="index.html" class="sidebar-logo" aria-label="Home">
@@ -889,11 +622,8 @@
                 </button>
             </div>
 
-            <div class="file-list-container" id="fileListContainer">
-                <!-- Akan diisi JavaScript -->
-            </div>
+            <div class="file-list-container" id="fileListContainer"></div>
 
-            <!-- ===== FOOTER SIDEBAR ===== -->
             <div class="sidebar-footer">
                 <a href="#" target="_blank" aria-label="Instagram">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -923,7 +653,6 @@
             </div>
         </aside>
 
-        <!-- ===== AREA UTAMA ===== -->
         <main class="main">
             <header class="main-header">
                 <div class="header-left">
@@ -954,6 +683,26 @@
 
                     <span class="header-divider"></span>
 
+                    <!-- VIEW TOGGLE -->
+                    <div class="view-toggle" id="viewToggle" role="tablist" aria-label="Mode tampilan">
+                        <button class="view-toggle-btn active" data-mode="edit" id="editModeBtn" title="Mode Edit" aria-label="Mode Edit" role="tab" aria-selected="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 20h9"/>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                            </svg>
+                            <span>Edit</span>
+                        </button>
+                        <button class="view-toggle-btn" data-mode="read" id="readModeBtn" title="Mode Baca" aria-label="Mode Baca" role="tab" aria-selected="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <span>Baca</span>
+                        </button>
+                    </div>
+
+                    <span class="header-divider"></span>
+
                     <button class="btn-icon btn-icon-primary" id="headerCopyBtn" title="Salin semua teks">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
@@ -970,7 +719,8 @@
             </header>
 
             <div class="paper-wrapper">
-                <textarea class="paper-textarea" id="notepad" placeholder="Tempelkan (Ctrl+V) potongan artikel di sini…&#10;Kursor bisa diletakkan di mana saja."></textarea>
+                <textarea class="paper-textarea" id="notepad" placeholder="Tempelkan (Ctrl+V) potongan artikel di sini…&#10;Kursor bisa diletakkan di mana saja.&#10;&#10;Mendukung markdown: # heading, **bold**, *italic*, `kode`, ```blok kode```, tabel, list, blockquote, dll."></textarea>
+                <div class="read-view hidden" id="readView"></div>
             </div>
 
             <footer class="main-footer">
@@ -979,7 +729,6 @@
         </main>
     </div>
 
-    <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box" id="modalBox">
             <h3 id="modalTitle">⚠️ Hapus file?</h3>
@@ -994,7 +743,6 @@
         </div>
     </div>
 
-    <!-- hidden file input -->
     <input type="file" id="fileInput" accept=".txt" style="display:none" />
 
     <script>
@@ -1008,6 +756,7 @@
             const fileListContainer = document.getElementById('fileListContainer');
             const fileNameDisplay = document.getElementById('fileNameDisplay');
             const textarea = document.getElementById('notepad');
+            const readView = document.getElementById('readView');
             const counterInfo = document.getElementById('counterInfo');
             const headerCopyBtn = document.getElementById('headerCopyBtn');
             const headerClearBtn = document.getElementById('headerClearBtn');
@@ -1016,6 +765,8 @@
             const fileInput = document.getElementById('fileInput');
             const undoBtn = document.getElementById('undoBtn');
             const redoBtn = document.getElementById('redoBtn');
+            const editModeBtn = document.getElementById('editModeBtn');
+            const readModeBtn = document.getElementById('readModeBtn');
 
             // Modal
             const modalOverlay = document.getElementById('modalOverlay');
@@ -1029,9 +780,11 @@
             // ----- Data -----
             const STORAGE_KEY = 'notepadTransitFiles';
             const ACTIVE_KEY = 'notepadTransitActiveId';
+            const VIEW_MODE_KEY = 'notepadTransitViewMode';
             let files = [];
             let activeId = null;
             let modalResolve = null;
+            let currentMode = 'edit';
             const MAX_HISTORY = 100;
 
             // ----- Helper -----
@@ -1039,7 +792,277 @@
                 return Date.now() + '_' + Math.random().toString(36).slice(2, 6);
             }
 
-            // ----- History helpers per file -----
+            // =====================================================
+            // MARKDOWN PARSER
+            // =====================================================
+            // Escape HTML TAPI pertahankan `>` (untuk blockquote markdown).
+            // `<`, `&`, `"`, `'` di-escape agar aman dari XSS.
+            function escapeHtmlForMarkdown(str) {
+                return str
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            // Parse inline: code, image, link, bold, italic
+            function parseInline(text) {
+                // 1. Inline code — pakai placeholder supaya tidak diproses regex lain
+                const codePlaceholders = [];
+                text = text.replace(/`([^`\n]+)`/g, function(match, code) {
+                    const ph = '\u0000MDCODE' + codePlaceholders.length + '\u0000';
+                    codePlaceholders.push('<code class="md-inline-code">' + code + '</code>');
+                    return ph;
+                });
+
+                // 2. Image (harus sebelum link)
+                text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, function(match, alt, url) {
+                    if (/^https?:\/\//i.test(url)) {
+                        return '<img class="md-img" src="' + url + '" alt="' + alt + '" loading="lazy">';
+                    }
+                    return match;
+                });
+
+                // 3. Link — hanya izinkan http(s), mailto, dan anchor #
+                text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function(match, label, url) {
+                    if (/^(https?:\/\/|mailto:|#)/i.test(url)) {
+                        return '<a href="' + url + '" target="_blank" rel="noopener noreferrer">' + label + '</a>';
+                    }
+                    return match;
+                });
+
+                // 4. Bold (**text** atau __text__)
+                text = text.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/__([^_\n]+)__/g, '<strong>$1</strong>');
+
+                // 5. Italic (*text* atau _text_)
+                text = text.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+                text = text.replace(/_([^_\n]+)_/g, '<em>$1</em>');
+
+                // 6. Restore inline code placeholders
+                text = text.replace(/\u0000MDCODE(\d+)\u0000/g, function(match, idx) {
+                    return codePlaceholders[parseInt(idx, 10)] || '';
+                });
+
+                // 7. Single newline -> <br>
+                text = text.replace(/\n/g, '<br>');
+
+                return text;
+            }
+
+            // Parse tabel dari beberapa baris "| ... |"
+            function renderTable(tableLines) {
+                if (tableLines.length < 2) return '';
+
+                function splitRow(line) {
+                    return line.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map(function(c) {
+                        return c.trim();
+                    });
+                }
+
+                const headerCells = splitRow(tableLines[0]);
+                const sepLine = tableLines[1];
+                const isSeparator = /^\s*\|[\s\-:|]+\|\s*$/.test(sepLine);
+
+                let html = '<div class="md-table-wrap"><table><thead><tr>';
+                headerCells.forEach(function(cell) {
+                    html += '<th>' + parseInline(cell) + '</th>';
+                });
+                html += '</tr></thead>';
+
+                const dataLines = isSeparator ? tableLines.slice(2) : tableLines.slice(1);
+
+                if (dataLines.length > 0) {
+                    html += '<tbody>';
+                    dataLines.forEach(function(row) {
+                        const cells = splitRow(row);
+                        html += '<tr>';
+                        cells.forEach(function(cell) {
+                            html += '<td>' + parseInline(cell) + '</td>';
+                        });
+                        html += '</tr>';
+                    });
+                    html += '</tbody>';
+                }
+
+                html += '</table></div>';
+                return html;
+            }
+
+            // Parse block-level markdown. Input SUDAH di-escape.
+            function parseBlocks(src) {
+                const lines = src.split('\n');
+                let html = '';
+                let i = 0;
+
+                const blockquoteRe = /^\s{0,3}>\s?/;
+
+                while (i < lines.length) {
+                    const line = lines[i];
+
+                    // Fenced code block
+                    const fenceMatch = line.match(/^```(\w*)\s*$/);
+                    if (fenceMatch) {
+                        const lang = fenceMatch[1];
+                        const codeLines = [];
+                        i++;
+                        while (i < lines.length && !/^```\s*$/.test(lines[i])) {
+                            codeLines.push(lines[i]);
+                            i++;
+                        }
+                        i++; // skip closing fence
+                        const codeHtml = codeLines.join('\n');
+                        const langLabel = lang ?
+                            '<span class="md-code-lang">' + lang + '</span>' : '';
+                        html += '<div class="md-code-block">' + langLabel +
+                            '<pre><code>' + codeHtml + '</code></pre></div>';
+                        continue;
+                    }
+
+                    // Heading
+                    const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+                    if (headingMatch) {
+                        const level = headingMatch[1].length;
+                        html += '<h' + level + '>' + parseInline(headingMatch[2]) + '</h' + level + '>';
+                        i++;
+                        continue;
+                    }
+
+                    // Horizontal rule (---, ***, ___, - - -, etc.)
+                    if (/^\s*([-*_]\s*){3,}$/.test(line)) {
+                        html += '<hr>';
+                        i++;
+                        continue;
+                    }
+
+                    // Table
+                    if (/^\s*\|.*\|\s*$/.test(line)) {
+                        const tableLines = [];
+                        while (i < lines.length && /^\s*\|.*\|\s*$/.test(lines[i])) {
+                            tableLines.push(lines[i]);
+                            i++;
+                        }
+                        html += renderTable(tableLines);
+                        continue;
+                    }
+
+                    // Blockquote
+                    if (blockquoteRe.test(line)) {
+                        const quoteLines = [];
+                        while (i < lines.length && blockquoteRe.test(lines[i])) {
+                            quoteLines.push(lines[i].replace(blockquoteRe, ''));
+                            i++;
+                        }
+                        html += '<blockquote>' + parseBlocks(quoteLines.join('\n')) + '</blockquote>';
+                        continue;
+                    }
+
+                    // List (unordered / ordered)
+                    if (/^\s*([-*+]|\d+\.)\s+/.test(line)) {
+                        const isOrdered = /^\s*\d+\.\s+/.test(line);
+                        const items = [];
+                        while (i < lines.length && /^\s*([-*+]|\d+\.)\s+/.test(lines[i])) {
+                            items.push(lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, ''));
+                            i++;
+                        }
+                        const tag = isOrdered ? 'ol' : 'ul';
+                        html += '<' + tag + '>';
+                        items.forEach(function(item) {
+                            html += '<li>' + parseInline(item) + '</li>';
+                        });
+                        html += '</' + tag + '>';
+                        continue;
+                    }
+
+                    // Blank line — skip
+                    if (line.trim() === '') {
+                        i++;
+                        continue;
+                    }
+
+                    // Paragraph — kumpulkan sampai blank line / block lain
+                    const paraLines = [];
+                    while (
+                        i < lines.length &&
+                        lines[i].trim() !== '' &&
+                        !/^```/.test(lines[i]) &&
+                        !/^#{1,6}\s+/.test(lines[i]) &&
+                        !/^\s*([-*_]\s*){3,}$/.test(lines[i]) &&
+                        !/^\s*\|.*\|\s*$/.test(lines[i]) &&
+                        !blockquoteRe.test(lines[i]) &&
+                        !/^\s*([-*+]|\d+\.)\s+/.test(lines[i])
+                    ) {
+                        paraLines.push(lines[i]);
+                        i++;
+                    }
+                    if (paraLines.length > 0) {
+                        html += '<p>' + parseInline(paraLines.join('\n')) + '</p>';
+                    } else {
+                        i++;
+                    }
+                }
+
+                return html;
+            }
+
+            // Entry point
+            function renderMarkdown(rawSrc) {
+                if (!rawSrc || !rawSrc.trim()) return '';
+                const escaped = escapeHtmlForMarkdown(rawSrc);
+                return parseBlocks(escaped);
+            }
+
+            // =====================================================
+            // MODE / VIEW HANDLING
+            // =====================================================
+            function setMode(mode) {
+                currentMode = (mode === 'read') ? 'read' : 'edit';
+                try {
+                    localStorage.setItem(VIEW_MODE_KEY, currentMode);
+                } catch (e) {}
+
+                const isRead = (currentMode === 'read');
+
+                if (isRead) {
+                    textarea.classList.add('hidden');
+                    readView.classList.remove('hidden');
+                    renderReadView();
+                } else {
+                    textarea.classList.remove('hidden');
+                    readView.classList.add('hidden');
+                    textarea.focus();
+                }
+
+                // Update tombol toggle
+                editModeBtn.classList.toggle('active', !isRead);
+                readModeBtn.classList.toggle('active', isRead);
+                editModeBtn.setAttribute('aria-selected', String(!isRead));
+                readModeBtn.setAttribute('aria-selected', String(isRead));
+
+                // Update undo/redo state
+                updateUndoRedoButtons();
+            }
+
+            function renderReadView() {
+                const active = getActiveFile();
+                const content = active ? (active.content || '') : '';
+                if (!content.trim()) {
+                    readView.innerHTML = '<div class="read-empty">Belum ada konten untuk ditampilkan.</div>';
+                } else {
+                    readView.innerHTML = '<div class="markdown-body">' + renderMarkdown(content) + '</div>';
+                }
+            }
+
+            editModeBtn.addEventListener('click', function() {
+                if (currentMode !== 'edit') setMode('edit');
+            });
+            readModeBtn.addEventListener('click', function() {
+                if (currentMode !== 'read') setMode('read');
+            });
+
+            // =====================================================
+            // HISTORY
+            // =====================================================
             function initHistory(file) {
                 if (!file.history || !Array.isArray(file.history)) {
                     file.history = [file.content || ''];
@@ -1069,7 +1092,7 @@
             }
 
             function undoFile(file) {
-                if (!file) return;
+                if (!file || currentMode === 'read') return;
                 initHistory(file);
                 if (file.historyIndex > 0) {
                     file.historyIndex--;
@@ -1084,7 +1107,7 @@
             }
 
             function redoFile(file) {
-                if (!file) return;
+                if (!file || currentMode === 'read') return;
                 initHistory(file);
                 if (file.historyIndex < file.history.length - 1) {
                     file.historyIndex++;
@@ -1099,6 +1122,11 @@
             }
 
             function updateUndoRedoButtons() {
+                if (currentMode === 'read') {
+                    undoBtn.disabled = true;
+                    redoBtn.disabled = true;
+                    return;
+                }
                 const active = getActiveFile();
                 if (active) {
                     initHistory(active);
@@ -1110,7 +1138,9 @@
                 }
             }
 
-            // ----- Load / Save -----
+            // =====================================================
+            // LOAD / SAVE
+            // =====================================================
             function loadData() {
                 try {
                     const raw = localStorage.getItem(STORAGE_KEY);
@@ -1168,7 +1198,9 @@
                 saveData();
             }
 
-            // ----- CRUD -----
+            // =====================================================
+            // CRUD
+            // =====================================================
             function getActiveFile() {
                 return files.find(f => f.id === activeId) || null;
             }
@@ -1242,51 +1274,52 @@
                 return true;
             }
 
-            // ----- Render daftar file -----
+            // =====================================================
+            // RENDER FILE LIST
+            // =====================================================
             function renderFileList() {
                 if (!fileListContainer) return;
                 if (files.length === 0) {
                     fileListContainer.innerHTML =
-                        `<div class="file-list-empty">Belum ada catatan<br>Buat file baru atau upload .txt</div>`;
+                        '<div class="file-list-empty">Belum ada catatan<br>Buat file baru atau upload .txt</div>';
                     return;
                 }
                 let html = '';
                 files.forEach(file => {
                     const isActive = (file.id === activeId);
                     html += `
-                            <div class="file-item ${isActive ? 'active' : ''}" data-id="${file.id}">
-                                <span class="file-item-name">${escapeHtml(file.name)}</span>
-                                <button class="file-item-menu" data-id="${file.id}" aria-label="Menu file">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="5" r="1.5" />
-                                        <circle cx="12" cy="12" r="1.5" />
-                                        <circle cx="12" cy="19" r="1.5" />
-                                    </svg>
+                        <div class="file-item ${isActive ? 'active' : ''}" data-id="${file.id}">
+                            <span class="file-item-name">${escapeHtml(file.name)}</span>
+                            <button class="file-item-menu" data-id="${file.id}" aria-label="Menu file">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="5" r="1.5" />
+                                    <circle cx="12" cy="12" r="1.5" />
+                                    <circle cx="12" cy="19" r="1.5" />
+                                </svg>
+                            </button>
+                            <div class="dropdown" data-id="${file.id}">
+                                <button class="dropdown-item" data-action="copy" data-id="${file.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                    Salin Semua
                                 </button>
-                                <div class="dropdown" data-id="${file.id}">
-                                    <button class="dropdown-item" data-action="copy" data-id="${file.id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                                        Salin Semua
-                                    </button>
-                                    <button class="dropdown-item" data-action="rename" data-id="${file.id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-                                        Ganti Nama
-                                    </button>
-                                    <button class="dropdown-item" data-action="download" data-id="${file.id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                                        Download .txt
-                                    </button>
-                                    <button class="dropdown-item danger" data-action="delete" data-id="${file.id}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                                        Hapus
-                                    </button>
-                                </div>
+                                <button class="dropdown-item" data-action="rename" data-id="${file.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                    Ganti Nama
+                                </button>
+                                <button class="dropdown-item" data-action="download" data-id="${file.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    Download .txt
+                                </button>
+                                <button class="dropdown-item danger" data-action="delete" data-id="${file.id}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    Hapus
+                                </button>
                             </div>
-                        `;
+                        </div>
+                    `;
                 });
                 fileListContainer.innerHTML = html;
 
-                // Klik file item
                 document.querySelectorAll('.file-item').forEach(el => {
                     el.addEventListener('click', function(e) {
                         if (e.target.closest('.file-item-menu') || e.target.closest('.dropdown')) return;
@@ -1299,11 +1332,9 @@
                     });
                 });
 
-                // Tombol menu
                 document.querySelectorAll('.file-item-menu').forEach(btn => {
                     btn.addEventListener('click', function(e) {
                         e.stopPropagation();
-                        const id = this.dataset.id;
                         const dropdown = this.parentElement.querySelector('.dropdown');
                         if (!dropdown) return;
                         closeAllDropdowns();
@@ -1311,7 +1342,6 @@
                     });
                 });
 
-                // Dropdown items
                 document.querySelectorAll('.dropdown-item').forEach(item => {
                     item.addEventListener('click', function(e) {
                         e.stopPropagation();
@@ -1324,25 +1354,15 @@
                         if (dropdown) dropdown.classList.remove('open');
 
                         switch (action) {
-                            case 'copy':
-                                copyFileContent(file);
-                                break;
-                            case 'rename':
-                                promptRename(file);
-                                break;
-                            case 'download':
-                                downloadFile(file);
-                                break;
-                            case 'delete':
-                                promptDeleteFile(file);
-                                break;
-                            default:
-                                break;
+                            case 'copy': copyFileContent(file); break;
+                            case 'rename': promptRename(file); break;
+                            case 'download': downloadFile(file); break;
+                            case 'delete': promptDeleteFile(file); break;
+                            default: break;
                         }
                     });
                 });
 
-                // Tutup dropdown
                 document.addEventListener('click', function(e) {
                     if (!e.target.closest('.file-item-menu') && !e.target.closest('.dropdown')) {
                         closeAllDropdowns();
@@ -1354,20 +1374,21 @@
                 document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
             }
 
-            // ----- Escape HTML -----
             function escapeHtml(str) {
                 const div = document.createElement('div');
                 div.textContent = str;
                 return div.innerHTML;
             }
 
-            // ----- Update UI -----
+            // =====================================================
+            // UPDATE UI
+            // =====================================================
             function updateUI() {
                 const active = getActiveFile();
                 if (active) {
                     const dotSpan = fileNameDisplay.querySelector('.dot');
                     if (dotSpan) {
-                        fileNameDisplay.innerHTML = `<span class="dot"></span>${escapeHtml(active.name)}`;
+                        fileNameDisplay.innerHTML = '<span class="dot"></span>' + escapeHtml(active.name);
                     } else {
                         fileNameDisplay.textContent = active.name;
                     }
@@ -1375,7 +1396,7 @@
                         textarea.value = active.content;
                     }
                 } else {
-                    fileNameDisplay.innerHTML = `<span class="dot"></span>(tidak ada file)`;
+                    fileNameDisplay.innerHTML = '<span class="dot"></span>(tidak ada file)';
                     textarea.value = '';
                 }
                 updateCounter();
@@ -1383,6 +1404,11 @@
                     el.classList.toggle('active', el.dataset.id === activeId);
                 });
                 updateUndoRedoButtons();
+
+                // Kalau sedang di mode Baca, re-render supaya sinkron
+                if (currentMode === 'read') {
+                    renderReadView();
+                }
             }
 
             function updateCounter() {
@@ -1390,10 +1416,9 @@
                 const charCount = text.length;
                 const wordCount = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
                 const lineCount = text === '' ? 0 : text.split('\n').length;
-                counterInfo.textContent = `${charCount} karakter · ${wordCount} kata · ${lineCount} baris`;
+                counterInfo.textContent = charCount + ' karakter · ' + wordCount + ' kata · ' + lineCount + ' baris';
             }
 
-            // ----- Save content -----
             function saveCurrentContent() {
                 const active = getActiveFile();
                 if (active) {
@@ -1406,7 +1431,9 @@
                 }
             }
 
-            // ----- Event textarea (input) -----
+            // =====================================================
+            // EVENT: textarea input
+            // =====================================================
             textarea.addEventListener('input', function() {
                 const active = getActiveFile();
                 if (active) {
@@ -1420,23 +1447,19 @@
                 updateCounter();
             });
 
-            // ----- Undo / Redo -----
+            // Undo / Redo
             undoBtn.addEventListener('click', function() {
                 const active = getActiveFile();
-                if (active) {
-                    undoFile(active);
-                }
+                if (active) undoFile(active);
             });
 
             redoBtn.addEventListener('click', function() {
                 const active = getActiveFile();
-                if (active) {
-                    redoFile(active);
-                }
+                if (active) redoFile(active);
             });
 
-            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
+                if (currentMode === 'read') return;
                 if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
                     if (!e.shiftKey) {
                         e.preventDefault();
@@ -1452,7 +1475,7 @@
                 }
             });
 
-            // ----- Header: Salin -----
+            // Header: Salin (menyalin markdown asli dari textarea)
             headerCopyBtn.addEventListener('click', async function() {
                 const text = textarea.value;
                 if (!text) {
@@ -1463,7 +1486,7 @@
                     await navigator.clipboard.writeText(text);
                     const orig = headerCopyBtn.innerHTML;
                     headerCopyBtn.innerHTML =
-                        `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
                     setTimeout(() => { headerCopyBtn.innerHTML = orig; }, 1500);
                 } catch (err) {
                     textarea.select();
@@ -1472,7 +1495,7 @@
                 }
             });
 
-            // ----- Header: Hapus semua -----
+            // Header: Hapus semua
             headerClearBtn.addEventListener('click', function() {
                 const active = getActiveFile();
                 if (!active) {
@@ -1485,7 +1508,8 @@
                 }
                 showModal(
                     '⚠️ Hapus semua teks?',
-                    `Semua teks di file "${active.name}" akan dihapus. Tindakan ini tidak bisa dibatalkan.`,
+                    'Semua teks di file "' + active.name +
+                    '" akan dihapus. Tindakan ini tidak bisa dibatalkan.',
                     'Hapus Teks',
                     'danger'
                 ).then(confirmed => {
@@ -1500,23 +1524,19 @@
                 });
             });
 
-            // ----- Sidebar toggle -----
+            // Sidebar toggle
             function toggleSidebar(open) {
                 if (window.innerWidth <= 768) {
                     sidebar.classList.toggle('open', open);
                     overlay.classList.toggle('active', open);
                 }
             }
-
             hamburger.addEventListener('click', function() {
-                const isOpen = sidebar.classList.contains('open');
-                toggleSidebar(!isOpen);
+                toggleSidebar(!sidebar.classList.contains('open'));
             });
-
             overlay.addEventListener('click', function() {
                 toggleSidebar(false);
             });
-
             window.addEventListener('resize', function() {
                 if (window.innerWidth > 768) {
                     sidebar.classList.remove('open');
@@ -1524,11 +1544,10 @@
                 }
             });
 
-            // ----- Upload .txt -----
+            // Upload
             uploadBtn.addEventListener('click', function() {
                 fileInput.click();
             });
-
             fileInput.addEventListener('change', function(e) {
                 const file = this.files[0];
                 if (!file) return;
@@ -1543,7 +1562,7 @@
                 reader.readAsText(file);
             });
 
-            // ----- Buat baru -----
+            // Buat baru
             newFileBtn.addEventListener('click', function() {
                 let maxNum = 0;
                 files.forEach(f => {
@@ -1558,14 +1577,14 @@
                 if (window.innerWidth <= 768) toggleSidebar(false);
             });
 
-            // ----- Dropdown actions -----
+            // Dropdown actions
             function copyFileContent(file) {
                 if (!file.content) {
                     alert('File ini kosong.');
                     return;
                 }
                 navigator.clipboard.writeText(file.content).then(() => {
-                    alert(`Teks dari "${file.name}" telah disalin ke clipboard.`);
+                    alert('Teks dari "' + file.name + '" telah disalin ke clipboard.');
                 }).catch(() => {
                     const temp = textarea;
                     const prev = temp.value;
@@ -1573,7 +1592,7 @@
                     temp.select();
                     document.execCommand('copy');
                     temp.value = prev;
-                    alert(`Teks dari "${file.name}" telah disalin (metode cadangan).`);
+                    alert('Teks dari "' + file.name + '" telah disalin (metode cadangan).');
                 });
             }
 
@@ -1592,7 +1611,7 @@
             function promptRename(file) {
                 showModal(
                     '✏️ Ganti Nama',
-                    `Masukkan nama baru untuk "${file.name}":`,
+                    'Masukkan nama baru untuk "' + file.name + '":',
                     'Simpan',
                     'primary',
                     true,
@@ -1607,7 +1626,7 @@
             function promptDeleteFile(file) {
                 showModal(
                     '⚠️ Hapus file?',
-                    `Anda akan menghapus file "${file.name}". Data tidak bisa dikembalikan.`,
+                    'Anda akan menghapus file "' + file.name + '". Data tidak bisa dikembalikan.',
                     'Ya, Hapus',
                     'danger'
                 ).then(confirmed => {
@@ -1618,7 +1637,7 @@
                 });
             }
 
-            // ----- Modal System -----
+            // Modal System
             function showModal(title, message, confirmLabel = 'OK', type = 'primary', showInput = false,
                 inputValue = '') {
                 return new Promise((resolve) => {
@@ -1644,11 +1663,7 @@
                 modalOverlay.classList.remove('active');
                 if (modalResolve) {
                     const showInput = modalExtra.style.display !== 'none';
-                    if (showInput) {
-                        modalResolve(null);
-                    } else {
-                        modalResolve(false);
-                    }
+                    modalResolve(showInput ? null : false);
                     modalResolve = null;
                 }
             });
@@ -1657,11 +1672,7 @@
                 modalOverlay.classList.remove('active');
                 if (modalResolve) {
                     const showInput = modalExtra.style.display !== 'none';
-                    if (showInput) {
-                        modalResolve(modalInput.value);
-                    } else {
-                        modalResolve(true);
-                    }
+                    modalResolve(showInput ? modalInput.value : true);
                     modalResolve = null;
                 }
             });
@@ -1671,11 +1682,7 @@
                     modalOverlay.classList.remove('active');
                     if (modalResolve) {
                         const showInput = modalExtra.style.display !== 'none';
-                        if (showInput) {
-                            modalResolve(null);
-                        } else {
-                            modalResolve(false);
-                        }
+                        modalResolve(showInput ? null : false);
                         modalResolve = null;
                     }
                 }
@@ -1686,29 +1693,39 @@
                     modalOverlay.classList.remove('active');
                     if (modalResolve) {
                         const showInput = modalExtra.style.display !== 'none';
-                        if (showInput) {
-                            modalResolve(null);
-                        } else {
-                            modalResolve(false);
-                        }
+                        modalResolve(showInput ? null : false);
                         modalResolve = null;
                     }
                 }
-                if (e.key === 'Enter' && modalOverlay.classList.contains('active') && modalExtra.style.display !==
-                    'none') {
+                if (e.key === 'Enter' && modalOverlay.classList.contains('active') &&
+                    modalExtra.style.display !== 'none') {
                     modalConfirmBtn.click();
                 }
             });
 
-            // ----- Inisialisasi -----
+            // =====================================================
+            // INIT
+            // =====================================================
             function init() {
+                // Baca mode tersimpan
+                try {
+                    const saved = localStorage.getItem(VIEW_MODE_KEY);
+                    if (saved === 'read' || saved === 'edit') currentMode = saved;
+                } catch (e) {}
+
                 loadData();
                 renderFileList();
                 updateUI();
                 updateUndoRedoButtons();
-                textarea.focus();
 
-                // ===== Atur link sosial media di sidebar footer =====
+                // Terapkan mode
+                setMode(currentMode);
+
+                if (currentMode === 'edit') {
+                    textarea.focus();
+                }
+
+                // Social links
                 const socialLinks = document.querySelectorAll('.sidebar-footer a');
                 if (socialLinks.length >= 4) {
                     socialLinks[0].href = 'https://instagram.com/salimmuthinx';
@@ -1720,15 +1737,12 @@
 
             init();
 
-            // ----- Auto-save -----
+            // Auto-save
             window.addEventListener('beforeunload', function() {
                 saveCurrentContent();
             });
-
             document.addEventListener('visibilitychange', function() {
-                if (document.hidden) {
-                    saveCurrentContent();
-                }
+                if (document.hidden) saveCurrentContent();
             });
 
         })();
