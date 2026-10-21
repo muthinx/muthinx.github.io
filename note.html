@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-	<meta name="description" content="Bismillah" />
-	<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6ef7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>" />
+    <meta name="description" content="Bismillah" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f6ef7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'/><polyline points='9 22 9 12 15 12 15 22'/></svg>" />
     <title>Notepad Transit</title>
     <style>
         /* ----- RESET & GLOBAL ----- */
@@ -797,6 +797,31 @@
             }
         }
 
+        /* ===== MODE BACA — DESKTOP (default): kolom > 4 menambah 25% ===== */
+        /* 1–4 kolom → 100%; 5 → 125%; 6 → 150%; 7 → 175%; dst.
+           max(100%, ...) meng-clamp kolom 1–4 yang calc-nya negatif. */
+        .read-view .markdown-body table {
+            table-layout: fixed;
+            width: max(100%, calc(100% + (var(--cols, 2) - 4) * 25%));
+            min-width: 0;
+        }
+
+        .read-view .markdown-body th,
+        .read-view .markdown-body td {
+            white-space: normal;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        /* ===== MODE BACA — PONSEL (≤768px): tiap kolom = 50% parent ===== */
+        /* 1 kolom → 100% (clamp); 2 → 100%; 3 → 150%; 4 → 200%; N → N × 50%.
+           Blok ini SENGAJA di bawah agar menimpa aturan desktop di atas. */
+        @media (max-width: 768px) {
+            .read-view .markdown-body table {
+                width: max(100%, calc(var(--cols, 2) * 50%));
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1091,7 +1116,9 @@
                 const sepLine = tableLines[1];
                 const isSeparator = /^\s*\|[\s\-:|]+\|\s*$/.test(sepLine);
 
-                let html = '<div class="md-table-wrap"><table><thead><tr>';
+                const colCount = headerCells.length;
+                let html = '<div class="md-table-wrap">' +
+                    '<table style="--cols: ' + colCount + '"><thead><tr>';
                 headerCells.forEach(function(cell) {
                     html += '<th>' + parseInline(cell) + '</th>';
                 });
